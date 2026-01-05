@@ -11,9 +11,8 @@ import org.firstinspires.ftc.teamcode.Commands.IntakeCommand;
 import org.firstinspires.ftc.teamcode.Commands.TimedShootCommand;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.subsystems.LimeLight;
-import org.firstinspires.ftc.teamcode.subsystems.MotorSpeeds;
 import org.firstinspires.ftc.teamcode.subsystems.Shooter;
-import org.firstinspires.ftc.teamcode.subsystems.driveallclass;
+import org.firstinspires.ftc.teamcode.subsystems.Drivebase;
 
 @Autonomous(name = "Blue Far", group = "Blue Team")
 public class BaseFarAuto extends BaseNearAuto {
@@ -31,7 +30,7 @@ public class BaseFarAuto extends BaseNearAuto {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        drive = new driveallclass(hardwareMap);
+        drive = new Drivebase(hardwareMap);
         shooter = new Shooter(hardwareMap);
         intake = new Intake(hardwareMap);
         scheduler.clearRegistry();

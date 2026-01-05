@@ -1,10 +1,14 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import com.qualcomm.hardware.limelightvision.LLResult;
+import com.qualcomm.hardware.limelightvision.LLResultTypes;
+import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.CommandSystem.Command;
@@ -15,6 +19,7 @@ public class Shooter extends Subsystem {
     MotorSpeeds currentSpeed = MotorSpeeds.NEAR;
 //    private DcMotorEx kicker;
     private DcMotorEx shooter;
+    private Servo hoodServo;
     double lastTime = 0;
     double lastTargetVelocity = 0;
     double kA = 0.5; // tune this experimentally
@@ -22,6 +27,7 @@ public class Shooter extends Subsystem {
     public Shooter(HardwareMap hardwareMap) {
      //   kicker = hardwareMap.get(DcMotorEx.class, "kicker");
         shooter = hardwareMap.get(DcMotorEx.class, "shooter");
+        hoodServo = hardwareMap.get(Servo.class, "hood");
         shooter.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         shooter.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
@@ -31,20 +37,18 @@ public class Shooter extends Subsystem {
         return  ((distanceCm * 100.0 / 2.54) - 40) * 5 + 700;
         //return (585 * Math.pow(1.0046834253, (distanceCm / 2.54)));
     }
-
-    public void execute(boolean shoot, double motorSpeed) {
-        if (shoot) {
-            shooter.setVelocity(motorSpeed);
-        } else {
-            shooter.setVelocity(0);
-        }
-    }
     public void setPower(double speed) {
         shooter.setPower(speed);
     }
-
     public void setShooterSpeed(double speed){
         shooter.setVelocity(speed);
+    }
+
+    public void autoSetHoodAngle (Limelight3A limelight3A, int id) {
+        LLResult result = limelight3A.getLatestResult();
+
+        double targetAngle = odo.getHeading(AngleUnit.DEGREES)
+        double StrafeDistance_3D = id.getRobotPoseTargetSpace().getY()
     }
     public void setShooterVelocityDynamic(double targetVelocity) {
         double currentVelocity = shooter.getVelocity();

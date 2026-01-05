@@ -3,12 +3,9 @@ package org.firstinspires.ftc.teamcode.Commands;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.Autonomous.Location;
 import org.firstinspires.ftc.teamcode.CommandSystem.Command;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
-import org.firstinspires.ftc.teamcode.subsystems.MotorSpeeds;
 import org.firstinspires.ftc.teamcode.subsystems.ServoGate;
-import org.firstinspires.ftc.teamcode.subsystems.driveallclass;
 
 public class IntakeCommand extends Command {
     Telemetry telemetry;

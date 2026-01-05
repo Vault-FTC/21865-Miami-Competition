@@ -9,18 +9,16 @@ import org.firstinspires.ftc.teamcode.CommandSystem.ParallelCommandGroup;
 import org.firstinspires.ftc.teamcode.CommandSystem.SequentialCommandGroup;
 import org.firstinspires.ftc.teamcode.Commands.DriveToCommand;
 import org.firstinspires.ftc.teamcode.Commands.IntakeCommand;
-import org.firstinspires.ftc.teamcode.Commands.LimeLightTurnCommand;
 import org.firstinspires.ftc.teamcode.Commands.TimedShootCommand;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.subsystems.LimeLight;
-import org.firstinspires.ftc.teamcode.subsystems.MotorSpeeds;
 import org.firstinspires.ftc.teamcode.subsystems.ServoGate;
 import org.firstinspires.ftc.teamcode.subsystems.Shooter;
-import org.firstinspires.ftc.teamcode.subsystems.driveallclass;
+import org.firstinspires.ftc.teamcode.subsystems.Drivebase;
 
 @Autonomous (name = "Blue Near", group = "Blue Team")
 public class BaseNearAuto extends LinearOpMode {
-    driveallclass drive;
+    Drivebase drive;
     Shooter shooter;
     Intake intake;
     LimeLight LimeLight;
@@ -47,7 +45,7 @@ public class BaseNearAuto extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        drive = new driveallclass(hardwareMap);
+        drive = new Drivebase(hardwareMap);
         shooter = new Shooter(hardwareMap);
         intake = new Intake(hardwareMap);
         LimeLight = new LimeLight(hardwareMap,20);
