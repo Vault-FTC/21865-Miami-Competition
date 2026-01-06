@@ -19,15 +19,15 @@ public class Shooter extends Subsystem {
     MotorSpeeds currentSpeed = MotorSpeeds.NEAR;
 //    private DcMotorEx kicker;
     private DcMotorEx shooter;
-//    private Servo hoodServo;
+    private Servo hoodServo;
     double lastTime = 0;
     double lastTargetVelocity = 0;
     double kA = 0.5; // tune this experimentally
     PIDFCoefficients pidfCoefficients = new PIDFCoefficients(20.0004, 0, 0, 18.2);
     public Shooter(HardwareMap hardwareMap) {
-     //   kicker = hardwareMap.get(DcMotorEx.class, "kicker");
         shooter = hardwareMap.get(DcMotorEx.class, "shooter");
-//        hoodServo = hardwareMap.get(Servo.class, "hood");
+        hoodServo = hardwareMap.get(Servo.class, "hood");
+        shooter.setDirection(DcMotorSimple.Direction.REVERSE);
         shooter.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         shooter.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
@@ -44,10 +44,11 @@ public class Shooter extends Subsystem {
         shooter.setVelocity(speed);
     }
 
+/** wait until we have hood assembled to implement autoSetHoodAngle**/
 //    public void autoSetHoodAngle (Limelight3A limelight3A, int id) {
 //        LLResult result = limelight3A.getLatestResult();
-//
-//        double targetAngle = odo.getHeading(AngleUnit.DEGREES);
+//        double distanceToTarget = result.getT
+//        double targetAngle = odo.;
 //        double StrafeDistance_3D = id.getRobotPoseTargetSpace().getY();
 //    }
     public void setShooterVelocityDynamic(double targetVelocity) {

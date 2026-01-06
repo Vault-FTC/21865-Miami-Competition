@@ -35,6 +35,7 @@ public class SimpleFieldCentricDrive extends LinearOpMode {
         Limelight = new LimeLight(hardwareMap, 20);
     }
 
+
     @Override
     public void runOpMode() {
         intake = new Intake(hardwareMap);
@@ -50,10 +51,11 @@ public class SimpleFieldCentricDrive extends LinearOpMode {
         waitForStart();
         // poseEstimator.update();
         while (opModeIsActive()) {
+            drive.update();
             double currentTime = getRuntime();
 
-            double joystick_y = gamepad1.left_stick_y; // Forward/backward
-            double joystick_x = gamepad1.left_stick_x;  // Strafe left/right
+            double joystick_y = -gamepad1.left_stick_y; // Forward/backward
+            double joystick_x = -gamepad1.left_stick_x;  // Strafe left/right
             double joystick_rx = -gamepad1.right_stick_x; // Rotation
 
             if (gamepad1.start) {
@@ -93,11 +95,11 @@ public class SimpleFieldCentricDrive extends LinearOpMode {
                     if (result.getCameraPoseTargetSpace().getPosition().x < 67) {
                         light.setColor(green);
                         if (result.getCameraPoseTargetSpace().getPosition().z >= -2.5) {
-                            this.launchPower = 1400;
+                            this.launchPower = 800;
                             feedPulseInterval = 0.1;
                         }
                         else {
-                            this.launchPower = 1800;
+                            this.launchPower = 1200;
                             feedPulseInterval = 0.2;
                         }
                         launcher.setShooterVelocityDynamic(this.launchPower);
@@ -126,8 +128,8 @@ public class SimpleFieldCentricDrive extends LinearOpMode {
             if (Limelight.getResult() != null) {
                 telemetry.addData("Distance from AprilTag", Limelight.getResult().getCameraPoseTargetSpace().getPosition().z);
             }
+            telemetry.addData("Pose", drive.getPosition());
             telemetry.update();
-            drive.updateValues(telemetry);
         }
     }
 }

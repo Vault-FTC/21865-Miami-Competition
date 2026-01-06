@@ -12,7 +12,6 @@ public class Intake extends Subsystem {
    //
     public Intake(HardwareMap hardwareMap) {
         intake = hardwareMap.get(DcMotorEx.class, "intake1");
-        intake.setDirection(DcMotorEx.Direction.REVERSE);
     }
     public void spinIntake(double power) {
         intake.setPower(power);

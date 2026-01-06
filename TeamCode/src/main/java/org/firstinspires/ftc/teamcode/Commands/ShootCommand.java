@@ -36,7 +36,7 @@ public class ShootCommand extends Command {
             intake.spinIntake(0.85);
         } else {
             intake.spinIntake(0);
-            shooter.execute(true, motorSpeed.speed);
+            shooter.setShooterSpeed(motorSpeed.speed);
         }
         telemetry.addData("Running", "Shoot Command");
     }

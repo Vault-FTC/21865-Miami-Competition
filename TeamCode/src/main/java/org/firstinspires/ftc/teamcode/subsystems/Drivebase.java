@@ -77,16 +77,18 @@ public class Drivebase extends Subsystem {
         right of center is a negative number. the Y pod offset refers to how far forwards from
         the tracking point the Y (strafe) odometry pod is. forward of center is a positive number,
         backwards is a negative number.
+
+        robot is 350.35000mm wide
+        365.71207mm long
          */
-        odo.setOffsets(-84.0, -168.0, DistanceUnit.MM);
+        odo.setOffsets(205.71207, -15.175, DistanceUnit.MM);
         odo.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
         /*
         Set the direction that each of the two odometry pods count. The X (forward) pod should
         increase when you move the robot forward. And the Y (strafe) pod should increase when
         you move the robot to the left.
          */
-        odo.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD, GoBildaPinpointDriver.EncoderDirection.FORWARD);
-        odo.resetPosAndIMU();
+        odo.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.REVERSED, GoBildaPinpointDriver.EncoderDirection.REVERSED);
     }
 
     public void resetHeading(double heading) {
@@ -94,22 +96,25 @@ public class Drivebase extends Subsystem {
     }
 
     public String getPosition() {
-        return "X offset: " + odo.getXOffset(DistanceUnit.CM) + " Y: " + odo.getYOffset(DistanceUnit.CM) + " Heading: " + odo.getYawScalar();
+        return "X offset (forwards/backwards): " + odo.getPosX(DistanceUnit.CM) + " Y (left/right): " + odo.getPosY(DistanceUnit.CM) + " Heading: " + odo.getHeading(AngleUnit.DEGREES);
     }
 
     public void drive(double forward, double right, double rotate) {
         double botHeading = odo.getHeading(AngleUnit.RADIANS);
-
+        
         // Rotate the movement vector by the inverse of the robot's heading
-        // X is positive to the right, Y is positive up
-        double rotatedX = forward * Math.sin(botHeading) - right * Math.cos(botHeading);
-        double rotatedY = forward * Math.cos(botHeading) + right * Math.sin(botHeading);
+//        // X is positive to the right, Y is positive up
+//        double rotatedForward = forward * Math.sin(botHeading) - right * Math.cos(botHeading);
+//        double rotatedRight = forward * Math.cos(botHeading) + right * Math.sin(botHeading);
+//         X is positive up, Y is positive to the right
+        double rotatedForward = forward * Math.cos(botHeading) + right * Math.sin(botHeading);
+        double rotatedRight = -forward * Math.sin(botHeading) + right * Math.cos(botHeading);
 
         // Calculate motor powers
-        double frontLeftPower = rotatedY + rotatedX + rotate;
-        double backLeftPower = rotatedY - rotatedX + rotate;
-        double frontRightPower = rotatedY - rotatedX - rotate;
-        double backRightPower = rotatedY + rotatedX - rotate;
+        double frontLeftPower = rotatedRight + rotatedForward + rotate;
+        double backLeftPower = rotatedRight - rotatedForward + rotate;
+        double frontRightPower = rotatedRight - rotatedForward - rotate;
+        double backRightPower = rotatedRight + rotatedForward - rotate;
         double maxPower = Math.max(Math.abs(frontLeftPower),
                 Math.max(Math.abs(backLeftPower),
                         Math.max(Math.abs(frontRightPower), Math.abs(backRightPower))));
@@ -131,12 +136,12 @@ public class Drivebase extends Subsystem {
     public void driveToPosition(Location target, double turnVal, Telemetry telemetry) {
         double p = 0.006;
         double p_rotation = 0.03;
-        double strafe = (target.Strafe - odo.getXOffset(DistanceUnit.CM));
-        double forward = (-target.Forward + odo.getYOffset(DistanceUnit.CM));
-            double heading = (target.TurnDegrees - odo.getHeading(AngleUnit.DEGREES));
+        double strafe = (target.Strafe - odo.getPosY(DistanceUnit.CM));
+        double forward = (-target.Forward + odo.getPosX(DistanceUnit.CM));
+        double heading = (target.TurnDegrees - odo.getHeading(AngleUnit.DEGREES));
 
-        double strafeError = (target.Strafe - odo.getXOffset(DistanceUnit.CM));
-        double forwardError = (-target.Forward + odo.getYOffset(DistanceUnit.CM));
+        double strafeError = (target.Strafe - odo.getPosY(DistanceUnit.CM));
+        double forwardError = (-target.Forward + odo.getPosX(DistanceUnit.CM));
         double headingError = (target.TurnDegrees - odo.getHeading(AngleUnit.DEGREES));
 
 
@@ -174,27 +179,31 @@ public class Drivebase extends Subsystem {
 
     public boolean isAtPosition(Location target) {
         return isAtPosition(target, 15, 17.5);
-
     }
 
     public boolean isAtPosition(Location target, double toleranceXY, double toleranceAngle) {
-        double currentX = odo.getXOffset(DistanceUnit.CM);
-        double currentY = odo.getYOffset(DistanceUnit.CM);
+        double currentX = odo.getPosX(DistanceUnit.CM);
+        double currentY = odo.getPosY(DistanceUnit.CM);
         double currentHeading = odo.getHeading(AngleUnit.DEGREES);
-        return Math.abs(currentX - target.Strafe) < toleranceXY &&
-                Math.abs(currentY - target.Forward) < toleranceXY &&
+        return Math.abs(currentY - target.Strafe) < toleranceXY &&
+                Math.abs(currentX - target.Forward) < toleranceXY &&
                 Math.abs(currentHeading-target.TurnDegrees) < toleranceAngle;
     }
 
     private Pose2d getCurrentPose() {
         return new Pose2d(
                 new Vector2d(
-                        odo.getXOffset(DistanceUnit.CM),
-                        odo.getYOffset(DistanceUnit.CM)
+                        odo.getPosX(DistanceUnit.CM),
+                        odo.getPosY(DistanceUnit.CM)
                 ),
                 new Rotation2d(odo.getHeading(AngleUnit.DEGREES))
         );
     }
+
+    public void update() {
+        odo.update(); // updates the odometry internally
+    }
+
 
     /**
      * Start following a path
@@ -433,9 +442,5 @@ public class Drivebase extends Subsystem {
             this.first = first;
             this.second = second;
         }
-    }
-    public void updateValues(Telemetry telemetry)
-    {
-        telemetry.addData("yeay", getPosition());
     }
 }
