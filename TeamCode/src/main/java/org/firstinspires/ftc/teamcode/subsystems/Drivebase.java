@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
+import com.qualcomm.hardware.limelightvision.LLResult;
+import com.qualcomm.hardware.limelightvision.LLResultTypes;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -11,6 +13,8 @@ import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
+import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 import org.firstinspires.ftc.teamcode.Autonomous.Location;
 import org.firstinspires.ftc.teamcode.CommandSystem.Subsystem;
 import org.firstinspires.ftc.teamcode.PurePursuit.PIDController;
@@ -200,9 +204,34 @@ public class Drivebase extends Subsystem {
         );
     }
 
+    public void setCurrentPose(Pose2D pos)
+    {
+        odo.setPosition(pos);
+    }
+
+    public void setCurrentPose(double x, double y, double degrees)
+    {
+        setCurrentPose(new Pose2D(DistanceUnit.CM, x, y, AngleUnit.RADIANS, degrees));
+    }
+
     public void update() {
         odo.update(); // updates the odometry internally
     }
+
+    public LLResultTypes.FiducialResult update(LimeLight limeLight) {
+        odo.update();
+        LLResultTypes.FiducialResult april = limeLight.getEitherResult();
+        if (april == null) {
+            return null;
+        }
+        Pose3D pose = april.getRobotPoseFieldSpace();
+        if (pose == null) {
+            return null;
+        }
+        setCurrentPose(pose.getPosition().x, pose.getPosition().y, pose.getOrientation().getYaw(AngleUnit.RADIANS));
+        return april;
+    }
+
 
 
     /**
