@@ -75,7 +75,7 @@ public class Shooter extends Subsystem {
         lastTime = currentTime;
     }
     public void raiseHood(){
-        hoodServo.setPosition(0.5)
+        hoodServo.setPosition(0.5);
     }
     public void lowerHood() {
         hoodServo.setPosition(1);
