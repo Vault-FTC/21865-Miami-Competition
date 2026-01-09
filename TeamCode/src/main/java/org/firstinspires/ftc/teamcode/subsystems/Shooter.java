@@ -74,6 +74,13 @@ public class Shooter extends Subsystem {
         lastTargetVelocity = targetVelocity;
         lastTime = currentTime;
     }
+    public void raiseHood(){
+        hoodServo.setPosition(0.5)
+    }
+    public void lowerHood() {
+        hoodServo.setPosition(1);
+    }
+
     public double getShooterVelocity()
     {
         return shooter.getVelocity();
