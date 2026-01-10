@@ -40,6 +40,7 @@ public class SimpleFieldCentricDrive extends LinearOpMode {
     public void runOpMode() {
         intake = new Intake(hardwareMap);
         light = new Lights(hardwareMap);
+        hoodServo = new Shooter(hardwareMap);
         Drivebase drive = new Drivebase(hardwareMap);
         ServoGate servoGate = new ServoGate(hardwareMap);
         Shooter launcher = new Shooter(hardwareMap);
@@ -67,7 +68,6 @@ public class SimpleFieldCentricDrive extends LinearOpMode {
             if (gamepad1.start) {
                 drive.resetHeading(0);
             }
-
             if (!last_triangle && gamepad1.y) {
                 shooting = !shooting;
             }
