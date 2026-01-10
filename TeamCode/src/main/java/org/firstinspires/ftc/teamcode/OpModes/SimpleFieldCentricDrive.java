@@ -21,6 +21,7 @@ public class SimpleFieldCentricDrive extends LinearOpMode {
 
     public LimeLight Limelight;
     Intake intake;
+    Shooter hoodServo;
     boolean last_triangle;
     boolean last_up;
     boolean last_down;
@@ -56,6 +57,12 @@ public class SimpleFieldCentricDrive extends LinearOpMode {
             double joystick_y = -gamepad1.left_stick_y; // Forward/backward
             double joystick_x = -gamepad1.left_stick_x;  // Strafe left/right
             double joystick_rx = -gamepad1.right_stick_x; // Rotation
+            if (gamepad1.dpad_up) {
+                hoodServo.raiseHood();
+            }
+            if (gamepad1.dpad_down) {
+                hoodServo.lowerHood();
+            }
 
             if (gamepad1.start) {
                 drive.resetHeading(0);
