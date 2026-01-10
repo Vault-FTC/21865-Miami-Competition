@@ -104,11 +104,11 @@ public class SimpleFieldCentricDrive extends LinearOpMode {
                     if (aprilTag.getCameraPoseTargetSpace().getPosition().x < 67) {
                         light.setColor(green);
                         if (aprilTag.getCameraPoseTargetSpace().getPosition().z >= -2.5) {
-                            this.launchPower = 800;
+                            this.launchPower = 1200;
                             feedPulseInterval = 0.1;
                         }
                         else {
-                            this.launchPower = 1200;
+                            this.launchPower = 1400;
                             feedPulseInterval = 0.2;
                         }
                         launcher.setShooterVelocityDynamic(this.launchPower);
