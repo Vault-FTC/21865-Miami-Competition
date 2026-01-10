@@ -35,7 +35,6 @@ public class SimpleFieldCentricDrive extends LinearOpMode {
         Limelight = new LimeLight(hardwareMap, 20);
     }
 
-
     @Override
     public void runOpMode() {
         intake = new Intake(hardwareMap);
@@ -51,7 +50,7 @@ public class SimpleFieldCentricDrive extends LinearOpMode {
         waitForStart();
         // poseEstimator.update();
         while (opModeIsActive()) {
-            drive.update();
+            LLResultTypes.FiducialResult aprilTag = drive.update(Limelight);
             double currentTime = getRuntime();
 
             double joystick_y = -gamepad1.left_stick_y; // Forward/backward
@@ -84,17 +83,16 @@ public class SimpleFieldCentricDrive extends LinearOpMode {
 
 
             if (gamepad1.right_bumper) {
-                LLResultTypes.FiducialResult result = Limelight.getResult();
-                if (result == null) {
+                if (aprilTag == null) {
 
                 } else {
                     joystick_rx = joystick_rx - Limelight.getTx() / 2.5;
-                    double range = Math.abs(result.getCameraPoseTargetSpace().getPosition().z);
+                    double range = Math.abs(aprilTag.getCameraPoseTargetSpace().getPosition().z);
                     gamepad1.rumble(1000);
                     telemetry.addData("fff", range);
-                    if (result.getCameraPoseTargetSpace().getPosition().x < 67) {
+                    if (aprilTag.getCameraPoseTargetSpace().getPosition().x < 67) {
                         light.setColor(green);
-                        if (result.getCameraPoseTargetSpace().getPosition().z >= -2.5) {
+                        if (aprilTag.getCameraPoseTargetSpace().getPosition().z >= -2.5) {
                             this.launchPower = 800;
                             feedPulseInterval = 0.1;
                         }
