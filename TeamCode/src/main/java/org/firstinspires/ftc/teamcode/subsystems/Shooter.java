@@ -80,6 +80,10 @@ public class Shooter extends Subsystem {
         hoodServo.setPosition(1);
         }
 
+        public void stop(){
+        hoodServo.setPosition(0.5);
+        }
+
     public double getShooterVelocity()
     {
         return shooter.getVelocity();

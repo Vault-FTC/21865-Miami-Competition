@@ -104,7 +104,7 @@ public class Drivebase extends Subsystem {
     }
 
     public void drive(double forward, double right, double rotate) {
-        double botHeading = odo.getHeading(AngleUnit.RADIANS);
+        double botHeading = -odo.getHeading(AngleUnit.RADIANS);
         
         // Rotate the movement vector by the inverse of the robot's heading
 //        // X is positive to the right, Y is positive up

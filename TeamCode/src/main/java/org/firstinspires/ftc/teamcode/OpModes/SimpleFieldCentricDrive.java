@@ -61,8 +61,12 @@ public class SimpleFieldCentricDrive extends LinearOpMode {
             if (gamepad1.dpad_up) {
                 hoodServo.raiseHood();
             }
-            if (gamepad1.dpad_down) {
+            else if (gamepad1.dpad_down) {
                 hoodServo.lowerHood();
+            }
+            else
+            {
+                hoodServo.stop();
             }
 
             if (gamepad1.start) {
@@ -133,7 +137,6 @@ public class SimpleFieldCentricDrive extends LinearOpMode {
             if (Limelight.getResult() != null) {
                 telemetry.addData("Distance from AprilTag", Limelight.getResult().getCameraPoseTargetSpace().getPosition().z);
             }
-            telemetry.addData("Pose", drive.getPosition());
             telemetry.update();
         }
     }
