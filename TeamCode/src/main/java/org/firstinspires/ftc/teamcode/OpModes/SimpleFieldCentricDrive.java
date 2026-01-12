@@ -108,7 +108,7 @@ public class SimpleFieldCentricDrive extends LinearOpMode {
                             feedPulseInterval = 0.1;
                         }
                         else {
-                            this.launchPower = 1200;
+                            this.launchPower = 1400;
                             feedPulseInterval = 0.2;
                         }
                         launcher.setShooterVelocityDynamic(this.launchPower);
