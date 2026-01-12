@@ -29,7 +29,7 @@ public class LimelightTuner extends OpMode {
     @Override
     public void loop() {
         // get yaw from pinpoint odometry
-        drivebase.getPosition();
+        drivebase.getPositionTelemetry();
 
         LLResult llResult = limelight3A.getLatestResult();
         if (llResult != null && llResult.isValid()) {

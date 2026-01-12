@@ -5,6 +5,8 @@ import com.qualcomm.hardware.limelightvision.LLResultTypes;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
+
 public class LimeLight {
     Limelight3A limelight;
     int apriltag;
@@ -54,5 +56,14 @@ public class LimeLight {
             }
         }
         return 0;
+    }
+    public Pose3D getFieldPose() {
+        LLResultTypes.FiducialResult result = getResult();
+        if (result != null) {
+            return result.getRobotPoseFieldSpace();
+        }
+        else{
+            return null;
+        }
     }
 }

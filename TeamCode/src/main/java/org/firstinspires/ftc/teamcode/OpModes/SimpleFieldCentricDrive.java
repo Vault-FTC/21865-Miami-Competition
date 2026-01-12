@@ -10,6 +10,7 @@ import org.firstinspires.ftc.teamcode.subsystems.Lights;
 import org.firstinspires.ftc.teamcode.Autonomous.Location;
 
 import org.firstinspires.ftc.teamcode.subsystems.LimeLight;
+import org.firstinspires.ftc.teamcode.subsystems.PoseStorage;
 import org.firstinspires.ftc.teamcode.subsystems.ServoGate;
 import org.firstinspires.ftc.teamcode.subsystems.Shooter;
 import org.firstinspires.ftc.teamcode.subsystems.Drivebase;
@@ -49,15 +50,21 @@ public class SimpleFieldCentricDrive extends LinearOpMode {
         green = RevBlinkinLedDriver.BlinkinPattern.GREEN;
         red = RevBlinkinLedDriver.BlinkinPattern.RED;
 
+
+        drive.setCurrentPose(PoseStorage.startPose);
+
         waitForStart();
         // poseEstimator.update();
         while (opModeIsActive()) {
             LLResultTypes.FiducialResult aprilTag = drive.update(Limelight);
             double currentTime = getRuntime();
-
+            boolean autoShoot = gamepad1.left_bumper;
             double joystick_y = -gamepad1.left_stick_y; // Forward/backward
             double joystick_x = -gamepad1.left_stick_x;  // Strafe left/right
             double joystick_rx = -gamepad1.right_stick_x; // Rotation
+
+
+
             if (gamepad1.dpad_up) {
                 hoodServo.raiseHood();
             }
@@ -72,11 +79,7 @@ public class SimpleFieldCentricDrive extends LinearOpMode {
             if (gamepad1.start) {
                 drive.resetHeading(0);
             }
-            if (!last_triangle && gamepad1.y) {
-                shooting = !shooting;
-            }
 
-            last_triangle = gamepad1.y;
             if (gamepad1.x) {
                 intake.spinIntake(0.675);
                 servoGate.openGate();
@@ -93,7 +96,7 @@ public class SimpleFieldCentricDrive extends LinearOpMode {
             }
 
 
-            if (gamepad1.right_bumper) {
+            if (autoShoot) {
                 if (aprilTag == null) {
 
                 } else {
@@ -133,7 +136,7 @@ public class SimpleFieldCentricDrive extends LinearOpMode {
             last_up = gamepad1.dpad_up;
             telemetry.addData("shootSpeed", launcher.getShooterVelocity());
             telemetry.addData("LaunchPower", this.launchPower);
-            telemetry.addData("Position", drive.getPosition());
+            telemetry.addData("Position", drive.getPositionTelemetry());
             if (Limelight.getResult() != null) {
                 telemetry.addData("Distance from AprilTag", Limelight.getResult().getCameraPoseTargetSpace().getPosition().z);
             }

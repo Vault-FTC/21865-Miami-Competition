@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
-import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.LLResultTypes;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -98,27 +97,27 @@ public class Drivebase extends Subsystem {
     public void resetHeading(double heading) {
         odo.resetPosAndIMU();
     }
+    public Pose2D getPosition() {
+        return odo.getPosition();
+    }
 
-    public String getPosition() {
+
+    public String getPositionTelemetry() {
         return "X offset (forwards/backwards): " + odo.getPosX(DistanceUnit.CM) + " Y (left/right): " + odo.getPosY(DistanceUnit.CM) + " Heading: " + odo.getHeading(AngleUnit.DEGREES);
     }
 
     public void drive(double forward, double right, double rotate) {
         double botHeading = -odo.getHeading(AngleUnit.RADIANS);
-        
-        // Rotate the movement vector by the inverse of the robot's heading
-//        // X is positive to the right, Y is positive up
-//        double rotatedForward = forward * Math.sin(botHeading) - right * Math.cos(botHeading);
-//        double rotatedRight = forward * Math.cos(botHeading) + right * Math.sin(botHeading);
 //         X is positive up, Y is positive to the right
-        double rotatedForward = forward * Math.cos(botHeading) + right * Math.sin(botHeading);
-        double rotatedRight = -forward * Math.sin(botHeading) + right * Math.cos(botHeading);
+        double rotRight = right * Math.cos(botHeading) - forward * Math.sin(botHeading);
+        double rotForward = right * Math.sin(botHeading) + forward * Math.cos(botHeading);
+
 
         // Calculate motor powers
-        double frontLeftPower = rotatedRight + rotatedForward + rotate;
-        double backLeftPower = rotatedRight - rotatedForward + rotate;
-        double frontRightPower = rotatedRight - rotatedForward - rotate;
-        double backRightPower = rotatedRight + rotatedForward - rotate;
+        double frontLeftPower = rotForward + rotRight + rotate;
+        double backLeftPower = rotForward - rotRight + rotate;
+        double frontRightPower = rotForward - rotRight - rotate;
+        double backRightPower = rotForward + rotRight - rotate;
         double maxPower = Math.max(Math.abs(frontLeftPower),
                 Math.max(Math.abs(backLeftPower),
                         Math.max(Math.abs(frontRightPower), Math.abs(backRightPower))));
@@ -209,9 +208,9 @@ public class Drivebase extends Subsystem {
         odo.setPosition(pos);
     }
 
-    public void setCurrentPose(double x, double y, double degrees)
+    public void setCurrentPose(double x, double y, double radians)
     {
-        setCurrentPose(new Pose2D(DistanceUnit.CM, x, y, AngleUnit.RADIANS, degrees));
+        setCurrentPose(new Pose2D(DistanceUnit.CM, x, y, AngleUnit.RADIANS, radians));
     }
 
     public void update() {
@@ -232,6 +231,8 @@ public class Drivebase extends Subsystem {
         return april;
     }
 
+
+    // PURE PURSUIT STARTS HERE
 
 
     /**

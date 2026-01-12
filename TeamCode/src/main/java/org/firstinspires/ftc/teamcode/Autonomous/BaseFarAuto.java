@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.CommandSystem.Command;
 import org.firstinspires.ftc.teamcode.CommandSystem.CommandScheduler;
+import org.firstinspires.ftc.teamcode.CommandSystem.InstantCommand;
 import org.firstinspires.ftc.teamcode.CommandSystem.ParallelCommandGroup;
 import org.firstinspires.ftc.teamcode.CommandSystem.SequentialCommandGroup;
 import org.firstinspires.ftc.teamcode.Commands.DriveToCommand;
@@ -11,6 +12,7 @@ import org.firstinspires.ftc.teamcode.Commands.IntakeCommand;
 import org.firstinspires.ftc.teamcode.Commands.TimedShootCommand;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.subsystems.LimeLight;
+import org.firstinspires.ftc.teamcode.subsystems.PoseStorage;
 import org.firstinspires.ftc.teamcode.subsystems.Shooter;
 import org.firstinspires.ftc.teamcode.subsystems.Drivebase;
 
@@ -52,6 +54,7 @@ public class BaseFarAuto extends BaseNearAuto {
 //                .add(new LimeLightTurnCommand(drive,LimeLight, telemetry))
                 .add(new TimedShootCommand(shooter, intake, 4, telemetry, 1500, servoGate, time))
                 .add(new DriveToCommand(drive, parkPosition, telemetry))
+                .add(new InstantCommand(() -> PoseStorage.startPose = drive.getPosition()))
                 .build();
 
         waitForStart();

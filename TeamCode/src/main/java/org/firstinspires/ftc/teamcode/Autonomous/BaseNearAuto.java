@@ -3,15 +3,21 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.CommandSystem.Command;
 import org.firstinspires.ftc.teamcode.CommandSystem.CommandScheduler;
+import org.firstinspires.ftc.teamcode.CommandSystem.InstantCommand;
 import org.firstinspires.ftc.teamcode.CommandSystem.ParallelCommandGroup;
 import org.firstinspires.ftc.teamcode.CommandSystem.SequentialCommandGroup;
 import org.firstinspires.ftc.teamcode.Commands.DriveToCommand;
 import org.firstinspires.ftc.teamcode.Commands.IntakeCommand;
 import org.firstinspires.ftc.teamcode.Commands.TimedShootCommand;
+import org.firstinspires.ftc.teamcode.FieldConstants;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.subsystems.LimeLight;
+import org.firstinspires.ftc.teamcode.subsystems.PoseStorage;
 import org.firstinspires.ftc.teamcode.subsystems.ServoGate;
 import org.firstinspires.ftc.teamcode.subsystems.Shooter;
 import org.firstinspires.ftc.teamcode.subsystems.Drivebase;
@@ -23,6 +29,7 @@ public class BaseNearAuto extends LinearOpMode {
     Intake intake;
     LimeLight LimeLight;
     ServoGate servoGate;
+    Pose2D startPosition;
     Location launchPosition = new Location(-110, 10, 0);
     Location collectFirstRowArtifacts = new Location(-70, -60, 43);
     Location hitGate = new Location(-60, -105, -48);
@@ -51,6 +58,7 @@ public class BaseNearAuto extends LinearOpMode {
         LimeLight = new LimeLight(hardwareMap,20);
         servoGate = new ServoGate(hardwareMap);
         scheduler.clearRegistry();
+        drive.setCurrentPose(startPosition);
 
         setTargets();
 
@@ -89,7 +97,9 @@ public class BaseNearAuto extends LinearOpMode {
 //                .add(new DriveToCommand(drive, lastLaunchPosition, telemetry))
 //                .add(new TimedShootCommand(shooter, intake, 2.5, telemetry, 1350, servoGate, time))
                 .add(new DriveToCommand(drive, leaveZonePosition, telemetry))
+                .add(new InstantCommand(() -> PoseStorage.startPose = drive.getPosition()))
                 .build();
+
 
         waitForStart();
 
@@ -97,7 +107,7 @@ public class BaseNearAuto extends LinearOpMode {
         while(opModeIsActive()) {
             time = getRuntime();
             scheduler.run();
-            telemetry.addData("Position", drive.getPosition());
+            telemetry.addData("Position", drive.getPositionTelemetry());
             telemetry.update();
         }
     }

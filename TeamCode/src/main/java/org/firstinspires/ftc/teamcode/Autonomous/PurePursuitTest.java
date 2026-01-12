@@ -28,7 +28,7 @@ public class PurePursuitTest extends LinearOpMode {
 
         while (opModeIsActive() && !drive.finishedFollowing()) {
             drive.followPath();
-            telemetry.addData("Robot Position", drive.getPosition());
+            telemetry.addData("Robot Position", drive.getPositionTelemetry());
         }
         drive.drive(0,0,0);
         telemetry.update();
