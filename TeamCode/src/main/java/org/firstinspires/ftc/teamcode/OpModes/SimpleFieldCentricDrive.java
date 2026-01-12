@@ -60,7 +60,7 @@ public class SimpleFieldCentricDrive extends LinearOpMode {
             double currentTime = getRuntime();
             boolean autoShoot = gamepad1.left_bumper;
             double joystick_y = -gamepad1.left_stick_y; // Forward/backward
-            double joystick_x = -gamepad1.left_stick_x;  // Strafe left/right
+            double joystick_x = gamepad1.left_stick_x;  // Strafe left/right
             double joystick_rx = -gamepad1.right_stick_x; // Rotation
 
 
