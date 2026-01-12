@@ -56,7 +56,7 @@ public class SimpleFieldCentricDrive extends LinearOpMode {
             double currentTime = getRuntime();
 
             double joystick_y = -gamepad1.left_stick_y; // Forward/backward
-            double joystick_x = -gamepad1.left_stick_x;  // Strafe left/right
+            double joystick_x = gamepad1.left_stick_x;  // Strafe left/right
             double joystick_rx = -gamepad1.right_stick_x; // Rotation
             if (gamepad1.dpad_up) {
                 hoodServo.raiseHood();
@@ -104,7 +104,7 @@ public class SimpleFieldCentricDrive extends LinearOpMode {
                     if (aprilTag.getCameraPoseTargetSpace().getPosition().x < 67) {
                         light.setColor(green);
                         if (aprilTag.getCameraPoseTargetSpace().getPosition().z >= -2.5) {
-                            this.launchPower = 800;
+                            this.launchPower = 1200;
                             feedPulseInterval = 0.1;
                         }
                         else {

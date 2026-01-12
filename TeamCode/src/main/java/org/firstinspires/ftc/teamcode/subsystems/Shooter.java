@@ -23,7 +23,7 @@ public class Shooter extends Subsystem {
     double lastTime = 0;
     double lastTargetVelocity = 0;
     double kA = 0.5; // tune this experimentally
-    PIDFCoefficients pidfCoefficients = new PIDFCoefficients(20.0004, 0, 0, 18.2);
+    PIDFCoefficients pidfCoefficients = new PIDFCoefficients(250, 0, 0, 15);
     public Shooter(HardwareMap hardwareMap) {
         shooter = hardwareMap.get(DcMotorEx.class, "shooter");
         hoodServo = hardwareMap.get(Servo.class, "hood");

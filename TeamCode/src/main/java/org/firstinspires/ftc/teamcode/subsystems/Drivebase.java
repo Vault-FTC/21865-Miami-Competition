@@ -108,17 +108,18 @@ public class Drivebase extends Subsystem {
         
         // Rotate the movement vector by the inverse of the robot's heading
 //        // X is positive to the right, Y is positive up
-//        double rotatedForward = forward * Math.sin(botHeading) - right * Math.cos(botHeading);
-//        double rotatedRight = forward * Math.cos(botHeading) + right * Math.sin(botHeading);
+//        double rotForward = forward * Math.sin(botHeading) - right * Math.cos(botHeading);
+//        double rotRight = forward * Math.cos(botHeading) + right * Math.sin(botHeading);
 //         X is positive up, Y is positive to the right
-        double rotatedForward = forward * Math.cos(botHeading) + right * Math.sin(botHeading);
-        double rotatedRight = -forward * Math.sin(botHeading) + right * Math.cos(botHeading);
+        double rotRight = right * Math.cos(-botHeading) - forward * Math.sin(-botHeading);
+        double rotForward = right * Math.cos(botHeading) + right * Math.sin(botHeading);
+
 
         // Calculate motor powers
-        double frontLeftPower = rotatedRight + rotatedForward + rotate;
-        double backLeftPower = rotatedRight - rotatedForward + rotate;
-        double frontRightPower = rotatedRight - rotatedForward - rotate;
-        double backRightPower = rotatedRight + rotatedForward - rotate;
+        double frontLeftPower = rotRight + rotForward + rotate;
+        double backLeftPower = rotRight - rotForward + rotate;
+        double frontRightPower = rotRight - rotForward - rotate;
+        double backRightPower = rotRight + rotForward - rotate;
         double maxPower = Math.max(Math.abs(frontLeftPower),
                 Math.max(Math.abs(backLeftPower),
                         Math.max(Math.abs(frontRightPower), Math.abs(backRightPower))));
