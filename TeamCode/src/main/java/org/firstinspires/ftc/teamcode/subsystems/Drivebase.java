@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import androidx.core.math.MathUtils;
+
 import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 import com.qualcomm.hardware.limelightvision.LLResultTypes;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -112,12 +114,13 @@ public class Drivebase extends Subsystem {
         double rotRight = right * Math.cos(botHeading) - forward * Math.sin(botHeading);
         double rotForward = right * Math.sin(botHeading) + forward * Math.cos(botHeading);
 
-
-        // Calculate motor powers
         double frontLeftPower = rotForward + rotRight + rotate;
         double backLeftPower = rotForward - rotRight + rotate;
         double frontRightPower = rotForward - rotRight - rotate;
         double backRightPower = rotForward + rotRight - rotate;
+
+        // Calculate motor powers
+
         double maxPower = Math.max(Math.abs(frontLeftPower),
                 Math.max(Math.abs(backLeftPower),
                         Math.max(Math.abs(frontRightPower), Math.abs(backRightPower))));
@@ -128,6 +131,11 @@ public class Drivebase extends Subsystem {
             frontRightPower /= maxPower;
             backRightPower /= maxPower;
         }
+
+        frontLeftPower = Math.abs(frontLeftPower) < 0.02 ? 0 : frontLeftPower;
+        frontRightPower = Math.abs(frontRightPower) < 0.02 ? 0 : frontRightPower;
+        backLeftPower = Math.abs(backLeftPower) < 0.02 ? 0 : backLeftPower;
+        backRightPower = Math.abs(backRightPower) < 0.02 ? 0 : backRightPower;
 
         // Set motor powers
         frmotor.setPower(frontRightPower);
@@ -219,15 +227,15 @@ public class Drivebase extends Subsystem {
 
     public LLResultTypes.FiducialResult update(LimeLight limeLight) {
         odo.update();
-        LLResultTypes.FiducialResult april = limeLight.getEitherResult();
+        LLResultTypes.FiducialResult april = limeLight.getResult();
         if (april == null) {
             return null;
         }
         Pose3D pose = april.getRobotPoseFieldSpace();
-        if (pose == null) {
-            return null;
-        }
-        setCurrentPose(pose.getPosition().x, pose.getPosition().y, pose.getOrientation().getYaw(AngleUnit.RADIANS));
+//        if (pose == null) {
+//            return null;
+//        }
+        //setCurrentPose(pose.getPosition().x, pose.getPosition().y, pose.getOrientation().getYaw(AngleUnit.RADIANS));
         return april;
     }
 

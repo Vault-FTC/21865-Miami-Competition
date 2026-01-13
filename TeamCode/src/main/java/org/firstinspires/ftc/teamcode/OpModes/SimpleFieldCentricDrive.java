@@ -56,20 +56,19 @@ public class SimpleFieldCentricDrive extends LinearOpMode {
         waitForStart();
         // poseEstimator.update();
         while (opModeIsActive()) {
+            drive.update();
             LLResultTypes.FiducialResult aprilTag = drive.update(Limelight);
             double currentTime = getRuntime();
-            boolean autoShoot = gamepad1.left_bumper;
-            double joystick_y = -gamepad1.left_stick_y; // Forward/backward
-            double joystick_x = gamepad1.left_stick_x;  // Strafe left/right
+            boolean autoShoot = gamepad1.right_bumper;
+            double joystick_y = gamepad1.left_stick_y; // Forward/backward
+            double joystick_x = -gamepad1.left_stick_x;  // Strafe left/right
             double joystick_rx = -gamepad1.right_stick_x; // Rotation
 
-
-
             if (gamepad1.dpad_up) {
-                hoodServo.raiseHood();
+                hoodServo.lowerHood();
             }
             else if (gamepad1.dpad_down) {
-                hoodServo.lowerHood();
+                hoodServo.raiseHood();
             }
             else
             {
@@ -100,7 +99,7 @@ public class SimpleFieldCentricDrive extends LinearOpMode {
                 if (aprilTag == null) {
 
                 } else {
-                    joystick_rx = joystick_rx - Limelight.getTx() / 2.5;
+                    joystick_rx = joystick_rx - aprilTag.getTargetXDegrees() * 0.03;
                     double range = Math.abs(aprilTag.getCameraPoseTargetSpace().getPosition().z);
                     gamepad1.rumble(1000);
                     telemetry.addData("fff", range);
@@ -137,8 +136,9 @@ public class SimpleFieldCentricDrive extends LinearOpMode {
             telemetry.addData("shootSpeed", launcher.getShooterVelocity());
             telemetry.addData("LaunchPower", this.launchPower);
             telemetry.addData("Position", drive.getPositionTelemetry());
-            if (Limelight.getResult() != null) {
-                telemetry.addData("Distance from AprilTag", Limelight.getResult().getCameraPoseTargetSpace().getPosition().z);
+            if (aprilTag != null) {
+                telemetry.addData("AprilTag", aprilTag.getTargetXDegrees());
+                //telemetry.addData("Distance from AprilTag", Limelight.getResult().getCameraPoseTargetSpace().getPosition().z);
             }
             telemetry.update();
         }
