@@ -12,9 +12,9 @@ public class ServoGate extends Subsystem {
         servo = hardwareMap.get(Servo.class, "servo");
     }
     public void closeGate() {
-        servo.setPosition(0.5);
+        servo.setPosition(1);
     }
     public void openGate()  {
-        servo.setPosition(1);
+        servo.setPosition(0.5);
     }
 }
