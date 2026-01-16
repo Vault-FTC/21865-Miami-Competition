@@ -1,11 +1,11 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
 public class Location {
-    public int Forward;
-    public int Strafe;
+    public double Forward;
+    public double Strafe;
     public int TurnDegrees;
 
-    public Location(int forward, int strafe, int turnDegrees)
+    public Location(double forward, double strafe, int turnDegrees)
     {
         Forward = forward;
         Strafe = strafe;

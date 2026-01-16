@@ -30,14 +30,14 @@ public class BaseNearAuto extends LinearOpMode {
     LimeLight LimeLight;
     ServoGate servoGate;
     Pose2D startPosition;
-    Location launchPosition = new Location(-110, 10, 0);
-    Location collectFirstRowArtifacts = new Location(-70, -60, 43);
-    Location hitGate = new Location(-60, -105, -48);
-    Location hitGate2 = new Location(-70, -110, -48);
-    Location prepareSecondRowArtifacts = new Location(-145,-80, 43);
-    Location collectSecondRowArtifacts = new Location(-88, -135, 43);
-    Location prepareCollectThirdRowArtifacts = new Location(-184,-124, 43);
-    Location collectionThirdRowArtifacts = new Location(-124,-175, 43);
+    Location launchPosition = new Location(-30.5, -30.5, 0);
+    Location collectFirstRowArtifacts = new Location(-30.5, -152.4, 43);
+    Location hitGate = new Location(0, -152.4, -48);
+    Location hitGate2 = new Location(0, -152.4, -48);
+    Location prepareSecondRowArtifacts = new Location(30.5,-91.4, 43);
+    Location collectSecondRowArtifacts = new Location(30.5, -152.4, 43);
+    Location prepareCollectThirdRowArtifacts = new Location(91.4,-91.4, 43);
+    Location collectionThirdRowArtifacts = new Location(91.4,-152.4, 43);
     Location lastLaunchPosition = new Location(-110, 20, 0);
     Location leaveZonePosition = new Location(-80, -70, 43);
 
