@@ -53,7 +53,7 @@ public class BaseFarAuto extends BaseNearAuto {
 //                .add(new LimeLightTurnCommand(drive,LimeLight, telemetry))
                 .add(new TimedShootCommand(shooter, intake, 4, telemetry, 1500, servoGate, time))
                 .add(new DriveToCommand(drive, parkPosition, telemetry))
-                .add(new InstantCommand(() -> PoseStorage.startPose = drive.getPosition()))
+//                .add(new InstantCommand(() -> PoseStorage.startPose = drive.getPosition()))
                 .build();
 
         waitForStart();
