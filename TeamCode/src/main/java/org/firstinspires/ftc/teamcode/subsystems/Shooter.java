@@ -1,25 +1,26 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
-import com.qualcomm.hardware.limelightvision.LLResult;
-import com.qualcomm.hardware.limelightvision.LLResultTypes;
-import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.teamcode.CommandSystem.Command;
 import org.firstinspires.ftc.teamcode.CommandSystem.Subsystem;
+import org.firstinspires.ftc.teamcode.FieldConstants;
 
 public class Shooter extends Subsystem {
- //   boolean spinKicker = true;
-    MotorSpeeds currentSpeed = MotorSpeeds.NEAR;
-//    private DcMotorEx kicker;
-    private DcMotorEx shooter;
-    private Servo hoodServo;
+    private static final double CLOSE_DIST_CM = 140;
+    private static final double MID_DIST_CM   = 240;
+
+    private static final double CLOSE_SPEED = 1100;
+    private static final double MID_SPEED   = 1200;
+    private static final double FAR_SPEED   = 1750;
+    private static final double CLOSE_HOOD = 0.1;
+    private static final double MID_HOOD = 0.2;
+    private static final double FAR_HOOD = 0.5;
+    private final DcMotorEx shooter;
+    private final Servo hoodServo;
     double lastTime = 0;
     double lastTargetVelocity = 0;
     double kA = 0.5; // tune this experimentally
@@ -33,12 +34,25 @@ public class Shooter extends Subsystem {
     }
     public double distanceToSpeed(double distanceCm)
     {
-        return  ((distanceCm * 100.0 / 2.54) - 40) * 5 + 700;
-        //return (585 * Math.pow(1.0046834253, (distanceCm / 2.54)));
+        if (distanceCm <= CLOSE_DIST_CM) {
+            return CLOSE_SPEED;
+        } else if (distanceCm <= MID_DIST_CM) {
+            return MID_SPEED;
+        } else {
+            return FAR_SPEED;
+        }
     }
-    public void setPower(double speed) {
-        shooter.setPower(speed);
+    public double distanceToHoodPosition(double distanceCm)
+    {
+        if (distanceCm <= CLOSE_DIST_CM) {
+            return CLOSE_HOOD;
+        } else if (distanceCm <= MID_DIST_CM) {
+            return MID_HOOD;
+        } else {
+            return FAR_HOOD;
+        }
     }
+
     public void setShooterSpeed(double speed){
         shooter.setVelocity(speed);
     }
@@ -56,16 +70,12 @@ public class Shooter extends Subsystem {
         double dt = currentTime - lastTime;
         if (dt <= 0) dt = 0.001;
 
-        // Approximate acceleration
         double acceleration = (targetVelocity - lastTargetVelocity) / dt;
 
-        // Base PIDF power (FTC PIDF takes care of P/I/D/F automatically)
         double pidfPower = targetVelocity;
 
-        // Add acceleration feedforward term
         double extraPower = kA * acceleration;
 
-        // Combine
         double finalVelocity = pidfPower + extraPower;
 
         shooter.setVelocity(finalVelocity);
@@ -78,9 +88,14 @@ public class Shooter extends Subsystem {
     }
     public void lowerHood() {
         hoodServo.setPosition(1);
-        }
-
-        public void stop(){
+    }
+    public void setHoodPosition(double position) {
+        hoodServo.setPosition(position);
+    }
+    public String telemetryUpdate() {
+        return "Servo Position: " + hoodServo.getPosition() + "Shooter Speed: " + getShooterVelocity();
+    }
+    public void stop(){
         hoodServo.setPosition(0.5);
         }
 

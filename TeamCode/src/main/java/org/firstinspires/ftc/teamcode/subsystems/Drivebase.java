@@ -239,6 +239,25 @@ public class Drivebase extends Subsystem {
         return april;
     }
 
+    public static double distanceToGoal(Pose2D robot, Pose2D goal) {
+        double dx = robot.getX(DistanceUnit.CM) - goal.getX(DistanceUnit.CM);
+        double dy = robot.getY(DistanceUnit.CM) - goal.getY(DistanceUnit.CM);
+        return Math.hypot(dx, dy);
+    }
+    public static double angleToGoal(Pose2D robot, Pose2D goal) {
+        double dx = goal.getX(DistanceUnit.CM) - robot.getX(DistanceUnit.CM);
+        double dy = goal.getY(DistanceUnit.CM) - robot.getY(DistanceUnit.CM);
+        double goalHeading = Math.atan2(dy, dx); // radians
+        double robotHeading = robot.getHeading(AngleUnit.RADIANS);
+        double error = goalHeading - robotHeading;
+
+        // Normalize to [-π, π]
+        while (error > Math.PI) error -= 2 * Math.PI;
+        while (error < -Math.PI) error += 2 * Math.PI;
+
+        return error;
+    }
+
 
     // PURE PURSUIT STARTS HERE
 

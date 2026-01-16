@@ -24,7 +24,6 @@ public class BaseFarAuto extends BaseNearAuto {
     Location firstPickupPosition2 = new Location(70,-130, 95);
     Location parkPosition = new Location(88, -10, 95);
     CommandScheduler scheduler = CommandScheduler.getInstance();
-    Command auto;
     double time;
     void setTargets() {
 
