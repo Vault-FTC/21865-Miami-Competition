@@ -97,7 +97,7 @@ public class BaseNearAuto extends LinearOpMode {
 //                .add(new DriveToCommand(drive, lastLaunchPosition, telemetry))
 //                .add(new TimedShootCommand(shooter, intake, 2.5, telemetry, 1350, servoGate, time))
                 .add(new DriveToCommand(drive, leaveZonePosition, telemetry))
-                .add(new InstantCommand(() -> PoseStorage.startPose = drive.getPosition()))
+//                .add(new InstantCommand(() -> PoseStorage.startPose = drive.getPosition()))
                 .build();
 
 

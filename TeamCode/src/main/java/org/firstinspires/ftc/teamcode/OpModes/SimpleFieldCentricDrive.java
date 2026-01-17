@@ -93,13 +93,11 @@ public class SimpleFieldCentricDrive extends LinearOpMode {
                servoGate.closeGate();
             }
 
-            if (gamepad1.dpad_left && aprilTag != null) {
+            if (gamepad1.dpadLeftWasPressed() && aprilTag != null) {
                 joystick_rx = joystick_rx - aprilTag.getTargetXDegrees() * 0.02;
                 launcher.setShooterSpeed(launcher.distanceToSpeed(distance));
                 launcher.setHoodPosition(launcher.distanceToHoodPosition(distance));
-            }
-
-            if (autoShoot) {
+            } else if (autoShoot) {
 //              joystick_rx = joystick_rx - aprilTag.getTargetXDegrees() * 0.02;
                 joystick_rx = joystick_rx + angleError * ((180/Math.PI) * 0.02);
                 servoGate.openGate();
@@ -107,7 +105,7 @@ public class SimpleFieldCentricDrive extends LinearOpMode {
                 launcher.setShooterSpeed(launcher.distanceToSpeed(distance));
                 launcher.setHoodPosition(launcher.distanceToHoodPosition(distance));
             } else {
-                launcher.setShooterSpeed(0);
+                launcher.setShooterSpeed(1100);
             }
 
             drive.drive(joystick_y, joystick_x, joystick_rx);
