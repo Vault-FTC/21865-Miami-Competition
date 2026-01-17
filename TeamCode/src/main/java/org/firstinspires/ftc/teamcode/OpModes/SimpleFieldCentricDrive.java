@@ -111,10 +111,11 @@ public class SimpleFieldCentricDrive extends LinearOpMode {
             }
 
             drive.drive(joystick_y, joystick_x, joystick_rx);
-
-            telemetry.addData("Limelight Field C", Limelight.getFieldPose().getPosition().x);
-
-
+            if (Limelight.getResult() != null) {
+                telemetry.addData("Limelight Field X", Limelight.getFieldPose().getPosition().x);
+                telemetry.addData("Limelight Field Y", Limelight.getFieldPose().getPosition().y);
+                telemetry.addData("Limelight Field Heading", Limelight.getFieldPose().getOrientation().getYaw());
+            }
             telemetry.addData("Angle from goal", angleError * 180/Math.PI);
             telemetry.addData("Distance from goal", distance);
             telemetry.addData("Shooter Stuff: ", launcher.telemetryUpdate());
