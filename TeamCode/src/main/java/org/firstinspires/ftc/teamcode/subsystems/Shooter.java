@@ -14,11 +14,11 @@ public class Shooter extends Subsystem {
     private static final double MID_DIST_CM   = 240;
 
     private static final double CLOSE_SPEED = 1100;
-    private static final double MID_SPEED   = 1200;
+    private static final double MID_SPEED   = 1300;
     private static final double FAR_SPEED   = 1750;
     private static final double CLOSE_HOOD = 0.1;
-    private static final double MID_HOOD = 0.2;
-    private static final double FAR_HOOD = 0.5;
+    private static final double MID_HOOD = 0.25; //0.2
+    private static final double FAR_HOOD = 0.1; //0.5
     private final DcMotorEx shooter;
     private final Servo hoodServo;
     double lastTime = 0;

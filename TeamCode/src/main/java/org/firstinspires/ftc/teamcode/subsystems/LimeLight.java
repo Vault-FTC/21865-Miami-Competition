@@ -19,25 +19,24 @@ public class LimeLight {
         limelight.start();
     }
 
-    public LLResultTypes.FiducialResult getResult()
-    {
+    public LLResult getResult() {
         LLResult result = limelight.getLatestResult();
         if (result != null) {
             if (result.isValid()) {
-                for(LLResultTypes.FiducialResult res : result.getFiducialResults()) {
-                    if(res.getFiducialId() == apriltag)
-                    {
-                        return res;
-                    }
-                }
+                return result;
+//                for(LLResultTypes.FiducialResult res : result.getFiducialResults()) {
+//                    if(res.getFiducialId() == apriltag)
+//                    {
+//                        return res;
+//                    }
             }
         }
         return null;
     }
 
-    public LLResultTypes.FiducialResult getEitherResult()
+    public LLResult getEitherResult()
     {
-        LLResultTypes.FiducialResult res;
+        LLResult res = limelight.getLatestResult();
         apriltag = 20;
         res = getResult();
         if (res == null) {
@@ -48,19 +47,19 @@ public class LimeLight {
     }
     public double getTx()
     {
-        LLResultTypes.FiducialResult res = getResult();
+        LLResult res = getResult();
         if(res != null) {
-            if(Math.abs(res.getTargetXDegrees()) > 0.25)
+            if(Math.abs(res.getTx()) > 0.25)
             {
-                return res.getTargetXDegrees() * 0.05;
+                return res.getTx() * 0.05;
             }
         }
         return 0;
     }
     public Pose3D getFieldPose() {
-        LLResultTypes.FiducialResult result = getResult();
+        LLResult result = getResult();
         if (result != null) {
-            return result.getRobotPoseFieldSpace();
+            return result.getBotpose_MT2();
         }
         else{
             return null;
