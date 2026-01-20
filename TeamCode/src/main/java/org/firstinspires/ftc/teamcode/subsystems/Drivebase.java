@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import androidx.core.math.MathUtils;
 
 import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
+import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.LLResultTypes;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -225,17 +226,13 @@ public class Drivebase extends Subsystem {
         odo.update(); // updates the odometry internally
     }
 
-    public LLResultTypes.FiducialResult update(LimeLight limeLight) {
+    public LLResult update(LimeLight limeLight) {
         odo.update();
-        LLResultTypes.FiducialResult april = limeLight.getResult();
+        limeLight.updateHeading(odo.getHeading(AngleUnit.DEGREES));
+        LLResult april = limeLight.getEitherResult();
         if (april == null) {
             return null;
         }
-        Pose3D pose = april.getRobotPoseFieldSpace();
-//        if (pose == null) {
-//            return null;
-//        }
-        //setCurrentPose(pose.getPosition().x, pose.getPosition().y, pose.getOrientation().getYaw(AngleUnit.RADIANS));
         return april;
     }
 

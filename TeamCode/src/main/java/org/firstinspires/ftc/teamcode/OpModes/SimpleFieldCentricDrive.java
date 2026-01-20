@@ -1,10 +1,13 @@
 package org.firstinspires.ftc.teamcode.OpModes;
 
+import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.LLResultTypes;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.FieldConstants;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
@@ -54,9 +57,10 @@ public class SimpleFieldCentricDrive extends LinearOpMode {
         waitForStart();
         while (opModeIsActive()) {
             drive.update();
-            LLResultTypes.FiducialResult aprilTag = drive.update(Limelight);
+            LLResult aprilTag = drive.update(Limelight);
             double distance = drive.distanceToGoal(drive.getPosition(), goal);
             double angleError = drive.angleToGoal(drive.getPosition(), goal);
+
             boolean autoShoot = gamepad1.right_bumper;
             double joystick_y = gamepad1.left_stick_x; // Forward/backward
             double joystick_x = gamepad1.left_stick_y;  // Strafe left/right
@@ -70,9 +74,9 @@ public class SimpleFieldCentricDrive extends LinearOpMode {
             } else {
                 launcher.setHoodPosition(position);
             }
-//            if (aprilTag != null) {
-//                drive.setCurrentPose(aprilTag.getRobotPoseFieldSpace().getPosition().y, aprilTag.getRobotPoseFieldSpace().getPosition().x, aprilTag.getRobotPoseFieldSpace().getOrientation().getYaw() + Math.PI);
-//            }
+            if (aprilTag != null) {
+                drive.setCurrentPose(aprilTag.getBotpose_MT2().getPosition().y, aprilTag.getBotpose_MT2().getPosition().x, aprilTag.getBotpose_MT2().getOrientation().getYaw() + Math.PI);
+            }
 
 
             if (gamepad1.start) {
@@ -94,7 +98,7 @@ public class SimpleFieldCentricDrive extends LinearOpMode {
             }
 
             if (gamepad1.dpadLeftWasPressed() && aprilTag != null) {
-                joystick_rx = joystick_rx - aprilTag.getTargetXDegrees() * 0.02;
+                joystick_rx = joystick_rx - aprilTag.getTx() * 0.02;
                 launcher.setShooterSpeed(launcher.distanceToSpeed(distance));
                 launcher.setHoodPosition(launcher.distanceToHoodPosition(distance));
             } else if (autoShoot) {
@@ -109,10 +113,10 @@ public class SimpleFieldCentricDrive extends LinearOpMode {
             }
 
             drive.drive(joystick_y, joystick_x, joystick_rx);
-            if (Limelight.getResult() != null) {
-                telemetry.addData("Limelight Field X", Limelight.getFieldPose().getPosition().x);
-                telemetry.addData("Limelight Field Y", Limelight.getFieldPose().getPosition().y);
-                telemetry.addData("Limelight Field Heading", Limelight.getFieldPose().getOrientation().getYaw());
+            if (aprilTag != null && aprilTag.getBotpose_MT2() != null) {
+                telemetry.addData("Limelight Field X", aprilTag.getBotpose_MT2().getPosition().toUnit(DistanceUnit.CM).x);
+                telemetry.addData("Limelight Field Y", aprilTag.getBotpose_MT2().getPosition().toUnit(DistanceUnit.CM).y);
+                telemetry.addData("Limelight Field Heading", aprilTag.getBotpose_MT2().getOrientation().getYaw(AngleUnit.DEGREES));
             }
             telemetry.addData("Angle from goal", angleError * 180/Math.PI);
             telemetry.addData("Distance from goal", distance);
@@ -120,7 +124,7 @@ public class SimpleFieldCentricDrive extends LinearOpMode {
             telemetry.addData("LaunchPower", this.launchPower);
             telemetry.addData("Position", drive.getPositionTelemetry());
             if (aprilTag != null) {
-                telemetry.addData("AprilTag", aprilTag.getTargetXDegrees());
+                telemetry.addData("AprilTag", aprilTag.getTx());
             }
             telemetry.update();
         }

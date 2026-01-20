@@ -58,7 +58,7 @@ public class BaseNearAuto extends LinearOpMode {
         LimeLight = new LimeLight(hardwareMap,20);
         servoGate = new ServoGate(hardwareMap);
         scheduler.clearRegistry();
-        drive.setCurrentPose(startPosition);
+//        drive.setCurrentPose(startPosition);
 
         setTargets();
 

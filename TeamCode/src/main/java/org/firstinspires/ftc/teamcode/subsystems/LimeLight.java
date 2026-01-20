@@ -35,16 +35,19 @@ public class LimeLight {
         return null;
     }
 
-    public LLResultTypes.FiducialResult getEitherResult()
+    public void updateHeading(double degrees)
     {
-        LLResultTypes.FiducialResult res;
-        apriltag = 20;
-        res = getResult();
-        if (res == null) {
-            apriltag = 24;
-            res = getResult();
+        limelight.updateRobotOrientation(degrees);
+    }
+
+    public LLResult getEitherResult()
+    {
+        LLResult res = limelight.getLatestResult();
+        if(res.isValid()) {
+            return res;
         }
-        return res;
+        else
+            return null;
     }
     public double getTx()
     {
