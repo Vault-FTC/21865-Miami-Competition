@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
+import org.firstinspires.ftc.teamcode.Autonomous.AutonomousPositions;
 import org.firstinspires.ftc.teamcode.FieldConstants;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.subsystems.Lights;
@@ -52,15 +53,15 @@ public class SimpleFieldCentricDrive extends LinearOpMode {
 
         double position = 0.5;
 
-        drive.setCurrentPose(0,0,-Math.PI/2);
+//        drive.setCurrentPose(0,0,-Math.PI/2);
+        drive.setCurrentPose(PoseStorage.startPose);
 
         waitForStart();
         while (opModeIsActive()) {
-            drive.update();
+//            drive.update();
             LLResult aprilTag = drive.update(Limelight);
             double distance = drive.distanceToGoal(drive.getPosition(), goal);
             double angleError = drive.angleToGoal(drive.getPosition(), goal);
-
             boolean autoShoot = gamepad1.right_bumper;
             double joystick_y = gamepad1.left_stick_x; // Forward/backward
             double joystick_x = gamepad1.left_stick_y;  // Strafe left/right
@@ -75,32 +76,30 @@ public class SimpleFieldCentricDrive extends LinearOpMode {
                 launcher.setHoodPosition(position);
             }
             if (aprilTag != null) {
-                drive.setCurrentPose(aprilTag.getBotpose_MT2().getPosition().y, aprilTag.getBotpose_MT2().getPosition().x, aprilTag.getBotpose_MT2().getOrientation().getYaw() + Math.PI);
+                drive.setCurrentPose(aprilTag.getBotpose_MT2().getPosition().toUnit(DistanceUnit.CM).x,
+                        aprilTag.getBotpose_MT2().getPosition().toUnit(DistanceUnit.CM).y);
+
+//                drive.setCurrentPose(aprilTag.getBotpose_MT2().getPosition().toUnit(DistanceUnit.CM).x,
+//                        aprilTag.getBotpose_MT2().getPosition().toUnit(DistanceUnit.CM).y,
+//                        drive.getPosition().getHeading(AngleUnit.RADIANS));
             }
 
 
             if (gamepad1.start) {
-                drive.resetHeading(0);
+                drive.resetHeading(-90);
             }
             if (gamepad1.x) {
-               intake.spinIntake(0.95);
-               servoGate.openGate();
+                launcher.setShooterSpeed(1100);
+                servoGate.openGate();
+                if (launcher.getShooterVelocity() >= 1100) {
+                    intake.spinIntake(0.95);
+                }
             } else if (gamepad1.left_bumper) {
                 intake.spinIntake(0.95);
 
             } else if (gamepad1.b) {
                 intake.spinIntake(-0.95);
                 launcher.setShooterSpeed(-900);
-            } else {
-               intake.spinIntake(0);
-               launcher.setShooterSpeed(0);
-               servoGate.closeGate();
-            }
-
-            if (gamepad1.dpadLeftWasPressed() && aprilTag != null) {
-                joystick_rx = joystick_rx - aprilTag.getTx() * 0.02;
-                launcher.setShooterSpeed(launcher.distanceToSpeed(distance));
-                launcher.setHoodPosition(launcher.distanceToHoodPosition(distance));
             } else if (autoShoot) {
 //              joystick_rx = joystick_rx - aprilTag.getTargetXDegrees() * 0.02;
                 joystick_rx = joystick_rx + angleError * ((180/Math.PI) * 0.02);
@@ -108,23 +107,26 @@ public class SimpleFieldCentricDrive extends LinearOpMode {
                 gamepad1.rumble(1000);
                 launcher.setShooterSpeed(launcher.distanceToSpeed(distance));
                 launcher.setHoodPosition(launcher.distanceToHoodPosition(distance));
+                if (launcher.getShooterVelocity() >= launcher.distanceToSpeed(distance)) {
+                    intake.spinIntake(0.95);
+                }
             } else {
-                launcher.setShooterSpeed(1100);
+                launcher.setShooterSpeed(800);
+                intake.spinIntake(0);
+                servoGate.closeGate();
             }
 
+
+
             drive.drive(joystick_y, joystick_x, joystick_rx);
-            if (aprilTag != null && aprilTag.getBotpose_MT2() != null) {
-                telemetry.addData("Limelight Field X", aprilTag.getBotpose_MT2().getPosition().toUnit(DistanceUnit.CM).x);
-                telemetry.addData("Limelight Field Y", aprilTag.getBotpose_MT2().getPosition().toUnit(DistanceUnit.CM).y);
-                telemetry.addData("Limelight Field Heading", aprilTag.getBotpose_MT2().getOrientation().getYaw(AngleUnit.DEGREES));
-            }
+
             telemetry.addData("Angle from goal", angleError * 180/Math.PI);
             telemetry.addData("Distance from goal", distance);
             telemetry.addData("Shooter Stuff: ", launcher.telemetryUpdate());
             telemetry.addData("LaunchPower", this.launchPower);
             telemetry.addData("Position", drive.getPositionTelemetry());
             if (aprilTag != null) {
-                telemetry.addData("AprilTag", aprilTag.getTx());
+                telemetry.addData("AprilTag", aprilTag.getBotpose_MT2());
             }
             telemetry.update();
         }

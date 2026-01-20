@@ -19,51 +19,47 @@ public class LimeLight {
         limelight.start();
     }
 
-    public LLResultTypes.FiducialResult getResult()
-    {
+    public LLResult getResult() {
         LLResult result = limelight.getLatestResult();
         if (result != null) {
             if (result.isValid()) {
-                for(LLResultTypes.FiducialResult res : result.getFiducialResults()) {
-                    if(res.getFiducialId() == apriltag)
-                    {
-                        return res;
-                    }
-                }
+                return result;
+//                for(LLResultTypes.FiducialResult res : result.getFiducialResults()) {
+//                    if(res.getFiducialId() == apriltag)
+//                    {
+//                        return res;
+//                    }
             }
         }
         return null;
     }
 
-    public void updateHeading(double degrees)
-    {
-        limelight.updateRobotOrientation(degrees);
-    }
-
     public LLResult getEitherResult()
     {
         LLResult res = limelight.getLatestResult();
-        if(res.isValid()) {
-            return res;
+        apriltag = 20;
+        res = getResult();
+        if (res == null) {
+            apriltag = 24;
+            res = getResult();
         }
-        else
-            return null;
+        return res;
     }
     public double getTx()
     {
-        LLResultTypes.FiducialResult res = getResult();
+        LLResult res = getResult();
         if(res != null) {
-            if(Math.abs(res.getTargetXDegrees()) > 0.25)
+            if(Math.abs(res.getTx()) > 0.25)
             {
-                return res.getTargetXDegrees() * 0.05;
+                return res.getTx() * 0.05;
             }
         }
         return 0;
     }
     public Pose3D getFieldPose() {
-        LLResultTypes.FiducialResult result = getResult();
+        LLResult result = getResult();
         if (result != null) {
-            return result.getRobotPoseFieldSpace();
+            return result.getBotpose_MT2();
         }
         else{
             return null;

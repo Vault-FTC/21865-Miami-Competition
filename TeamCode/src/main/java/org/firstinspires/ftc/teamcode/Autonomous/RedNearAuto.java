@@ -15,8 +15,8 @@ public class RedNearAuto extends BaseNearAuto {
         collectFirstRowArtifacts = new Location(-70, 95, -43);
         prepareSecondRowArtifacts = new Location(-152,80, -43);
         collectSecondRowArtifacts = new Location(-86, 140, -43);
-        prepareCollectThirdRowArtifacts = new Location(-192,124, -43);
-        collectionThirdRowArtifacts = new Location(-129,184, -43);
+        prepareThirdRowArtifacts = new Location(-192,124, -43);
+        collectThirdRowArtifacts = new Location(-129,184, -43);
         leaveZonePosition = new Location(-80, 140, -43);
     }
 }

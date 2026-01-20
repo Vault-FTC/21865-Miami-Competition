@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
+import static org.firstinspires.ftc.teamcode.Autonomous.AutonomousPositions.lastLaunchPosition;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
@@ -29,17 +31,31 @@ public class BaseNearAuto extends LinearOpMode {
     Intake intake;
     LimeLight LimeLight;
     ServoGate servoGate;
-    Pose2D startPosition;
-    Location launchPosition = new Location(-30.5, -30.5, 0);
-    Location collectFirstRowArtifacts = new Location(-30.5, -152.4, 43);
-    Location hitGate = new Location(0, -152.4, -48);
-    Location hitGate2 = new Location(0, -152.4, -48);
-    Location prepareSecondRowArtifacts = new Location(30.5,-91.4, 43);
-    Location collectSecondRowArtifacts = new Location(30.5, -152.4, 43);
-    Location prepareCollectThirdRowArtifacts = new Location(91.4,-91.4, 43);
-    Location collectionThirdRowArtifacts = new Location(91.4,-152.4, 43);
-    Location lastLaunchPosition = new Location(-110, 20, 0);
-    Location leaveZonePosition = new Location(-80, -70, 43);
+    Pose2D startPosition = new Pose2D(DistanceUnit.CM,0,0,AngleUnit.DEGREES, 135);
+//    Location launchPosition = new Location(36, -203, 42);
+//    Location collectFirstRowArtifacts = new Location(-70, -60, 43);
+//    Location hitGate = new Location(-60, -105, -48);
+//    Location hitGate2 = new Location(-70, -110, -48);
+//    Location prepareSecondRowArtifacts = new Location(-145,-80, 43);
+//    Location collectSecondRowArtifacts = new Location(-88, -135, 43);
+//    Location prepareCollectThirdRowArtifacts = new Location(-184,-124, 43);
+//    Location collectionThirdRowArtifacts = new Location(-124,-175, 43);
+//    Location lastLaunchPosition = new Location(-110, 20, 0);
+//    Location leaveZonePosition = new Location(-80, -70, 43);
+
+    Location launchPosition = AutonomousPositions.launchPosition;
+
+
+    Location launchPosition1 = new Location(-40, -40, -135);
+    Location collectFirstRowArtifacts = AutonomousPositions.collectFirstRowArtifacts;
+    Location prepareSecondRowArtifacts = AutonomousPositions.prepareSecondRowArtifacts;
+    Location collectSecondRowArtifacts = AutonomousPositions.collectSecondRowArtifacts;
+    Location collectThirdRowArtifacts = AutonomousPositions.collectionThirdRowArtifacts;
+    Location prepareThirdRowArtifacts = AutonomousPositions.prepareCollectThirdRowArtifacts;
+    Location hitGate = AutonomousPositions.hitGate;
+    Location hitGate2 = AutonomousPositions.hitGate2;
+    Location leaveZonePosition = AutonomousPositions.leaveZonePosition;
+
 
 
     CommandScheduler scheduler = CommandScheduler.getInstance();
@@ -58,12 +74,12 @@ public class BaseNearAuto extends LinearOpMode {
         LimeLight = new LimeLight(hardwareMap,20);
         servoGate = new ServoGate(hardwareMap);
         scheduler.clearRegistry();
-//        drive.setCurrentPose(startPosition);
+        drive.setCurrentPose(AutonomousPositions.BLUE_START_POSITION);
 
         setTargets();
 
         SequentialCommandGroup auto = SequentialCommandGroup.getBuilder()
-                .add(new DriveToCommand(drive, launchPosition, telemetry))
+                .add(new DriveToCommand(drive, AutonomousPositions.launchPosition, telemetry))
 //                .add(new LimeLightTurnCommand(drive, LimeLight, telemetry))
                 .add(new TimedShootCommand(shooter, intake, 3, telemetry, 1350, servoGate, time))
                 .add(ParallelCommandGroup.getBuilder()
@@ -71,7 +87,7 @@ public class BaseNearAuto extends LinearOpMode {
                         .add(new DriveToCommand(drive, collectFirstRowArtifacts, telemetry))
                         .build()
                 )
-                .add(new DriveToCommand(drive, hitGate, telemetry))
+//                .add(new DriveToCommand(drive, hitGate, telemetry))
                 .add(new DriveToCommand(drive, launchPosition, telemetry))
 //                .add(new LimeLightTurnCommand(drive,LimeLight,telemetry))
                 .add(new TimedShootCommand(shooter, intake, 3, telemetry, 1350, servoGate, time))
@@ -82,22 +98,22 @@ public class BaseNearAuto extends LinearOpMode {
                         .build()
                 )
                 .add(new DriveToCommand(drive, prepareSecondRowArtifacts, telemetry))
-                .add(new DriveToCommand(drive, hitGate2, telemetry))
+//                .add(new DriveToCommand(drive, hitGate2, telemetry))
                 .add(new DriveToCommand(drive, launchPosition, telemetry))
 //                .add(new LimeLightTurnCommand(drive,LimeLight,telemetry))
                 .add(new TimedShootCommand(shooter, intake, 3, telemetry, 1350, servoGate, time))
 
-//                .add(new DriveToCommand(drive, prepareCollectThirdRowArtifacts, telemetry))
+//                .add(new DriveToCommand(drive, prepareThirdRowArtifacts, telemetry))
 //                .add(ParallelCommandGroup.getBuilder()
 //                        .add(new IntakeCommand(intake, 2, telemetry, servoGate))
-//                        .add(new DriveToCommand(drive, collectionThirdRowArtifacts, telemetry))
+//                        .add(new DriveToCommand(drive, collectThirdRowArtifacts, telemetry))
 //                        .build()
 //                )
 //
-//                .add(new DriveToCommand(drive, lastLaunchPosition, telemetry))
-//                .add(new TimedShootCommand(shooter, intake, 2.5, telemetry, 1350, servoGate, time))
+                .add(new DriveToCommand(drive, lastLaunchPosition, telemetry))
+                .add(new TimedShootCommand(shooter, intake, 2.5, telemetry, 1350, servoGate, time))
                 .add(new DriveToCommand(drive, leaveZonePosition, telemetry))
-//                .add(new InstantCommand(() -> PoseStorage.startPose = drive.getPosition()))
+                .add(new InstantCommand(() -> PoseStorage.startPose = drive.getPosition()))
                 .build();
 
 
@@ -106,8 +122,10 @@ public class BaseNearAuto extends LinearOpMode {
         auto.schedule();
         while(opModeIsActive()) {
             time = getRuntime();
+            intake.spinIntake(0.5);
             scheduler.run();
             telemetry.addData("Position", drive.getPositionTelemetry());
+            drive.update();
             telemetry.update();
         }
     }

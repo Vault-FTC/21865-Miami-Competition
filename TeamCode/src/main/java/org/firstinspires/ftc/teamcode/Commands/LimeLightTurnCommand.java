@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Commands;
 
+import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.LLResultTypes;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -24,13 +25,13 @@ public class LimeLightTurnCommand extends Command
 
     @Override
     public void execute() {
-        LLResultTypes.FiducialResult res = light.getResult();
+        LLResult res = light.getResult();
         if(res == null)
         {
             moved.drive(0,0, 0);
             return;
         }
-        Pose3D pose = res.getRobotPoseTargetSpace();
+        Pose3D pose = res.getBotpose_MT2();
         double p = 0.05;
         double x = (0 + pose.getPosition().x) * p; // correct = 0;
         double z = (-1.8 + pose.getPosition().z) * p;  // correct = -1.8;

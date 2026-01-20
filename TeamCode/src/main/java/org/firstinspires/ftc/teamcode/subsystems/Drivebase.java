@@ -222,17 +222,28 @@ public class Drivebase extends Subsystem {
         setCurrentPose(new Pose2D(DistanceUnit.CM, x, y, AngleUnit.RADIANS, radians));
     }
 
+    public void setCurrentPose(double x, double y)
+    {
+        odo.setPosX(x, DistanceUnit.CM);
+        odo.setPosY(y, DistanceUnit.CM);
+    }
+
     public void update() {
         odo.update(); // updates the odometry internally
     }
 
     public LLResult update(LimeLight limeLight) {
         odo.update();
-        limeLight.updateHeading(odo.getHeading(AngleUnit.DEGREES));
-        LLResult april = limeLight.getEitherResult();
+        limeLight.limelight.updateRobotOrientation(odo.getHeading(AngleUnit.DEGREES));
+        LLResult april = limeLight.getResult();
         if (april == null) {
             return null;
         }
+        Pose3D pose = april.getBotpose_MT2();
+//        if (pose == null) {
+//            return null;
+//        }
+        //setCurrentPose(pose.getPosition().x, pose.getPosition().y, pose.getOrientation().getYaw(AngleUnit.RADIANS));
         return april;
     }
 

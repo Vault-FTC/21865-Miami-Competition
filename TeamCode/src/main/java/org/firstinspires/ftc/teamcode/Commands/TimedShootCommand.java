@@ -44,18 +44,9 @@ public class TimedShootCommand extends Command {
 
         servoGate.openGate();
         if (elapsed > 2000) {
-            if (currentTime - lastFeedToggleTime > feedPulseInterval) {
-                feeding = !feeding;
-                if (feeding) {
-                    intake.spinIntake(0.9);
-                } else{
-                    intake.spinIntake(0);
-                }
-                lastFeedToggleTime = currentTime;
-            }
+            intake.spinIntake(0.95);
         } else {
             intake.spinIntake(0);
-    //        intake.spinKicker(0);
             shooter.setShooterVelocityDynamic(motorSpeed);
         }
         telemetry.addData("Running", "Shoot Command");
