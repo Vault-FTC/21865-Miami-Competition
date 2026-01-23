@@ -43,11 +43,10 @@ public class TimedShootCommand extends Command {
         double elapsed = currentTime - startTime;
 
         servoGate.openGate();
-        if (elapsed > 2000) {
+        if (shooter.getShooterVelocity() >= motorSpeed) {
             intake.spinIntake(0.95);
         } else {
-            intake.spinIntake(0);
-            shooter.setShooterVelocityDynamic(motorSpeed);
+            shooter.setShooterSpeed(motorSpeed);
         }
         telemetry.addData("Running", "Shoot Command");
     }
@@ -58,7 +57,6 @@ public class TimedShootCommand extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        shooter.setShooterSpeed(MotorSpeeds.ZERO.speed);
         intake.spinIntake(0);
     //    intake.spinKicker(0);
     }

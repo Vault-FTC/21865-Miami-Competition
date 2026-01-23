@@ -16,8 +16,8 @@ public class PIDTuner extends OpMode {
     double off = 0;
     double curTargetVelocity = highVelocity;
 
-    double F = 0;
-    double P = 0;
+    double F = 15;
+    double P = 250;
 
 //    double F = 10;
 //    double P = 20;
@@ -59,21 +59,21 @@ public class PIDTuner extends OpMode {
             }
         }
 
-        if (gamepad1.bWasPressed()) {
-            stepIndex = (stepIndex + 1) % stepSizes.length;
-        }
-        if (gamepad1.dpadRightWasPressed()) {
-            F -= stepSizes[stepIndex];
-        }
-        if (gamepad1.dpadLeftWasPressed()) {
-            F += stepSizes[stepIndex];
-        }
-        if (gamepad1.dpadDownWasPressed()) {
-            P += stepSizes[stepIndex];
-        }
-        if (gamepad1.dpadUpWasPressed()) {
-            P -= stepSizes[stepIndex];
-        }
+//        if (gamepad1.bWasPressed()) {
+//            stepIndex = (stepIndex + 1) % stepSizes.length;
+//        }
+//        if (gamepad1.dpadRightWasPressed()) {
+//            F -= stepSizes[stepIndex];
+//        }
+//        if (gamepad1.dpadLeftWasPressed()) {
+//            F += stepSizes[stepIndex];
+//        }
+//        if (gamepad1.dpadDownWasPressed()) {
+//            P += stepSizes[stepIndex];
+//        }
+//        if (gamepad1.dpadUpWasPressed()) {
+//            P -= stepSizes[stepIndex];
+//        }
 
 
         PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P, 0, 0, F);

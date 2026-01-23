@@ -24,7 +24,7 @@ public class DriveToCommand extends Command {
     }
 
     public boolean isFinished() {
-        return drive.isAtPosition(target);
+        return drive.isAtPosition(target, 5, 5);
     }
 
     @Override
