@@ -100,6 +100,12 @@ public class SimpleFieldCentricDrive extends LinearOpMode {
             } else if (gamepad1.left_bumper) {
                 intake.spinIntake(0.95);
 
+            } else if (gamepad1.cross) {
+                launcher.setShooterSpeed(2200);
+                servoGate.openGate();
+                if (launcher.getShooterVelocity() >= 2200) {
+                    intake.spinIntake(0.95);
+                }
             } else if (gamepad1.b) {
                 intake.spinIntake(-0.95);
                 launcher.setShooterSpeed(-900);

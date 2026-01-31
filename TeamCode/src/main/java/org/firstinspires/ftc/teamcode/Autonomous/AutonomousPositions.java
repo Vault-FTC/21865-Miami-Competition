@@ -19,6 +19,7 @@ public class AutonomousPositions {
     public static final Pose2D BLUE_START_POSITION = new Pose2D(DistanceUnit.CM, -133, -133, AngleUnit.DEGREES, -135);
     public static final Pose2D RED_START_POSITION = new Pose2D(DistanceUnit.CM, -121.92, 121.92, AngleUnit.RADIANS, 0.785398);
     public static final Pose2D BLUE_FAR_POSITION = new Pose2D(DistanceUnit.CM, 152.4, -15.25, AngleUnit.DEGREES, -180);
+    public static final Pose2D RED_FAR_POSITION = new Pose2D(DistanceUnit.CM, 152.4, 15.25, AngleUnit.DEGREES, -180);
 
     //RED
 
