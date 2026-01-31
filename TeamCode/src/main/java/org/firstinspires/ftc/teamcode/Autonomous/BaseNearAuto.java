@@ -14,6 +14,7 @@ import org.firstinspires.ftc.teamcode.CommandSystem.InstantCommand;
 import org.firstinspires.ftc.teamcode.CommandSystem.ParallelCommandGroup;
 import org.firstinspires.ftc.teamcode.CommandSystem.SequentialCommandGroup;
 import org.firstinspires.ftc.teamcode.Commands.DriveToCommand;
+import org.firstinspires.ftc.teamcode.Commands.DriveToCommandWaiting;
 import org.firstinspires.ftc.teamcode.Commands.IntakeCommand;
 import org.firstinspires.ftc.teamcode.Commands.TimedShootCommand;
 import org.firstinspires.ftc.teamcode.FieldConstants;
@@ -55,6 +56,7 @@ public class BaseNearAuto extends LinearOpMode {
     Location hitGate = AutonomousPositions.hitGate;
     Location hitGate2 = AutonomousPositions.hitGate2;
     Location leaveZonePosition = AutonomousPositions.leaveZonePosition;
+    Location lastLaunchPosition = AutonomousPositions.lastLaunchPosition;
 
 
 
@@ -79,18 +81,19 @@ public class BaseNearAuto extends LinearOpMode {
         setTargets();
 
         SequentialCommandGroup auto = SequentialCommandGroup.getBuilder()
-                .add(new DriveToCommand(drive, AutonomousPositions.launchPosition, telemetry))
-//                .add(new LimeLightTurnCommand(drive, LimeLight, telemetry))
-                .add(new TimedShootCommand(shooter, intake, 3, telemetry, 1350, servoGate, time))
+                .add(new DriveToCommand(drive, launchPosition, telemetry))
+                .add(ParallelCommandGroup.getBuilder()
+                        .add(new TimedShootCommand(shooter, intake, 3.5, telemetry, 1100, servoGate, time))
+                        .add(new DriveToCommandWaiting(drive, launchPosition, telemetry))
+                        .build()
+                )
                 .add(ParallelCommandGroup.getBuilder()
                         .add(new IntakeCommand(intake, 2, telemetry, servoGate))
                         .add(new DriveToCommand(drive, collectFirstRowArtifacts, telemetry))
                         .build()
                 )
-//                .add(new DriveToCommand(drive, hitGate, telemetry))
                 .add(new DriveToCommand(drive, launchPosition, telemetry))
-//                .add(new LimeLightTurnCommand(drive,LimeLight,telemetry))
-                .add(new TimedShootCommand(shooter, intake, 3, telemetry, 1350, servoGate, time))
+                .add(new TimedShootCommand(shooter, intake, 2, telemetry, 1100, servoGate, time))
                 .add(new DriveToCommand(drive, prepareSecondRowArtifacts, telemetry))
                 .add(ParallelCommandGroup.getBuilder()
                         .add(new IntakeCommand(intake, 2, telemetry, servoGate))
@@ -98,22 +101,19 @@ public class BaseNearAuto extends LinearOpMode {
                         .build()
                 )
                 .add(new DriveToCommand(drive, prepareSecondRowArtifacts, telemetry))
-//                .add(new DriveToCommand(drive, hitGate2, telemetry))
                 .add(new DriveToCommand(drive, launchPosition, telemetry))
-//                .add(new LimeLightTurnCommand(drive,LimeLight,telemetry))
-                .add(new TimedShootCommand(shooter, intake, 3, telemetry, 1350, servoGate, time))
+                .add(new TimedShootCommand(shooter, intake, 2, telemetry, 1000, servoGate, time))
 
-//                .add(new DriveToCommand(drive, prepareThirdRowArtifacts, telemetry))
-//                .add(ParallelCommandGroup.getBuilder()
-//                        .add(new IntakeCommand(intake, 2, telemetry, servoGate))
-//                        .add(new DriveToCommand(drive, collectThirdRowArtifacts, telemetry))
-//                        .build()
-//                )
-//
+                .add(new DriveToCommand(drive, prepareThirdRowArtifacts, telemetry))
+                .add(ParallelCommandGroup.getBuilder()
+                        .add(new IntakeCommand(intake, 2, telemetry, servoGate))
+                        .add(new DriveToCommand(drive, collectThirdRowArtifacts, telemetry))
+                        .build()
+                )
+
                 .add(new DriveToCommand(drive, lastLaunchPosition, telemetry))
-                .add(new TimedShootCommand(shooter, intake, 2.5, telemetry, 1350, servoGate, time))
-                .add(new DriveToCommand(drive, leaveZonePosition, telemetry))
                 .add(new InstantCommand(() -> PoseStorage.startPose = drive.getPosition()))
+                .add(new TimedShootCommand(shooter, intake, 2.5, telemetry, 1000, servoGate, time))
                 .build();
 
 
@@ -122,7 +122,6 @@ public class BaseNearAuto extends LinearOpMode {
         auto.schedule();
         while(opModeIsActive()) {
             time = getRuntime();
-            intake.spinIntake(0.5);
             scheduler.run();
             telemetry.addData("Position", drive.getPositionTelemetry());
             drive.update();

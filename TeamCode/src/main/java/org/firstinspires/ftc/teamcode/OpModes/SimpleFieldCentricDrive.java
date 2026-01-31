@@ -33,7 +33,8 @@ public class SimpleFieldCentricDrive extends LinearOpMode {
     Lights light;
     double launchPower = 0;
     Pose2D goal = FieldConstants.BLUE_CENTER_GOAL;
-
+    Pose2D startPose;
+    double headingOffset = 0;
 
 
     public void setTargets() {
@@ -54,7 +55,9 @@ public class SimpleFieldCentricDrive extends LinearOpMode {
         double position = 0.5;
 
 //        drive.setCurrentPose(0,0,-Math.PI/2);
-        drive.setCurrentPose(PoseStorage.startPose);
+
+        startPose = PoseStorage.startPose;
+        drive.setCurrentPose(startPose);
 
         waitForStart();
         while (opModeIsActive()) {
@@ -89,14 +92,20 @@ public class SimpleFieldCentricDrive extends LinearOpMode {
                 drive.resetHeading(-90);
             }
             if (gamepad1.x) {
-                launcher.setShooterSpeed(1100);
+                launcher.setShooterSpeed(1000);
                 servoGate.openGate();
-                if (launcher.getShooterVelocity() >= 1100) {
+                if (launcher.getShooterVelocity() >= 1000) {
                     intake.spinIntake(0.95);
                 }
             } else if (gamepad1.left_bumper) {
                 intake.spinIntake(0.95);
 
+            } else if (gamepad1.cross) {
+                launcher.setShooterSpeed(2200);
+                servoGate.openGate();
+                if (launcher.getShooterVelocity() >= 2200) {
+                    intake.spinIntake(0.95);
+                }
             } else if (gamepad1.b) {
                 intake.spinIntake(-0.95);
                 launcher.setShooterSpeed(-900);
@@ -118,7 +127,7 @@ public class SimpleFieldCentricDrive extends LinearOpMode {
 
 
 
-            drive.drive(joystick_y, joystick_x, joystick_rx);
+            drive.drive(joystick_y, joystick_x, joystick_rx, headingOffset);
 
             telemetry.addData("Angle from goal", angleError * 180/Math.PI);
             telemetry.addData("Distance from goal", distance);

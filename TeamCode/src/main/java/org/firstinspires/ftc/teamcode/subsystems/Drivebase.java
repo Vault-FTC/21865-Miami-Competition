@@ -31,6 +31,7 @@ public class Drivebase extends Subsystem {
     private final DcMotorEx frmotor, flmotor, brmotor, blmotor;
     GoBildaPinpointDriver odo;
     public int waypointIndex = 0;
+    double headingOffsetThingy;
     private Path followPath;
     private final ElapsedTime timer = new ElapsedTime();
     private Pose2d lastPose = new Pose2d();
@@ -109,8 +110,12 @@ public class Drivebase extends Subsystem {
         return "X offset (forwards/backwards): " + odo.getPosX(DistanceUnit.CM) + " Y (left/right): " + odo.getPosY(DistanceUnit.CM) + " Heading: " + odo.getHeading(AngleUnit.DEGREES);
     }
 
+    public void drive(double forward, double right, double rotate, double headingOffset) {
+        headingOffsetThingy = headingOffset;
+        drive(forward, right, rotate);
+    }
     public void drive(double forward, double right, double rotate) {
-        double botHeading = -odo.getHeading(AngleUnit.RADIANS);
+        double botHeading = -odo.getHeading(AngleUnit.RADIANS) + headingOffsetThingy;
 //         X is positive up, Y is positive to the right
         double rotRight = right * Math.cos(botHeading) - forward * Math.sin(botHeading);
         double rotForward = right * Math.sin(botHeading) + forward * Math.cos(botHeading);
@@ -146,8 +151,8 @@ public class Drivebase extends Subsystem {
     }
 
     public void driveToPosition(Location target, double turnVal, Telemetry telemetry) {
-        double p = 0.006;
-        double p_rotation = 0.03;
+        double p = 0.1; //0.04
+        double p_rotation = 0.045;
         double strafe = (target.Strafe - odo.getPosY(DistanceUnit.CM));
         double forward = (-target.Forward + odo.getPosX(DistanceUnit.CM));
         double heading = (target.TurnDegrees - odo.getHeading(AngleUnit.DEGREES));
@@ -166,7 +171,7 @@ public class Drivebase extends Subsystem {
         double turnPower = heading * p_rotation;
 
         double minPower = 0.25;
-        double maxPower = 1;
+        double maxPower = 0.4;
 
         forwardPower = Math.max(Math.min(forwardPower, maxPower), -maxPower);
         strafePower = Math.max(Math.min(strafePower, maxPower), -maxPower);
@@ -176,13 +181,6 @@ public class Drivebase extends Subsystem {
         }
         if (Math.abs(strafePower) < minPower && Math.abs(strafeError) > 3) {
             strafePower = minPower * Math.signum(strafeError);
-        }
-
-        double distance = Math.hypot(forward,strafe);
-
-        if (distance < 7) {
-            drive(0,0,0);
-            return;
         }
 
         drive(forwardPower, strafePower, turnPower);
