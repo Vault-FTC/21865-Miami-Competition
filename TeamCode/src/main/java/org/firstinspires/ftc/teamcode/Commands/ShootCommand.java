@@ -30,7 +30,7 @@ public class ShootCommand extends Command {
 
     @Override
     public void initialize() {
-        shooter.setShooterSpeed(motorSpeed.speed);
+        shooter.setShooterSpeedNear(motorSpeed.speed);
         timer.reset();
         startTime = timer.milliseconds();
     }
@@ -42,7 +42,7 @@ public class ShootCommand extends Command {
             intake.spinIntake(0.85);
         } else {
             intake.spinIntake(0);
-            shooter.setShooterSpeed(motorSpeed.speed);
+            shooter.setShooterSpeedNear(motorSpeed.speed);
         }
         telemetry.addData("Running", "Shoot Command");
     }
@@ -53,7 +53,7 @@ public class ShootCommand extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        shooter.setShooterSpeed(MotorSpeeds.ZERO.speed);
+        shooter.setShooterSpeedNear(MotorSpeeds.ZERO.speed);
         intake.spinIntake(0);
         servoGate.closeGate();
   //      intake.spinKicker(0);

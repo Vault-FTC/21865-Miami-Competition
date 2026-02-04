@@ -33,7 +33,7 @@ public class TimedShootCommand extends Command {
 
     @Override
     public void initialize() {
-        shooter.setShooterSpeed(motorSpeed);
+        shooter.setShooterSpeedNear(motorSpeed);
         timer.reset();
         startTime = timer.milliseconds();
     }
@@ -46,7 +46,7 @@ public class TimedShootCommand extends Command {
         if (shooter.getShooterVelocity() >= motorSpeed) {
             intake.spinIntake(0.95);
         } else {
-            shooter.setShooterSpeed(motorSpeed);
+            shooter.setShooterSpeedNear(motorSpeed);
         }
         telemetry.addData("Running", "Shoot Command");
     }
@@ -57,6 +57,7 @@ public class TimedShootCommand extends Command {
 
     @Override
     public void end(boolean interrupted) {
+        shooter.setShooterSpeedNear(MotorSpeeds.ZERO.speed);
         intake.spinIntake(0);
     //    intake.spinKicker(0);
     }
