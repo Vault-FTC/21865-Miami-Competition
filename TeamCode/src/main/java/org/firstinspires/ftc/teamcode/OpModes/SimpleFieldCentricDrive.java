@@ -1,19 +1,15 @@
 package org.firstinspires.ftc.teamcode.OpModes;
 
 import com.qualcomm.hardware.limelightvision.LLResult;
-import com.qualcomm.hardware.limelightvision.LLResultTypes;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
-import org.firstinspires.ftc.teamcode.Autonomous.AutonomousPositions;
 import org.firstinspires.ftc.teamcode.FieldConstants;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.subsystems.Lights;
-import org.firstinspires.ftc.teamcode.Autonomous.Location;
 
 import org.firstinspires.ftc.teamcode.subsystems.LimeLight;
 import org.firstinspires.ftc.teamcode.subsystems.PoseStorage;
@@ -55,9 +51,7 @@ public class SimpleFieldCentricDrive extends LinearOpMode {
         double position = 0.5;
 
 //        drive.setCurrentPose(0,0,-Math.PI/2);
-
-        startPose = PoseStorage.startPose;
-        drive.setCurrentPose(startPose);
+        drive.setCurrentPose(PoseStorage.startPose);
 
         waitForStart();
         while (opModeIsActive()) {
@@ -92,35 +86,34 @@ public class SimpleFieldCentricDrive extends LinearOpMode {
                 drive.resetHeading(-90);
             }
             if (gamepad1.x) {
-                launcher.setShooterSpeed(1000);
+                launcher.setShooterSpeedNear(1100);
                 servoGate.openGate();
-                if (launcher.getShooterVelocity() >= 1000) {
+                if (launcher.getShooterVelocity() >= 1100) {
                     intake.spinIntake(0.95);
                 }
             } else if (gamepad1.left_bumper) {
                 intake.spinIntake(0.95);
 
-            } else if (gamepad1.cross) {
-                launcher.setShooterSpeed(2200);
-                servoGate.openGate();
-                if (launcher.getShooterVelocity() >= 2200) {
-                    intake.spinIntake(0.95);
-                }
             } else if (gamepad1.b) {
                 intake.spinIntake(-0.95);
-                launcher.setShooterSpeed(-900);
+                launcher.setShooterSpeedNear(-900);
             } else if (autoShoot) {
 //              joystick_rx = joystick_rx - aprilTag.getTargetXDegrees() * 0.02;
                 joystick_rx = joystick_rx + angleError * ((180/Math.PI) * 0.02);
                 servoGate.openGate();
                 gamepad1.rumble(1000);
-                launcher.setShooterSpeed(launcher.distanceToSpeed(distance));
+                if (distance < 240) {
+                    launcher.setShooterSpeedNear(launcher.distanceToSpeed(distance));
+                } else {
+                    launcher.setShooterSpeedFar(launcher.distanceToSpeed(distance));
+                }
+
                 launcher.setHoodPosition(launcher.distanceToHoodPosition(distance));
                 if (launcher.getShooterVelocity() >= launcher.distanceToSpeed(distance)) {
                     intake.spinIntake(0.95);
                 }
             } else {
-                launcher.setShooterSpeed(800);
+                launcher.setShooterSpeedNear(800);
                 intake.spinIntake(0);
                 servoGate.closeGate();
             }

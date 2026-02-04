@@ -7,7 +7,6 @@ import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.CommandSystem.Subsystem;
-import org.firstinspires.ftc.teamcode.FieldConstants;
 
 public class Shooter extends Subsystem {
     private static final double CLOSE_DIST_CM = 140;
@@ -15,10 +14,10 @@ public class Shooter extends Subsystem {
 
     private static final double CLOSE_SPEED = 1100;
     private static final double MID_SPEED   = 1300;
-    private static final double FAR_SPEED   = 2100;
+    private static final double FAR_SPEED   = 2000;
     private static final double CLOSE_HOOD = 0.1;
     private static final double MID_HOOD = 0.25; //0.2
-    private static final double FAR_HOOD = 0.7; //0.5
+    private static final double FAR_HOOD = 0.1; //0.5
     private final DcMotorEx shooter;
     private final Servo hoodServo;
     double lastTime = 0;
@@ -53,7 +52,12 @@ public class Shooter extends Subsystem {
         }
     }
 
-    public void setShooterSpeed(double speed){
+    public void setShooterSpeedNear(double speed){
+        pidfCoefficients = new PIDFCoefficients(250, 0, 0, 15);
+        shooter.setVelocity(speed);
+    }
+    public void setShooterSpeedFar(double speed) {
+        pidfCoefficients = new PIDFCoefficients(350, 0, 0, 15.2);
         shooter.setVelocity(speed);
     }
 

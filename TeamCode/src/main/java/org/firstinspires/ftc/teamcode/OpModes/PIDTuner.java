@@ -7,17 +7,21 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
+import org.firstinspires.ftc.teamcode.subsystems.Intake;
+import org.firstinspires.ftc.teamcode.subsystems.ServoGate;
+
 @TeleOp
 public class PIDTuner extends OpMode {
+    Intake intake;
+    ServoGate servoGate;
     public DcMotorEx flywheelMotor;
-
-    double highVelocity = 1200;
-    double lowVelocity = 900;
+    double highVelocity = 1800;
+    double lowVelocity = 1000;
     double off = 0;
     double curTargetVelocity = highVelocity;
 
-    double F = 15;
-    double P = 250;
+    double F = 0;
+    double P = 0;
 
 //    double F = 10;
 //    double P = 20;
@@ -39,13 +43,15 @@ public class PIDTuner extends OpMode {
 
     @Override
     public void loop() {
+        intake = new Intake(hardwareMap);
+        servoGate = new ServoGate(hardwareMap);
 //        if (gamepad1.triangleWasPressed()) {
 //            velocity += stepSizes[stepIndex];
 //        }
 //        if (gamepad1.squareWasPressed()) {
 //            velocity -= stepSizes[stepIndex];
 //        }
-        if (gamepad1.yWasPressed()) {
+        if (gamepad1.triangleWasPressed()) {
             if (curTargetVelocity == highVelocity) {
                 curTargetVelocity = lowVelocity;
             }
@@ -59,22 +65,29 @@ public class PIDTuner extends OpMode {
             }
         }
 
-//        if (gamepad1.bWasPressed()) {
-//            stepIndex = (stepIndex + 1) % stepSizes.length;
-//        }
-//        if (gamepad1.dpadRightWasPressed()) {
-//            F -= stepSizes[stepIndex];
-//        }
-//        if (gamepad1.dpadLeftWasPressed()) {
-//            F += stepSizes[stepIndex];
-//        }
-//        if (gamepad1.dpadDownWasPressed()) {
-//            P += stepSizes[stepIndex];
-//        }
-//        if (gamepad1.dpadUpWasPressed()) {
-//            P -= stepSizes[stepIndex];
-//        }
-
+        if (gamepad1.circleWasPressed()) {
+            stepIndex = (stepIndex + 1) % stepSizes.length;
+        }
+        if (gamepad1.dpadRightWasPressed()) {
+            F += stepSizes[stepIndex];
+        }
+        if (gamepad1.dpadLeftWasPressed()) {
+            F -= stepSizes[stepIndex];
+        }
+        if (gamepad1.dpadDownWasPressed()) {
+            P -= stepSizes[stepIndex];
+        }
+        if (gamepad1.dpadUpWasPressed()) {
+            P += stepSizes[stepIndex];
+        }
+        if (gamepad1.square) {
+            servoGate.openGate();
+            intake.spinIntake(0.95);
+        }
+        else {
+            servoGate.closeGate();
+            intake.spinIntake(0);
+        }
 
         PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P, 0, 0, F);
         flywheelMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
