@@ -14,7 +14,7 @@ public class AutonomousPositions {
     public static final Location collectSecondRowArtifacts = new Location(30, -135, -90);
     public static final Location prepareCollectThirdRowArtifacts = new Location(90,-80, -90);
     public static final Location collectionThirdRowArtifacts = new Location(90,-145, -90);
-    public static final Location lastLaunchPosition = new Location(-80, -60, -125);
+    public static final Location lastLaunchPosition = new Location(-80, -60, -130);
     public static final Location leaveZonePosition = new Location(0, -70, -90);
     public static final Pose2D BLUE_START_POSITION = new Pose2D(DistanceUnit.CM, -133, -133, AngleUnit.DEGREES, -135);
     public static final Pose2D RED_START_POSITION = new Pose2D(DistanceUnit.CM, -121.92, 121.92, AngleUnit.RADIANS, 0.785398);

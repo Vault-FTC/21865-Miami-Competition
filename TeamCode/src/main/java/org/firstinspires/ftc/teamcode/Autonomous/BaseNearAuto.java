@@ -102,7 +102,7 @@ public class BaseNearAuto extends LinearOpMode {
                 )
                 .add(new DriveToCommand(drive, prepareSecondRowArtifacts, telemetry))
                 .add(new DriveToCommand(drive, launchPosition, telemetry))
-                .add(new TimedShootCommand(shooter, intake, 2, telemetry, 1000, servoGate, time))
+                .add(new TimedShootCommand(shooter, intake, 2, telemetry, 1100, servoGate, time))
 
                 .add(new DriveToCommand(drive, prepareThirdRowArtifacts, telemetry))
                 .add(ParallelCommandGroup.getBuilder()
