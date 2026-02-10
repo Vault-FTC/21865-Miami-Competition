@@ -25,7 +25,7 @@ public class Path {
 
     public static class Builder {
         private final ArrayList<WaypointGenerator> waypoints;
-        private double defaultRadiusIn = 15.0; // Default follow radius in cm
+        private double defaultRadiusIn = 150.0; // Default follow radius in ????? units (previously cm)
         private double defaultMaxVelocity = Double.POSITIVE_INFINITY;
         private double timeout = Double.POSITIVE_INFINITY;
 
