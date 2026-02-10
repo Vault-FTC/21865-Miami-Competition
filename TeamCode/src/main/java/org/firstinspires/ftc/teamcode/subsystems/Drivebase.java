@@ -135,7 +135,7 @@ public class Drivebase extends Subsystem {
     }
 
     public void driveToPosition(Location target, double turnVal, Telemetry telemetry) {
-        double p = 0.1; //0.04
+        double p = 0.2; //0.1
         double p_rotation = 0.045;
         double strafe = (target.Strafe - odo.getPosY(DistanceUnit.CM));
         double forward = (-target.Forward + odo.getPosX(DistanceUnit.CM));

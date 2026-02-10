@@ -57,7 +57,7 @@ public class PurePursuiter {
     public Pose2d getCurrentPose()
     {
         org.firstinspires.ftc.robotcore.external.navigation.Pose2D oldPose = currentPoseGetter.get();
-        return new Pose2d(new Vector2d(oldPose.getX(DistanceUnit.CM), oldPose.getX(DistanceUnit.CM)),
+        return new Pose2d(new Vector2d(oldPose.getX(DistanceUnit.CM), oldPose.getY(DistanceUnit.CM)),
                 new Rotation2d(oldPose.getHeading(AngleUnit.RADIANS)));
     }
 
@@ -85,8 +85,8 @@ public class PurePursuiter {
 
         // Calculate vector from robot to target
         Vector2d relativeTargetVector = new Vector2d(
-                targetPoint.x - botPose.getX(),
-                targetPoint.y - botPose.getY()
+                targetPoint.x - botPose.getY(),
+                targetPoint.y - botPose.getX()
 
         );
 

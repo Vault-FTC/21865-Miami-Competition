@@ -25,8 +25,8 @@ public class PurePursuitTest extends LinearOpMode {
         double followRadius = 150;
 
         Path path = Path.getBuilder()
-                .addWaypoint(new Waypoint(0,0, followRadius, new Rotation2d(0), new Rotation2d( 0)))
-                .addWaypoint(new Waypoint(0, 10, followRadius, new Rotation2d(0), new Rotation2d(0)))
+                .addWaypoint(new Waypoint(0,0, followRadius))
+                .addWaypoint(new Waypoint(0, 10, followRadius))
                 .build();
 
         pursuiter.setFollowPath(path);
