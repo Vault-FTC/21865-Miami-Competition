@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
-import org.firstinspires.ftc.teamcode.FieldConstants;
+import org.firstinspires.ftc.teamcode.Constants;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.subsystems.Lights;
 
@@ -28,7 +28,7 @@ public class SimpleFieldCentricDrive extends LinearOpMode {
     RevBlinkinLedDriver.BlinkinPattern red;
     Lights light;
     double launchPower = 0;
-    Pose2D goal = FieldConstants.BLUE_CENTER_GOAL;
+    Pose2D goal = Constants.BLUE_CENTER_GOAL;
     Pose2D startPose;
     double headingOffset = 0;
 

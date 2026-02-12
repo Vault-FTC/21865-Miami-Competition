@@ -7,9 +7,9 @@ import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.subsystems.Drivebase;
 
-import java.util.function.DoubleConsumer;
 import java.util.function.Supplier;
 
 public class PurePursuiter {
@@ -38,25 +38,25 @@ public class PurePursuiter {
     private Path followPath;
     private final ElapsedTime timer = new ElapsedTime();
 
-    private final Supplier< org.firstinspires.ftc.robotcore.external.navigation.Pose2D> currentPoseGetter;
+    private final Supplier<Pose2D> currentPoseGetter;
     private final Telemetry t;
     private final GoBildaPinpointDriver odo;
 
     private Drivebase drivebase;
 
 
-    public PurePursuiter(Supplier<org.firstinspires.ftc.robotcore.external.navigation.Pose2D> currentPoseSupplier, Drivebase driver, Telemetry t, GoBildaPinpointDriver odometry)
+    public PurePursuiter(Supplier<Pose2D> currentPoseSupplier, Drivebase drive, Telemetry t, GoBildaPinpointDriver odometry)
     {
         currentPoseGetter = currentPoseSupplier;
         odo = odometry;
         this.t = t;
-        this.drivebase = driver;
+        this.drivebase = drive;
 
     }
 
     public Pose2d getCurrentPose()
     {
-        org.firstinspires.ftc.robotcore.external.navigation.Pose2D oldPose = currentPoseGetter.get();
+        Pose2D oldPose = currentPoseGetter.get();
         return new Pose2d(new Vector2d(oldPose.getX(DistanceUnit.CM), oldPose.getY(DistanceUnit.CM)),
                 new Rotation2d(oldPose.getHeading(AngleUnit.RADIANS)));
     }
@@ -85,8 +85,8 @@ public class PurePursuiter {
 
         // Calculate vector from robot to target
         Vector2d relativeTargetVector = new Vector2d(
-                targetPoint.x - botPose.getY(),
-                targetPoint.y - botPose.getX()
+                targetPoint.x - botPose.y,
+                targetPoint.y - botPose.x
 
         );
 
@@ -98,14 +98,14 @@ public class PurePursuiter {
                 driveSpeed,
                 relativeTargetVector.angle(),
                 true
-        ).rotate(-botPose.getHeading().getAngleRadians());
+        ).rotate(-botPose.rotation.getAngleRadians());
 
         // Determine target heading
         double targetAngle;
         boolean canFlip = false;
 
         if (useEndpointHeading && targetPoint.targetEndRotation != null &&
-                botPose.getPosition().distanceTo(targetPoint)
+                botPose.distanceTo(targetPoint)
                         < 10) {
             targetAngle = targetPoint.targetEndRotation.getAngleRadians();
         } else if (targetPoint.targetFollowRotation != null) {
@@ -120,9 +120,9 @@ public class PurePursuiter {
         lastTargetAngle = targetAngle;
 
         // Calculate rotation error
-        double rotError = Rotation2d.getError(targetAngle, botPose.getHeading().getAngleRadians());
+        double rotError = Rotation2d.getError(targetAngle, botPose.rotation.getAngleRadians());
         if (rotError > Math.PI && canFlip) {
-            rotError = Rotation2d.getError(targetAngle + Math.PI, botPose.getHeading().getAngleRadians());
+            rotError = Rotation2d.getError(targetAngle + Math.PI, botPose.rotation.getAngleRadians());
         }
 
         // Limit speed
@@ -140,7 +140,7 @@ public class PurePursuiter {
             t.addData("RotError", rotError);
             t.addData("TargetVector", relativeTargetVector);
             t.addData("targetPoint", targetPoint.x + " : "  + targetPoint.y);
-            t.addData("BotPose", botPose.getX() + " : " + botPose.getY() + " : " + botPose.getHeading());
+            t.addData("BotPose", botPose.x + " : " + botPose.y + " : " + botPose.rotation);
         }
 
         // Drive!
@@ -156,8 +156,8 @@ public class PurePursuiter {
         double m = (lineSegment[0].y - lineSegment[1].y) / (lineSegment[0].x - lineSegment[1].x);
         double b = lineSegment[0].y - m * lineSegment[0].x;
 
-        double h = botPose.getX();
-        double k = botPose.getY();
+        double h = botPose.x;
+        double k = botPose.y;
 
         double commonTerm;
 
@@ -179,9 +179,9 @@ public class PurePursuiter {
         } else {
             x1 = lineSegment[0].x;
             commonTerm = Math.sqrt(Math.pow(radius, 2) - Math.pow((x1 - h), 2));
-            y1 = botPose.getY() + commonTerm;
+            y1 = botPose.y + commonTerm;
             x2 = x1;
-            y2 = botPose.getY() - commonTerm;
+            y2 = botPose.y - commonTerm;
         }
 
         Waypoint point0 = new Waypoint(x1, y1, 0,
@@ -266,14 +266,14 @@ public class PurePursuiter {
         Pose2d botPose = getCurrentPose();
         double currentTimestamp = timer.milliseconds();
 
-        double speed = botPose.getPosition().distanceTo(lastPose.getPosition())
+        double speed = botPose.distanceTo(lastPose)
                 /
                 (currentTimestamp - lastTimestamp) * 1000;
 
         lastTimestamp = currentTimestamp;
 
         boolean atEndpoint = speed < 2.0 &&
-                botPose.getPosition().distanceTo(segments[segments.length - 1][1]) < 2.0 &&
+                botPose.distanceTo(segments[segments.length - 1][1]) < 2.0 &&
                 waypointIndex == segments.length - 1;
 
         boolean atTargetHeading;
@@ -282,7 +282,7 @@ public class PurePursuiter {
         } else {
             atTargetHeading = Math.abs(Rotation2d.getError(
                     segments[segments.length - 1][1].targetEndRotation.getAngleRadians(),
-                    botPose.getHeading().getAngleRadians()
+                    botPose.rotation.getAngleRadians()
             )) < Math.toRadians(5);
         }
 
@@ -298,7 +298,7 @@ public class PurePursuiter {
             return 0;
         }
         Pose2d currentPose = getCurrentPose();
-        double distance = currentPose.getPosition().distanceTo(segments[waypointIndex][1]);
+        double distance = currentPose.distanceTo(segments[waypointIndex][1]);
         for (int i = waypointIndex + 1; i < segments.length; i++) {
             distance += segments[i][0].distanceTo(segments[i][1]);
         }

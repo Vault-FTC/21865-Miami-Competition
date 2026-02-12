@@ -53,30 +53,20 @@ public class Drivebase extends Subsystem {
         frmotor.setDirection(DcMotorEx.Direction.REVERSE);
         brmotor.setDirection(DcMotorEx.Direction.REVERSE);
         flmotor.setDirection(DcMotorSimple.Direction.FORWARD);
-
+// Odometry constants and such
         odo = hardwareMap.get(GoBildaPinpointDriver.class,"odo");
-
-         /*
-        Set the odometry pod positions relative to the point that the odometry computer tracks around.
-        The X pod offset refers to how far sideways from the tracking point the
-        X (forward) odometry pod is. Left of the center is a positive number,
-        right of center is a negative number. the Y pod offset refers to how far forwards from
-        the tracking point the Y (strafe) odometry pod is. forward of center is a positive number,
-        backwards is a negative number.
-
-        robot is 350.35000mm wide
-        365.71207mm long
-         */
         odo.setOffsets(205.71207, -15.175, DistanceUnit.MM);
         odo.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
-        /*
-        Set the direction that each of the two odometry pods count. The X (forward) pod should
-        increase when you move the robot forward. And the Y (strafe) pod should increase when
-        you move the robot to the left.
-         */
         odo.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.REVERSED, GoBildaPinpointDriver.EncoderDirection.REVERSED);
     }
 
+
+    public void setToCoastMode() {
+        frmotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        flmotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        brmotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        blmotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+    }
     public void resetHeading(double heading) {
         odo.resetPosAndIMU();
     }
