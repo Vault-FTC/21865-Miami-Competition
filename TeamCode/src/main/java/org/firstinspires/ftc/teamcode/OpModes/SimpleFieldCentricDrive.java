@@ -21,7 +21,6 @@ import org.firstinspires.ftc.teamcode.subsystems.Drivebase;
 // ALL SHOOTER SPEEDS ARE IN TICKS/SECOND. DO NOT, I REPEAT DO NOT, USE DEGREES/SECOND
 @TeleOp(name = "TeleOp Blue", group = "Teleop")
 public class SimpleFieldCentricDrive extends LinearOpMode {
-
     public LimeLight Limelight;
     Intake intake;
     RevBlinkinLedDriver.BlinkinPattern green;

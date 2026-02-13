@@ -7,13 +7,12 @@ import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.CommandSystem.Subsystem;
+import org.firstinspires.ftc.teamcode.LUT;
 
 public class Shooter extends Subsystem {
     private static final double CLOSE_DIST_CM = 140;
     private static final double MID_DIST_CM = 240;
     private static final double FAR_DIST_CM = 370;
-
-
     private static final double CLOSE_SPEED = 1100;
     private static final double MID_SPEED   = 1300;
     private static final double FAR_SPEED   = 2000;
@@ -22,9 +21,13 @@ public class Shooter extends Subsystem {
     private static final double FAR_HOOD = 0.1; //0.5
     private final DcMotorEx shooter;
     private final Servo hoodServo;
+
+    private final LUT lut = new LUT();
     double lastTime = 0;
     double lastTargetVelocity = 0;
     double kA = 0.5; // tune this experimentally
+    double distance, speed;
+
     PIDFCoefficients pidfCoefficients = new PIDFCoefficients(250, 0, 0, 15);
     public Shooter(HardwareMap hardwareMap) {
         shooter = hardwareMap.get(DcMotorEx.class, "shooter");
@@ -33,15 +36,17 @@ public class Shooter extends Subsystem {
         shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         shooter.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
     }
-    public double distanceToSpeed(double distanceCm)
-    {
-        if (distanceCm <= CLOSE_DIST_CM) {
-            return CLOSE_SPEED;
-        } else if (distanceCm <= MID_DIST_CM) {
-            return MID_SPEED;
-        } else {
-            return FAR_SPEED;
-        }
+    public double distanceToSpeed(double distanceCm) {
+        speed = lut.getSpeed(distanceCm);
+        distance = distanceCm;
+        return speed;
+//        if (distanceCm <= CLOSE_DIST_CM) {
+//            return CLOSE_SPEED;
+//        } else if (distanceCm <= MID_DIST_CM) {
+//            return MID_SPEED;
+//        } else {
+//            return FAR_SPEED;
+//        }
     }
     public double distanceToHoodPosition(double distanceCm)
     {
@@ -99,7 +104,8 @@ public class Shooter extends Subsystem {
         hoodServo.setPosition(position);
     }
     public String telemetryUpdate() {
-        return "Servo Position: " + hoodServo.getPosition() + "Shooter Speed: " + getShooterVelocity();
+        return "Servo Position: " + hoodServo.getPosition()
+                + " \n Shooter Speed: " + getShooterVelocity() + " \n " + "Target Speed/Vel: " + distance + ":" + speed;
     }
     public void stop(){
         hoodServo.setPosition(0.5);
