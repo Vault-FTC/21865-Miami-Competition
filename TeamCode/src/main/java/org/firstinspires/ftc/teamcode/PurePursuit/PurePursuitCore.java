@@ -1,0 +1,273 @@
+package org.firstinspires.ftc.teamcode.PurePursuit;
+
+import android.util.Pair;
+
+import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.Range;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
+import org.firstinspires.ftc.teamcode.Constants;
+import org.firstinspires.ftc.teamcode.subsystems.Drivebase;
+
+import java.util.function.Supplier;
+
+public class PurePursuitCore {
+    private int waypointIndex = 0;
+
+    private Path followPath;
+    private final ElapsedTime timer = new ElapsedTime();
+
+    private Pose2d lastPose = new Pose2d();
+    private double lastTimestamp = 0;
+    private double followStartTimestamp;
+    private Waypoint[][] segments;
+
+    private  final Drivebase drivebase;
+    private double lastTargetAngle = 0;
+
+    private Telemetry telemetry;
+
+    public enum DriveState {
+        IDLE,
+        FOLLOWING,
+
+    }
+
+    public DriveState driveState = DriveState.IDLE;
+
+    private Supplier<Pose2D> poseSupplier;
+
+    public PurePursuitCore(Supplier<Pose2D> poseSupplier, Drivebase drivebase, Telemetry telemetry) {
+        this.poseSupplier = poseSupplier;
+        this.drivebase = drivebase;
+        this.telemetry = telemetry;
+    }
+    public final PIDController driveController = new PIDController(0.2, 0.0, 3.5);
+
+    public final PIDController rotController = new PIDController(2.0, 0.0001, 0.6);
+
+    public Pose2d getCurrentPose() {
+        Pose2D oldPose = poseSupplier.get();
+        return new Pose2d(
+                new Vector2d(oldPose.getX(DistanceUnit.CM),
+                        -oldPose.getY(DistanceUnit.CM)),
+                new Rotation2d(oldPose.getHeading(AngleUnit.RADIANS))
+        );
+    }
+
+    private static double getTValue(Vector2d point1, Vector2d point2, Vector2d interpolationPoint) {
+        if (point1.x == point2.x) {
+            return (interpolationPoint.y - point1.y) / (point2.y - point1.y);
+        }
+        return (interpolationPoint.x - point1.x) / (point2.x - point1.x);
+    }
+
+
+    public void setFollowPath(Path path) {
+        waypointIndex = 0;
+        driveState = DriveState.IDLE;
+        followPath = path;
+        segments = followPath.generateLineSegments();
+        followStartTimestamp = timer.milliseconds();
+    }
+
+    public void driveToPosition(Waypoint targetPoint, boolean useEndpointHeading) {
+
+        Pose2d botPose = getCurrentPose();
+        Vector2d relativeTargetVector = (new Vector2d(targetPoint.x - botPose.x, targetPoint.y - botPose.y));
+        Vector2d movementSpeed = (new Vector2d(driveController.calculate(0, relativeTargetVector.magnitude()), relativeTargetVector.angle(), false)).rotate(-botPose.rotation.getAngleRadians());
+
+        double rotSpeed;
+        double targetAngle;
+
+        boolean canFlip = false;
+
+        if (useEndpointHeading && targetPoint.targetEndRotation != null && botPose.distanceTo(targetPoint) < Constants.Drive.trackEndpointHeadingMaxDistance) {
+            targetAngle = targetPoint.targetEndRotation.getAngleRadians();
+        } else if (targetPoint.targetFollowRotation != null) {
+            targetAngle = targetPoint.targetFollowRotation.getAngleRadians();
+        } else if (relativeTargetVector.magnitude() > Constants.Drive.calculateTargetHeadingMinDistance) {
+            targetAngle = relativeTargetVector.angle() - Math.PI / 2;
+            canFlip = true;
+        } else {
+            targetAngle = lastTargetAngle;
+            canFlip = true;
+        }
+        lastTargetAngle = targetAngle;
+
+        double rotError = Rotation2d.getError(targetAngle, botPose.rotation.getAngleRadians());
+        if (rotError > Math.PI && canFlip) {
+            rotError = Rotation2d.getError(targetAngle + Math.PI, botPose.rotation.getAngleRadians());
+        }
+        double magnitude = movementSpeed.magnitude(); /// (1.5 * Math.pow(Math.abs(rotError), 2) + 1); // originally 0.9 * rotError ^ 2
+        magnitude = Range.clip(magnitude, -targetPoint.maxVelocity, targetPoint.maxVelocity);
+        movementSpeed = new Vector2d(magnitude, movementSpeed.angle(), false);
+        rotSpeed = rotController.calculate(0, rotError);
+
+        if(telemetry != null)
+        {
+//            telemetry.addData("targetAngle", targetAngle);
+//            telemetry.addData("RotError", rotError);
+            telemetry.addData("Waypoint Index", waypointIndex);
+            telemetry.addData("TargetVector", relativeTargetVector);
+            telemetry.addData("targetPoint", targetPoint.x + " : "  + targetPoint.y);
+            telemetry.addData("BotPose", botPose.x + " : " + botPose.y + " : " + botPose.rotation);
+        }
+
+        drivebase.drive(movementSpeed.y, movementSpeed.x, rotSpeed);
+    }
+
+    public void driveToPosition(Waypoint targetPoint) {
+        driveToPosition(targetPoint, true);
+    }
+
+    private static Waypoint intersection(Pose2d botPose, Waypoint[] lineSegment, double radius) {
+        double x1, x2, y1, y2;
+
+        double m = (lineSegment[0].y - lineSegment[1].y) / (lineSegment[0].x - lineSegment[1].x);
+        double b = lineSegment[0].y - m * lineSegment[0].x;
+
+        double h = botPose.y;
+        double k = botPose.x;
+
+        double commonTerm;
+
+        if (Double.isFinite(m)) {
+            double discriminant = Math.pow(m, 2) * (Math.pow(radius, 2) - Math.pow(h, 2)) + (2 * m * h) * (k - b) + 2 * b * k + Math.pow(radius, 2) - Math.pow(b, 2) - Math.pow(k, 2);
+            if (discriminant < 0) {
+                return null;
+            }
+            commonTerm = Math.sqrt(discriminant);
+
+            x1 = (m * (k - b) + h + commonTerm) / (Math.pow(m, 2) + 1);
+            x2 = (m * (k - b) + h - commonTerm) / (Math.pow(m, 2) + 1);
+
+            y1 = m * x1 + b;
+            y2 = m * x2 + b;
+        } else { // Vertical line
+            x1 = lineSegment[0].x;
+            commonTerm = Math.sqrt(Math.pow(radius, 2) - Math.pow((x1 - h), 2));
+            y1 = botPose.y + commonTerm;
+            x2 = x1;
+            y2 = botPose.y - commonTerm;
+        }
+
+        Waypoint point0 = new Waypoint(x1, y1, 0, lineSegment[1].targetFollowRotation, lineSegment[1].targetEndRotation, lineSegment[1].maxVelocity);
+        Waypoint point1 = new Waypoint(x2, y2, 0, lineSegment[1].targetFollowRotation, lineSegment[1].targetEndRotation, lineSegment[1].maxVelocity);
+
+        Pair<Waypoint, Double> intersection0 = new Pair<>(point0, getTValue(lineSegment[0], lineSegment[1], point0));
+        Pair<Waypoint, Double> intersection1 = new Pair<>(point1, getTValue(lineSegment[0], lineSegment[1], point1));
+
+        Pair<Waypoint, Double> bestIntersection;
+
+        bestIntersection = intersection0.second > intersection1.second ? intersection0 : intersection1;
+
+        if (bestIntersection.second > 1) {
+            return null;
+        }
+
+        return bestIntersection.first;
+    }
+
+    private Waypoint[] closestSegment() {
+        Pose2d botPose = getCurrentPose();
+        Pair<Waypoint[], Double> shortestDistance = new Pair<>(new Waypoint[]{new Waypoint(Vector2d.undefined, 0), new Waypoint(Vector2d.undefined, 0)}, Double.POSITIVE_INFINITY);
+        for (int i = waypointIndex; i < segments.length; i++) {
+            double distance = new Vector2d(segments[i][1].x - botPose.x, segments[i][1].y - botPose.y).magnitude();
+            if (distance < shortestDistance.second) {
+                shortestDistance = new Pair<>(segments[i], distance);
+                waypointIndex = i;
+            }
+        }
+        return shortestDistance.first;
+    }
+
+    public void followPath() {
+        Pose2d botPose = getCurrentPose();
+        Waypoint targetPoint;
+        boolean endOfPath = false;
+
+        switch (driveState) {
+            case IDLE:
+                if (waypointIndex != 0) return;
+                followStartTimestamp = timer.milliseconds();
+                driveState = DriveState.FOLLOWING;
+                drivebase.setToCoastMode();
+            case FOLLOWING:
+                if (timer.milliseconds() > followStartTimestamp + followPath.timeout) {
+                    driveState = DriveState.IDLE;
+                }
+
+                targetPoint = intersection(botPose, segments[waypointIndex], segments[waypointIndex][1].followRadius);
+
+                if (targetPoint == null) { // If null is returned, the t value of the target point is greater than 1 or less than 0
+                    if (waypointIndex == segments.length - 1) {
+                        targetPoint = segments[segments.length - 1][1];
+                        endOfPath = true;
+                    } else {
+                        waypointIndex++;
+                        followPath();
+                        return;
+                    }
+                } else if (targetPoint.equals(Vector2d.undefined)) { // If there is no valid intersection, follow the endpoint of the current segment
+                    targetPoint = segments[waypointIndex][1];
+                }
+
+                driveToPosition(targetPoint, endOfPath);
+        }
+    }
+
+    public boolean finishedFollowing() {
+        if (timer.milliseconds() > followStartTimestamp + followPath.timeout && timer.milliseconds() > followStartTimestamp + 1) {
+            return true;
+        }
+
+        boolean atEndpoint;
+        boolean atTargetHeading;
+
+        Pose2d botPose = getCurrentPose();
+        double currentTimestamp = timer.milliseconds();
+        double speed = botPose.distanceTo(lastPose) / (currentTimestamp - lastTimestamp) * 1000;
+
+        lastTimestamp = currentTimestamp;
+
+        atEndpoint = speed < 2.0 && botPose.distanceTo(segments[segments.length - 1][1]) < 2 && waypointIndex == segments.length - 1; // distanceTo segments use to be 2, I'm changing it to 10 for testing purposes.
+        if (segments[segments.length - 1][1].targetEndRotation == null) {
+            atTargetHeading = true;
+        } else {
+            atTargetHeading = Math.abs(Rotation2d.getError(segments[segments.length - 1][1].targetEndRotation.getAngleRadians(), botPose.rotation.getAngleRadians())) < Math.toRadians(5);
+        }
+
+        lastPose = botPose;
+        return atEndpoint && atTargetHeading;
+    }
+
+    /**
+     * @return An estimation of the remaining distance the robot will travel before completing the path.
+     */
+    public double remainingDistance() {
+        if (driveState == DriveState.IDLE) {
+            return 0;
+        }
+        double distance = getCurrentPose().distanceTo(segments[waypointIndex][1]);
+        for (int i = waypointIndex + 1; i < segments.length; i++) {
+            distance += segments[i][0].distanceTo(segments[i][1]);
+        }
+        return distance;
+    }
+
+    public boolean atWaypoint(Waypoint waypoint, double maxLinearErr, double maxRotErr) {
+        Pose2d botPose = getCurrentPose();
+        double rotErr;
+        if (waypoint == null) {
+            rotErr = 0;
+        } else {
+            rotErr = Math.abs(Rotation2d.getError(waypoint.targetEndRotation.getAngleRadians(), botPose.rotation.getAngleRadians()));
+        }
+        return botPose.distanceTo(waypoint) < maxLinearErr && rotErr < maxRotErr;
+    }
+
+}
