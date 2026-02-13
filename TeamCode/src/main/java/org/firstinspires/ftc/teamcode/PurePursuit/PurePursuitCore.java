@@ -5,6 +5,7 @@ import android.util.Pair;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
@@ -24,8 +25,10 @@ public class PurePursuitCore {
     private double followStartTimestamp;
     private Waypoint[][] segments;
 
-    private Drivebase drivebase;
+    private  final Drivebase drivebase;
     private double lastTargetAngle = 0;
+
+    private Telemetry telemetry;
 
     public enum DriveState {
         IDLE,
@@ -36,6 +39,12 @@ public class PurePursuitCore {
     public DriveState driveState = DriveState.IDLE;
 
     private Supplier<Pose2D> poseSupplier;
+
+    public PurePursuitCore(Supplier<Pose2D> poseSupplier, Drivebase drivebase, Telemetry telemetry) {
+        this.poseSupplier = poseSupplier;
+        this.drivebase = drivebase;
+        this.telemetry = telemetry;
+    }
     public final PIDController driveController = new PIDController(0.2, 0.0, 3.5);
 
     public final PIDController rotController = new PIDController(2.0, 0.0001, 0.6);
@@ -44,7 +53,7 @@ public class PurePursuitCore {
         Pose2D oldPose = poseSupplier.get();
         return new Pose2d(
                 new Vector2d(oldPose.getX(DistanceUnit.CM),
-                        oldPose.getY(DistanceUnit.CM)),
+                        -oldPose.getY(DistanceUnit.CM)),
                 new Rotation2d(oldPose.getHeading(AngleUnit.RADIANS))
         );
     }
@@ -98,6 +107,16 @@ public class PurePursuitCore {
         movementSpeed = new Vector2d(magnitude, movementSpeed.angle(), false);
         rotSpeed = rotController.calculate(0, rotError);
 
+        if(telemetry != null)
+        {
+//            telemetry.addData("targetAngle", targetAngle);
+//            telemetry.addData("RotError", rotError);
+            telemetry.addData("Waypoint Index", waypointIndex);
+            telemetry.addData("TargetVector", relativeTargetVector);
+            telemetry.addData("targetPoint", targetPoint.x + " : "  + targetPoint.y);
+            telemetry.addData("BotPose", botPose.x + " : " + botPose.y + " : " + botPose.rotation);
+        }
+
         drivebase.drive(movementSpeed.y, movementSpeed.x, rotSpeed);
     }
 
@@ -121,7 +140,12 @@ public class PurePursuitCore {
         double commonTerm;
 
         if (Double.isFinite(m)) {
-            commonTerm = Math.sqrt(Math.pow(m, 2) * (Math.pow(radius, 2) - Math.pow(h, 2)) + (2 * m * h) * (k - b) + 2 * b * k + Math.pow(radius, 2) - Math.pow(b, 2) - Math.pow(k, 2));
+            double discriminant = Math.pow(m, 2) * (Math.pow(radius, 2) - Math.pow(h, 2)) + (2 * m * h) * (k - b) + 2 * b * k + Math.pow(radius, 2) - Math.pow(b, 2) - Math.pow(k, 2);
+
+            if (discriminant < 0) {
+                return null;
+            }
+            commonTerm = Math.sqrt(discriminant);
 
             x1 = (m * (k - b) + h + commonTerm) / (Math.pow(m, 2) + 1);
             x2 = (m * (k - b) + h - commonTerm) / (Math.pow(m, 2) + 1);

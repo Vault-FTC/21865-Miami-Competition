@@ -20,14 +20,14 @@ public class PurePursuitTest extends LinearOpMode {
     @Override
     public void runOpMode() {
         Drivebase drive = new Drivebase(hardwareMap);
-        PurePursuitCore pathFollower = new PurePursuitCore();
+        PurePursuitCore pathFollower = new PurePursuitCore(() -> drive.getOdo().getPosition(), drive, telemetry);
         drive.resetHeading(0);
 
         double followRadius = 10;
 
         Path path = Path.getBuilder()
                 .addWaypoint(new Waypoint(0,0, followRadius))
-                .addWaypoint(new Waypoint(0, 25, followRadius))
+                .addWaypoint(new Waypoint(20, 20, followRadius))
                 .build();
 
         pathFollower.setFollowPath(path);
@@ -35,12 +35,14 @@ public class PurePursuitTest extends LinearOpMode {
 
         waitForStart();
 
-        while (opModeIsActive()) {
+        while (opModeIsActive() && !pathFollower.finishedFollowing()) {
             drive.getOdo().update();
             pathFollower.followPath();
             telemetry.addData("Robot Position", drive.getPositionTelemetry());
             telemetry.update();
         }
+
+        drive.drive(0,0,0);
 
     }
 }
