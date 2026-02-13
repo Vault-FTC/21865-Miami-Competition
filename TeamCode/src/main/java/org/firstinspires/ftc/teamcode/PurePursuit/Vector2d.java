@@ -52,6 +52,12 @@ public class Vector2d {
         );
     }
 
+    // dot two vectors together
+    public double dot(Vector2d vector) {
+        return this.x * vector.x + this.y * vector.y;
+    }
+
+
     // Add vectors
     public Vector2d add(Vector2d other) {
         return new Vector2d(this.x + other.x, this.y + other.y);

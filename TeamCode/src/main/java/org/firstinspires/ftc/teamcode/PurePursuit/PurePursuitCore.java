@@ -125,23 +125,18 @@ public class PurePursuitCore {
     }
 
     private static Waypoint intersection(Pose2d botPose, Waypoint[] lineSegment, double radius) {
-        double x1;
-        double y1;
-
-        double x2;
-        double y2;
+        double x1, x2, y1, y2;
 
         double m = (lineSegment[0].y - lineSegment[1].y) / (lineSegment[0].x - lineSegment[1].x);
         double b = lineSegment[0].y - m * lineSegment[0].x;
 
-        double h = botPose.x;
-        double k = botPose.y;
+        double h = botPose.y;
+        double k = botPose.x;
 
         double commonTerm;
 
         if (Double.isFinite(m)) {
             double discriminant = Math.pow(m, 2) * (Math.pow(radius, 2) - Math.pow(h, 2)) + (2 * m * h) * (k - b) + 2 * b * k + Math.pow(radius, 2) - Math.pow(b, 2) - Math.pow(k, 2);
-
             if (discriminant < 0) {
                 return null;
             }
@@ -239,7 +234,7 @@ public class PurePursuitCore {
 
         lastTimestamp = currentTimestamp;
 
-        atEndpoint = speed < 2.0 && botPose.distanceTo(segments[segments.length - 1][1]) < 2.0 && waypointIndex == segments.length - 1;
+        atEndpoint = speed < 2.0 && botPose.distanceTo(segments[segments.length - 1][1]) < 2 && waypointIndex == segments.length - 1; // distanceTo segments use to be 2, I'm changing it to 10 for testing purposes.
         if (segments[segments.length - 1][1].targetEndRotation == null) {
             atTargetHeading = true;
         } else {
