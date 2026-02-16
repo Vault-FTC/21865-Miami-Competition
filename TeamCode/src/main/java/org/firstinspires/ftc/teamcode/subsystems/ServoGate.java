@@ -11,8 +11,8 @@ public class ServoGate extends Subsystem {
     public ServoGate(HardwareMap hardwareMap) {
         servo = hardwareMap.get(Servo.class, "servo");
     }
-    public void closeGate() {
-        servo.setPosition(1);
+    public void closeGate()    {
+        servo.setPosition(0.9);
     }
     public void openGate()  {
         servo.setPosition(0.5);
