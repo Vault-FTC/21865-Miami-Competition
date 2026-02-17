@@ -5,7 +5,7 @@ import android.util.ArrayMap;
 import java.util.Map;
 
 public class LUT {
-
+    // Assumes hood position is 0.5
     ArrayMap<Double, Double> lookupTable = new ArrayMap<>();
     public LUT()
     {

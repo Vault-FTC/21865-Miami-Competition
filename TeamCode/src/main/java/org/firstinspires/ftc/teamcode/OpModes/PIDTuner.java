@@ -15,7 +15,7 @@ public class PIDTuner extends OpMode {
     Intake intake;
     ServoGate servoGate;
     public DcMotorEx flywheelMotor;
-    double highVelocity = 2000;
+    double highVelocity = 1500;
     double lowVelocity = 1000;
     double off = 0;
     double curTargetVelocity = highVelocity;

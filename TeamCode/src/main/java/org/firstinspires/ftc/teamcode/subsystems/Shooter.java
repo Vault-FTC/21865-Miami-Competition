@@ -16,9 +16,9 @@ public class Shooter extends Subsystem {
     private static final double CLOSE_SPEED = 1100;
     private static final double MID_SPEED   = 1300;
     private static final double FAR_SPEED   = 2000;
-    private static final double CLOSE_HOOD = 0.1;
-    private static final double MID_HOOD = 0.25; //0.2
-    private static final double FAR_HOOD = 0.1; //0.5
+    private static final double CLOSE_HOOD = 0.5;
+    private static final double MID_HOOD = 0.5; //0.2
+    private static final double FAR_HOOD = 0.5; //0.5
     private final DcMotorEx shooter;
     private final Servo hoodServo;
 
@@ -64,7 +64,7 @@ public class Shooter extends Subsystem {
         shooter.setVelocity(speed);
     }
     public void setShooterSpeedFar(double speed) {
-        pidfCoefficients = new PIDFCoefficients(350, 0, 0, 15.2);
+        pidfCoefficients = new PIDFCoefficients(350, 0, 0, 15.2); // p:440 f:14  for new shooter if we need to change it
         shooter.setVelocity(speed);
     }
 
