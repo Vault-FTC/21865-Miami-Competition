@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
 
+import com.pedropathing.control.FilteredPIDFCoefficients;
+import com.pedropathing.control.PIDFCoefficients;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.follower.FollowerConstants;
 import com.pedropathing.ftc.FollowerBuilder;
@@ -34,23 +36,30 @@ public class Constants {
 
     public static class PedroPathing {
         public static FollowerConstants followerConstants = new FollowerConstants()
-                .mass(11.5);
+                .mass(11.5)
+                .forwardZeroPowerAcceleration(-28)
+                .lateralZeroPowerAcceleration(-55)
+                .translationalPIDFCoefficients(new PIDFCoefficients(0.2, 0, 0,0.01))
+                .headingPIDFCoefficients(new PIDFCoefficients(2, 0, 0,0.01))
+                .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.02,0.0,0.00001,0.6,0.01))
+                .centripetalScaling(0.0008);
 
         public static MecanumConstants driveConstants = new MecanumConstants()
                 .maxPower(1)
                 .rightFrontMotorName("rf")
-                .rightRearMotorName("lb")
-                .leftRearMotorName("rb")
+                .rightRearMotorName("rb")
+                .leftRearMotorName("lb")
                 .leftFrontMotorName("lf")
                 .leftFrontMotorDirection(DcMotorSimple.Direction.REVERSE)
-                .leftRearMotorDirection(DcMotorSimple.Direction.FORWARD)
+                .leftRearMotorDirection(DcMotorSimple.Direction.REVERSE)
                 .rightFrontMotorDirection(DcMotorSimple.Direction.FORWARD)
-                .rightRearMotorDirection(DcMotorSimple.Direction.REVERSE)
-                .xVelocity(85.53);
+                .rightRearMotorDirection(DcMotorSimple.Direction.FORWARD)
+                .xVelocity(73)//71.33699287955217
+                .yVelocity(43);
 
         public static PinpointConstants localizerConstants = new PinpointConstants()
-                .forwardPodY(-1.5175)
-                .strafePodX(20.571207)
+                .forwardPodY(-0.597440945)
+                .strafePodX(8.0989003937)
                 .distanceUnit(DistanceUnit.CM)
                 .hardwareMapName("odo")
                 .encoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD)
