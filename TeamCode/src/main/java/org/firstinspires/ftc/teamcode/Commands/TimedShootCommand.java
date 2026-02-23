@@ -17,9 +17,6 @@ public class TimedShootCommand extends Command {
     double motorSpeed;
     private final double durationMs;
     private double startTime;
-    double feedPulseInterval = 25; //milliseconds for feed/pause
-    double lastFeedToggleTime = 0;
-    boolean feeding = false;
     double currentTime = 0;
     public TimedShootCommand(Shooter shooter, Intake intake, double durationSeconds, Telemetry telemetry, double motorSpeed, ServoGate servoGate, double time) {
         this.shooter = shooter;

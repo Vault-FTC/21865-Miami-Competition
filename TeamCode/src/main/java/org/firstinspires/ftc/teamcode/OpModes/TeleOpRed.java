@@ -6,10 +6,10 @@ import org.firstinspires.ftc.teamcode.Constants;
 import org.firstinspires.ftc.teamcode.subsystems.LimeLight;
 
 @TeleOp(name = "TeleOp Red", group = "Teleop")
-public class teleopred extends SimpleFieldCentricDrive {
+public class TeleOpRed extends TeleOpBlue {
    @Override public void setTargets()
     {
-        Limelight = new LimeLight(hardwareMap, 24);
+        limeLight = new LimeLight(hardwareMap, 24);
         goal = Constants.RED_CENTER_GOAL;
         headingOffset = Math.PI;
     }

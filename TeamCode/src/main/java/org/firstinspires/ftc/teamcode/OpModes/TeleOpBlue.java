@@ -20,26 +20,25 @@ import org.firstinspires.ftc.teamcode.subsystems.Drivebase;
 
 // ALL SHOOTER SPEEDS ARE IN TICKS/SECOND. DO NOT, I REPEAT DO NOT, USE DEGREES/SECOND
 @TeleOp(name = "TeleOp Blue", group = "Teleop")
-public class SimpleFieldCentricDrive extends LinearOpMode {
-    public LimeLight Limelight;
+public class TeleOpBlue extends LinearOpMode {
+    public LimeLight limeLight;
     Intake intake;
     RevBlinkinLedDriver.BlinkinPattern green;
     RevBlinkinLedDriver.BlinkinPattern red;
-    Lights light;
+    Lights lights;
     double launchPower = 0;
     Pose2D goal = Constants.BLUE_CENTER_GOAL;
-    Pose2D startPose;
     double headingOffset = 0;
 
 
     public void setTargets() {
-        Limelight = new LimeLight(hardwareMap, 20);
+        limeLight = new LimeLight(hardwareMap, 20);
     }
 
     @Override
     public void runOpMode() {
         intake = new Intake(hardwareMap);
-        light = new Lights(hardwareMap);
+        lights = new Lights(hardwareMap);
         Drivebase drive = new Drivebase(hardwareMap);
         ServoGate servoGate = new ServoGate(hardwareMap);
         Shooter launcher = new Shooter(hardwareMap);
@@ -55,7 +54,7 @@ public class SimpleFieldCentricDrive extends LinearOpMode {
         waitForStart();
         while (opModeIsActive()) {
 //            drive.update();
-            LLResult aprilTag = drive.update(Limelight);
+            LLResult aprilTag = drive.update(limeLight);
             double distance = drive.distanceToGoal(drive.getPosition(), goal);
             double angleError = drive.angleToGoal(drive.getPosition(), goal);
             boolean autoShoot = gamepad1.right_bumper;
@@ -74,6 +73,7 @@ public class SimpleFieldCentricDrive extends LinearOpMode {
             if (aprilTag != null) {
                 drive.setCurrentPose(aprilTag.getBotpose_MT2().getPosition().toUnit(DistanceUnit.CM).x,
                         aprilTag.getBotpose_MT2().getPosition().toUnit(DistanceUnit.CM).y);
+                telemetry.addData("BotPose", aprilTag.getBotpose_MT2().getPosition());
 
 //                drive.setCurrentPose(aprilTag.getBotpose_MT2().getPosition().toUnit(DistanceUnit.CM).x,
 //                        aprilTag.getBotpose_MT2().getPosition().toUnit(DistanceUnit.CM).y,

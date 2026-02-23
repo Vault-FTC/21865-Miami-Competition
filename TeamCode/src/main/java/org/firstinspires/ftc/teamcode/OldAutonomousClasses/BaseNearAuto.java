@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Autonomous;
+package org.firstinspires.ftc.teamcode.OldAutonomousClasses;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
+import org.firstinspires.ftc.teamcode.Autonomous.Location;
 import org.firstinspires.ftc.teamcode.CommandSystem.Command;
 import org.firstinspires.ftc.teamcode.CommandSystem.CommandScheduler;
 import org.firstinspires.ftc.teamcode.CommandSystem.InstantCommand;
@@ -34,12 +35,12 @@ public class BaseNearAuto extends LinearOpMode {
     Location collectFirstRowArtifacts = AutonomousPositions.collectFirstRowArtifacts;
     Location prepareSecondRowArtifacts = AutonomousPositions.prepareSecondRowArtifacts;
     Location collectSecondRowArtifacts = AutonomousPositions.collectSecondRowArtifacts;
-    Location collectThirdRowArtifacts = AutonomousPositions.collectionThirdRowArtifacts;
-    Location prepareThirdRowArtifacts = AutonomousPositions.prepareCollectThirdRowArtifacts;
+    Location collectThirdRowArtifacts = AutonomousPositions.collectThirdRowArtifacts;
+    Location prepareThirdRowArtifacts = AutonomousPositions.prepareThirdRowArtifacts;
     Location hitGate = AutonomousPositions.hitGate;
     Location hitGate2 = AutonomousPositions.hitGate2;
     Location leaveZonePosition = AutonomousPositions.leaveZonePosition;
-    Location lastLaunchPosition = AutonomousPositions.lastLaunchPosition;
+    Location lastLaunchPosition = AutonomousPositions.leaveLineLaunchPosition;
 
 
 
@@ -59,7 +60,7 @@ public class BaseNearAuto extends LinearOpMode {
         LimeLight = new LimeLight(hardwareMap,20);
         servoGate = new ServoGate(hardwareMap);
         scheduler.clearRegistry();
-        drive.setCurrentPose(AutonomousPositions.BLUE_START_POSITION);
+        drive.setCurrentPose(AutonomousPositions.BLUE_NEAR_START_POSITION);
 
         setTargets();
 

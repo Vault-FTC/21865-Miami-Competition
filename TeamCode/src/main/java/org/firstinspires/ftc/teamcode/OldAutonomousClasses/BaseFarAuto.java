@@ -1,18 +1,14 @@
-package org.firstinspires.ftc.teamcode.Autonomous;
+package org.firstinspires.ftc.teamcode.OldAutonomousClasses;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.teamcode.CommandSystem.Command;
+import org.firstinspires.ftc.teamcode.Autonomous.Location;
 import org.firstinspires.ftc.teamcode.CommandSystem.CommandScheduler;
 import org.firstinspires.ftc.teamcode.CommandSystem.InstantCommand;
-import org.firstinspires.ftc.teamcode.CommandSystem.ParallelCommandGroup;
 import org.firstinspires.ftc.teamcode.CommandSystem.SequentialCommandGroup;
 import org.firstinspires.ftc.teamcode.Commands.DriveToCommand;
-import org.firstinspires.ftc.teamcode.Commands.IntakeCommand;
-import org.firstinspires.ftc.teamcode.Commands.LimeLightTurnCommand;
 import org.firstinspires.ftc.teamcode.Commands.TimedShootCommand;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
-import org.firstinspires.ftc.teamcode.subsystems.LimeLight;
 import org.firstinspires.ftc.teamcode.subsystems.PoseStorage;
 import org.firstinspires.ftc.teamcode.subsystems.ServoGate;
 import org.firstinspires.ftc.teamcode.subsystems.Shooter;
@@ -39,7 +35,7 @@ public class BaseFarAuto extends BaseNearAuto {
         servoGate = new ServoGate(hardwareMap);
         scheduler.clearRegistry();
 //        LimeLight = new LimeLight(hardwareMap,24);
-        drive.setCurrentPose(AutonomousPositions.BLUE_FAR_POSITION);
+        drive.setCurrentPose(AutonomousPositions.BLUE_FAR_START_POSITION);
         setTargets();
 
         SequentialCommandGroup auto = SequentialCommandGroup.getBuilder()

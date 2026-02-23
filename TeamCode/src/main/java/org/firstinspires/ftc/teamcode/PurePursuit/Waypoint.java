@@ -6,6 +6,8 @@ public class Waypoint extends Vector2d implements WaypointGenerator {
     public final Rotation2d targetEndRotation;
     public final double maxVelocity;
 
+    private static final double MAXVEL = 0.35;
+
     public Waypoint(Vector2d vector, double followRadius, Rotation2d targetFollowRotation, Rotation2d targetEndRotation, double maxVelocity) {
         super(vector.x, vector.y);
         this.targetFollowRotation = targetFollowRotation;
@@ -15,7 +17,7 @@ public class Waypoint extends Vector2d implements WaypointGenerator {
     }
 
     public Waypoint(Vector2d vector, double followRadius) {
-        this(vector, followRadius, null, null, Double.POSITIVE_INFINITY);
+        this(vector, followRadius, null, null, MAXVEL);
     }
 
     public Waypoint(double x, double y, double followRadius, Rotation2d targetFollowRotation, Rotation2d targetEndRotation, double maxVelocity) {
@@ -23,7 +25,7 @@ public class Waypoint extends Vector2d implements WaypointGenerator {
     }
 
     public Waypoint(double x, double y, double followRadius, Rotation2d targetFollowRotation, Rotation2d targetEndRotation) {
-        this(x, y, followRadius, targetFollowRotation, targetEndRotation, Double.POSITIVE_INFINITY);
+        this(x, y, followRadius, targetFollowRotation, targetEndRotation, MAXVEL);
     }
 
     public Waypoint(double x, double y, double followRadius, double maxVelocity) {
@@ -31,7 +33,7 @@ public class Waypoint extends Vector2d implements WaypointGenerator {
     }
 
     public Waypoint(double x, double y, double followRadius) {
-        this(x, y, followRadius, null, null, Double.POSITIVE_INFINITY);
+        this(x, y, followRadius, null, null, MAXVEL);
     }
 
     @Override

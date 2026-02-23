@@ -4,7 +4,6 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
@@ -14,43 +13,28 @@ import org.firstinspires.ftc.teamcode.subsystems.ServoGate;
 public class PIDTuner extends OpMode {
     Intake intake;
     ServoGate servoGate;
-    public DcMotorEx flywheelMotor;
+    public DcMotorEx shooter;
     double highVelocity = 1500;
     double lowVelocity = 1000;
     double off = 0;
     double curTargetVelocity = highVelocity;
-
-    double F = 17;
-    double P = 400;
-
-//    double F = 10;
-//    double P = 20;
-//    double velocity = 900;
-
+    double F = 0;
+    double P = 0;
     double[] stepSizes = {10.0, 1.0, 0.1, 0.001, 0.0001};
-
-    int stepIndex = 1;
-
+    int stepIndex = 10;
 
     @Override
     public void init() {
-        flywheelMotor = hardwareMap.get(DcMotorEx.class, "shooter");
-        flywheelMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        shooter = hardwareMap.get(DcMotorEx.class, "shooter");
+        shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P, 0, 0, F);
-        flywheelMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
+        shooter.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
         telemetry.addLine("Init Complete");
     }
-
     @Override
     public void loop() {
         intake = new Intake(hardwareMap);
         servoGate = new ServoGate(hardwareMap);
-//        if (gamepad1.triangleWasPressed()) {
-//            velocity += stepSizes[stepIndex];
-//        }
-//        if (gamepad1.squareWasPressed()) {
-//            velocity -= stepSizes[stepIndex];
-//        }
         if (gamepad1.triangleWasPressed()) {
             if (curTargetVelocity == highVelocity) {
                 curTargetVelocity = lowVelocity;
@@ -64,7 +48,6 @@ public class PIDTuner extends OpMode {
                 }
             }
         }
-
         if (gamepad1.circleWasPressed()) {
             stepIndex = (stepIndex + 1) % stepSizes.length;
         }
@@ -88,22 +71,11 @@ public class PIDTuner extends OpMode {
             servoGate.closeGate();
             intake.spinIntake(0);
         }
-
         PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P, 0, 0, F);
-        flywheelMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
-
-//        flywheelMotor.setVelocity(velocity);
-        flywheelMotor.setVelocity(curTargetVelocity);
-        double curVelocity = flywheelMotor.getVelocity();
+        shooter.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
+        shooter.setVelocity(curTargetVelocity);
+        double curVelocity = shooter.getVelocity();
         double error = curTargetVelocity - curVelocity;
-
-//        telemetry.addData("Target Velocity", velocity);
-//        telemetry.addData("Current Velocity", "%.2f", curVelocity);
-//        telemetry.addData("Error", "%.2f", error);
-//        telemetry.addLine("-----------------------");
-//        telemetry.addData("Tuning P", "%.4f (D-Pad U/D)", P);
-//        telemetry.addData("Tuning F", "%.4f (D-Pad L/R)", F);
-//        telemetry.addData("Step Size", "%.4f (B-Button)", stepSizes[stepIndex]);
 
 telemetry.addData("Target Velocity", curTargetVelocity);
 telemetry.addData("Current Velocity", "%.2f", curVelocity);

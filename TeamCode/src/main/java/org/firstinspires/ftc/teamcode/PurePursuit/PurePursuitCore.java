@@ -45,15 +45,15 @@ public class PurePursuitCore {
         this.drivebase = drivebase;
         this.telemetry = telemetry;
     }
-    public final PIDController driveController = new PIDController(0.2, 0.0, 3.5);
+    public final PIDController driveController = new PIDController(0.5, 0.0, 0);
 
-    public final PIDController rotController = new PIDController(2.0, 0.0001, 0.6);
+    public final PIDController rotController = new PIDController(0.5, 0, 0);
 
     public Pose2d getCurrentPose() {
         Pose2D oldPose = poseSupplier.get();
         return new Pose2d(
                 new Vector2d(oldPose.getX(DistanceUnit.CM),
-                        -oldPose.getY(DistanceUnit.CM)),
+                        oldPose.getY(DistanceUnit.CM)),
                 new Rotation2d(oldPose.getHeading(AngleUnit.RADIANS))
         );
     }
@@ -78,10 +78,13 @@ public class PurePursuitCore {
 
         Pose2d botPose = getCurrentPose();
         Vector2d relativeTargetVector = (new Vector2d(targetPoint.x - botPose.x, targetPoint.y - botPose.y));
-        Vector2d movementSpeed = (new Vector2d(driveController.calculate(0, relativeTargetVector.magnitude()), relativeTargetVector.angle(), false)).rotate(-botPose.rotation.getAngleRadians());
+        Vector2d movementSpeed = (
+                new Vector2d(driveController.calculate(0, relativeTargetVector.magnitude()), relativeTargetVector.angle(), true))
+                .rotate(-botPose.rotation.getAngleRadians());
 
         double rotSpeed;
         double targetAngle;
+        // woot the robot can do a backflip
 
         boolean canFlip = false;
 
@@ -104,20 +107,19 @@ public class PurePursuitCore {
         }
         double magnitude = movementSpeed.magnitude(); /// (1.5 * Math.pow(Math.abs(rotError), 2) + 1); // originally 0.9 * rotError ^ 2
         magnitude = Range.clip(magnitude, -targetPoint.maxVelocity, targetPoint.maxVelocity);
-        movementSpeed = new Vector2d(magnitude, movementSpeed.angle(), false);
+        movementSpeed = new Vector2d(magnitude, movementSpeed.angle(), true);
         rotSpeed = rotController.calculate(0, rotError);
 
         if(telemetry != null)
         {
-//            telemetry.addData("targetAngle", targetAngle);
-//            telemetry.addData("RotError", rotError);
+            telemetry.addData("MovSpeed", movementSpeed);
+            telemetry.addData("RotError", rotError);
             telemetry.addData("Waypoint Index", waypointIndex);
             telemetry.addData("TargetVector", relativeTargetVector);
             telemetry.addData("targetPoint", targetPoint.x + " : "  + targetPoint.y);
-            telemetry.addData("BotPose", botPose.x + " : " + botPose.y + " : " + botPose.rotation);
         }
 
-        drivebase.drive(movementSpeed.y, movementSpeed.x, rotSpeed);
+        drivebase.drive(movementSpeed.x, movementSpeed.y, rotSpeed);
     }
 
     public void driveToPosition(Waypoint targetPoint) {
@@ -165,7 +167,7 @@ public class PurePursuitCore {
 
         bestIntersection = intersection0.second > intersection1.second ? intersection0 : intersection1;
 
-        if (bestIntersection.second > 1) {
+        if (bestIntersection.second > 1 || bestIntersection.second < 0) {
             return null;
         }
 
@@ -202,6 +204,8 @@ public class PurePursuitCore {
                 }
 
                 targetPoint = intersection(botPose, segments[waypointIndex], segments[waypointIndex][1].followRadius);
+
+                telemetry.addData("Target Segment", segments[waypointIndex][0]);
 
                 if (targetPoint == null) { // If null is returned, the t value of the target point is greater than 1 or less than 0
                     if (waypointIndex == segments.length - 1) {

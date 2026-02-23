@@ -1,16 +1,11 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
-import androidx.core.math.MathUtils;
-
 import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 import com.qualcomm.hardware.limelightvision.LLResult;
-import com.qualcomm.hardware.limelightvision.LLResultTypes;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -19,40 +14,37 @@ import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 import org.firstinspires.ftc.teamcode.Autonomous.Location;
 import org.firstinspires.ftc.teamcode.CommandSystem.Subsystem;
-import org.firstinspires.ftc.teamcode.PurePursuit.PIDController;
-import org.firstinspires.ftc.teamcode.PurePursuit.Path;
 import org.firstinspires.ftc.teamcode.PurePursuit.Rotation2d;
 import org.firstinspires.ftc.teamcode.PurePursuit.Vector2d;
-import org.firstinspires.ftc.teamcode.PurePursuit.Waypoint;
 import org.firstinspires.ftc.teamcode.PurePursuit.Pose2d;
 
 
 public class Drivebase extends Subsystem {
-    private final DcMotorEx frmotor, flmotor, brmotor, blmotor;
+    private final DcMotorEx frontLeftMotor, frontRightMotor, backLeftMotor, backRightMotor;
     GoBildaPinpointDriver odo;
 
     double headingOffsetThingy;
 
     public Drivebase(HardwareMap hardwareMap) {
-        frmotor = hardwareMap.get(DcMotorEx.class, "rf");
-        flmotor = hardwareMap.get(DcMotorEx.class, "lf");
-        brmotor = hardwareMap.get(DcMotorEx.class, "rb");
-        blmotor = hardwareMap.get(DcMotorEx.class, "lb");
+        frontLeftMotor = hardwareMap.get(DcMotorEx.class, "frontLeftMotor");
+        frontRightMotor = hardwareMap.get(DcMotorEx.class, "frontRightMotor");
+        backLeftMotor = hardwareMap.get(DcMotorEx.class, "backLeftMotor");
+        backRightMotor = hardwareMap.get(DcMotorEx.class, "backRightMotor");
 
-        frmotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        flmotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        brmotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        blmotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        frmotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        flmotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        brmotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        blmotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        frontLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        frontRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        backLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        backRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 // Reverse one side of motors if needed (depends on robot configuration)
-        frmotor.setDirection(DcMotorEx.Direction.REVERSE);
-        brmotor.setDirection(DcMotorEx.Direction.REVERSE);
-        flmotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        frontLeftMotor.setDirection(DcMotorEx.Direction.REVERSE);
+        backLeftMotor.setDirection(DcMotorEx.Direction.REVERSE);
+        frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 // Odometry constants and such
         odo = hardwareMap.get(GoBildaPinpointDriver.class,"odo");
         odo.setOffsets(205.71207, -15.175, DistanceUnit.MM);
@@ -62,10 +54,10 @@ public class Drivebase extends Subsystem {
 
 
     public void setToCoastMode() {
-        frmotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        flmotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        brmotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        blmotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
     }
     public void resetHeading(double heading) {
         odo.resetPosAndIMU();
@@ -118,10 +110,10 @@ public class Drivebase extends Subsystem {
         backRightPower = Math.abs(backRightPower) < 0.02 ? 0 : backRightPower;
 
         // Set motor powers
-        frmotor.setPower(frontRightPower);
-        brmotor.setPower(backRightPower);
-        flmotor.setPower(frontLeftPower);
-        blmotor.setPower(backLeftPower);
+        frontLeftMotor.setPower(frontRightPower);
+        backLeftMotor.setPower(backRightPower);
+        frontRightMotor.setPower(frontLeftPower);
+        backRightMotor.setPower(backLeftPower);
     }
 
     public void driveToPosition(Location target, double turnVal, Telemetry telemetry) {

@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.Commands;
 
-import com.qualcomm.robotcore.hardware.Servo;
-
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.CommandSystem.Command;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
@@ -13,16 +11,16 @@ public class ShootCommand extends Command {
     Telemetry telemetry;
     Shooter shooter;
     Intake intake;
-    MotorSpeeds motorSpeed;
+    MotorSpeeds motorSpeeds;
     ServoGate servoGate;
     boolean shoot;
     private double startTime;
 
-    public ShootCommand(Shooter shooter, Intake intake, boolean shoot, Telemetry telemetry, MotorSpeeds motorSpeed, ServoGate servoGate) {
+    public ShootCommand(Shooter shooter, Intake intake, boolean shoot, Telemetry telemetry, MotorSpeeds motorSpeeds, ServoGate servoGate) {
         this.shooter = shooter;
         this.intake = intake;
         this.telemetry = telemetry;
-        this.motorSpeed = motorSpeed;
+        this.motorSpeeds = motorSpeeds;
         this.shoot = shoot;
         this.servoGate = servoGate;
         addRequirements(this.shooter, this.servoGate);
@@ -30,7 +28,7 @@ public class ShootCommand extends Command {
 
     @Override
     public void initialize() {
-        shooter.setShooterSpeedNear(motorSpeed.speed);
+        shooter.setShooterSpeedNear(motorSpeeds.speed);
         timer.reset();
         startTime = timer.milliseconds();
     }
@@ -42,7 +40,7 @@ public class ShootCommand extends Command {
             intake.spinIntake(0.85);
         } else {
             intake.spinIntake(0);
-            shooter.setShooterSpeedNear(motorSpeed.speed);
+            shooter.setShooterSpeedNear(motorSpeeds.speed);
         }
         telemetry.addData("Running", "Shoot Command");
     }

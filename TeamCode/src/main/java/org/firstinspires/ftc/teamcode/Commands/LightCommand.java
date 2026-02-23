@@ -1,21 +1,18 @@
 package org.firstinspires.ftc.teamcode.Commands;
 
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
-import com.qualcomm.robotcore.hardware.Light;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.CommandSystem.Command;
-import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.subsystems.Lights;
 
 public class LightCommand extends Command {
     Telemetry telemetry;
-    Lights light;
+    Lights lights;
     boolean lightStatus;
     RevBlinkinLedDriver.BlinkinPattern pattern;
     public LightCommand(Lights light, Telemetry telemetry, RevBlinkinLedDriver.BlinkinPattern pattern) {
-        this.light = light;
+        this.lights = light;
         this.telemetry = telemetry;
         this.pattern = pattern;
     }
@@ -27,7 +24,7 @@ public class LightCommand extends Command {
 
     @Override
     public void execute() {
-         light.setColor(pattern);
+         lights.setColor(pattern);
          lightStatus = true;
     }
 

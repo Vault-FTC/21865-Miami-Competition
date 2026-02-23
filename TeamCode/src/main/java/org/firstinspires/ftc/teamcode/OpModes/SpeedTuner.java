@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.OpModes;
 
 import com.qualcomm.hardware.limelightvision.LLResult;
-import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -20,12 +19,10 @@ import org.firstinspires.ftc.teamcode.subsystems.Shooter;
 public class SpeedTuner extends LinearOpMode {
     public LimeLight Limelight;
     Intake intake;
-    Lights light;
+    Lights lights;
     double launchPower = 0;
     Pose2D goal = Constants.BLUE_CENTER_GOAL;
-    Pose2D startPose;
     double headingOffset = 0;
-
 
     public void setTargets() {
         Limelight = new LimeLight(hardwareMap, 20);
@@ -34,7 +31,7 @@ public class SpeedTuner extends LinearOpMode {
     @Override
     public void runOpMode() {
         intake = new Intake(hardwareMap);
-        light = new Lights(hardwareMap);
+        lights = new Lights(hardwareMap);
         Drivebase drive = new Drivebase(hardwareMap);
         ServoGate servoGate = new ServoGate(hardwareMap);
         Shooter launcher = new Shooter(hardwareMap);

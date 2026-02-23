@@ -1,7 +1,8 @@
-package org.firstinspires.ftc.teamcode.Autonomous;
+package org.firstinspires.ftc.teamcode.OldAutonomousClasses;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import org.firstinspires.ftc.teamcode.Autonomous.Location;
 import org.firstinspires.ftc.teamcode.subsystems.LimeLight;
 
 
@@ -11,7 +12,7 @@ public class RedFar extends BaseFarAuto {
     void setTargets() {
         LimeLight = new LimeLight(hardwareMap,24);
 
-        startPosition = AutonomousPositions.RED_FAR_POSITION;
+        startPosition = AutonomousPositions.RED_FAR_START_POSITION;
 
         doNotHitWall = new Location(152.4, 15.25, -180);
         farShootPosition = new Location(152, 15.25, -165);

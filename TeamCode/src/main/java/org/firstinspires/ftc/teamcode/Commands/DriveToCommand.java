@@ -7,28 +7,28 @@ import org.firstinspires.ftc.teamcode.subsystems.Drivebase;
 
 public class DriveToCommand extends Command {
     Telemetry telemetry;
-    private final Drivebase drive;
-    private final Location target;
+    private final Drivebase drivebase;
+    private final Location location;
 
-    public DriveToCommand(Drivebase drive, Location target, Telemetry telemetry) {
-        this.drive = drive;
-        this.target = target;
+    public DriveToCommand(Drivebase drivebase, Location location, Telemetry telemetry) {
+        this.drivebase = drivebase;
+        this.location = location;
         this.telemetry = telemetry;
-        addRequirements(this.drive);
+        addRequirements(this.drivebase);
     }
 
     @Override
     public void execute() {
-        drive.driveToPosition(target, target.TurnDegrees, telemetry);
+        drivebase.driveToPosition(location, location.TurnDegrees, telemetry);
         telemetry.addData("Running", "Drive Command");
     }
 
     public boolean isFinished() {
-        return drive.isAtPosition(target, 5, 5);
+        return drivebase.isAtPosition(location, 5, 5);
     }
 
     @Override
     public void end(boolean interrupted) {
-        drive.drive(0,0,0);
+        drivebase.drive(0,0,0);
     }
 }
