@@ -42,9 +42,10 @@ public class Drivebase extends Subsystem {
         backRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 // Reverse one side of motors if needed (depends on robot configuration)
-        frontLeftMotor.setDirection(DcMotorEx.Direction.REVERSE);
-        backLeftMotor.setDirection(DcMotorEx.Direction.REVERSE);
-        frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        frontLeftMotor.setDirection(DcMotorEx.Direction.FORWARD);
+        backLeftMotor.setDirection(DcMotorEx.Direction.FORWARD);
+        frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 // Odometry constants and such
         odo = hardwareMap.get(GoBildaPinpointDriver.class,"odo");
         odo.setOffsets(205.71207, -15.175, DistanceUnit.MM);
@@ -110,10 +111,10 @@ public class Drivebase extends Subsystem {
         backRightPower = Math.abs(backRightPower) < 0.02 ? 0 : backRightPower;
 
         // Set motor powers
-        frontLeftMotor.setPower(frontRightPower);
-        backLeftMotor.setPower(backRightPower);
-        frontRightMotor.setPower(frontLeftPower);
-        backRightMotor.setPower(backLeftPower);
+        frontLeftMotor.setPower(frontLeftPower);
+        backLeftMotor.setPower(backLeftPower);
+        frontRightMotor.setPower(frontRightPower);
+        backRightMotor.setPower(backRightPower);
     }
 
     public void driveToPosition(Location target, double turnVal, Telemetry telemetry) {
