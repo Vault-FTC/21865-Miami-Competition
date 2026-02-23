@@ -12,7 +12,7 @@ public class TestOpMode extends LinearOpMode {
         DcMotorEx lf = hardwareMap.get(DcMotorEx.class, "frontLeftMotor");
         DcMotorEx rf = hardwareMap.get(DcMotorEx.class, "frontRightMotor");
         DcMotorEx lb = hardwareMap.get(DcMotorEx.class, "backLeftMotor");
-        DcMotorEx rb = hardwareMap.get(DcMotorEx.class, "rb");
+        DcMotorEx rb = hardwareMap.get(DcMotorEx.class, "backRightMotor");
 
         waitForStart();
 

@@ -6,15 +6,15 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.CommandSystem.Subsystem;
 
 public class ServoGate extends Subsystem {
-    private Servo servo;
+    private Servo servoGate;
    //
     public ServoGate(HardwareMap hardwareMap) {
-        servo = hardwareMap.get(Servo.class, "servo");
+        servoGate = hardwareMap.get(Servo.class, "servoGate");
     }
     public void closeGate()    {
-        servo.setPosition(0.9);
+        servoGate.setPosition(0.9);
     }
     public void openGate()  {
-        servo.setPosition(0.5);
+        servoGate.setPosition(0.5);
     }
 }

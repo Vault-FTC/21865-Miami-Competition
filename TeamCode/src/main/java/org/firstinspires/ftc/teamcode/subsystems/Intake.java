@@ -11,7 +11,7 @@ public class Intake extends Subsystem {
     private DcMotorEx intake;
    //
     public Intake(HardwareMap hardwareMap) {
-        intake = hardwareMap.get(DcMotorEx.class, "intake1");
+        intake = hardwareMap.get(DcMotorEx.class, "intake");
     }
     public void spinIntake(double power) {
         intake.setPower(power);
