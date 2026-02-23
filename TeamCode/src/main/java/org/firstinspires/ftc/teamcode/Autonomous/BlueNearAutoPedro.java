@@ -33,7 +33,6 @@ public class BlueNearAutoPedro extends LinearOpMode {
     double time;
 
     void setTargets() {
-// attempt to read from field 'com.pedropathing.paths.PathChain org.firstinspires.ftc.teamcode.Autonomous.BlueNearPaths.BackUpToShootPosition' on a null object reference
     }
     @Override
     public void runOpMode() throws InterruptedException {
