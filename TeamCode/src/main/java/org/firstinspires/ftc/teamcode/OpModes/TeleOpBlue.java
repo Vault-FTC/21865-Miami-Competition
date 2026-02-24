@@ -101,6 +101,10 @@ public class TeleOpBlue extends LinearOpMode {
                 joystick_rx = joystick_rx + angleError * ((180/Math.PI) * 0.02);
                 servoGate.openGate();
                 gamepad1.rumble(1000);
+                if (angleError < 0.1) {
+                    intake.spinIntake(0.95);
+                }
+            } else {
                 if (distance < 240) {
                     launcher.setShooterSpeedNear(launcher.distanceToSpeed(distance));
                 } else {
@@ -108,11 +112,6 @@ public class TeleOpBlue extends LinearOpMode {
                 }
 
                 launcher.setHoodPosition(launcher.distanceToHoodPosition(distance));
-                if (launcher.getShooterVelocity() >= launcher.distanceToSpeed(distance)) {
-                    intake.spinIntake(0.95);
-                }
-            } else {
-                launcher.setShooterSpeedNear(800);
                 intake.spinIntake(0);
                 servoGate.closeGate();
             }

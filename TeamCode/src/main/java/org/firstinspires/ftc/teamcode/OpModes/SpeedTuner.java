@@ -61,6 +61,12 @@ public class SpeedTuner extends LinearOpMode {
                 shooterSpeed = 0;
             } else if (gamepad1.dpadRightWasPressed()) {
                 shooterSpeed = 1500;
+            } else if (gamepad1.triangleWasPressed()) {
+                position += 0.1;
+            } else if (gamepad1.crossWasPressed()){
+                position -= 0.1;
+            } else {
+                launcher.setHoodPosition(position);
             }
 
 //            if (aprilTag != null) {
@@ -72,12 +78,9 @@ public class SpeedTuner extends LinearOpMode {
             if (gamepad1.start) {
                 drive.resetHeading(-90);
             }
-            if (gamepad1.x) {
-                launcher.setShooterSpeedNear(1100);
+            if (gamepad1.square) {
                 servoGate.openGate();
-                if (launcher.getShooterVelocity() >= 1100) {
-                    intake.spinIntake(0.95);
-                }
+                intake.spinIntake(0.95);
             } else if (gamepad1.left_bumper) {
                 intake.spinIntake(0.95);
 
@@ -87,18 +90,18 @@ public class SpeedTuner extends LinearOpMode {
             } else if (autoShoot) {
 //              joystick_rx = joystick_rx - aprilTag.getTargetXDegrees() * 0.02;
                 joystick_rx = joystick_rx + angleError * ((180/Math.PI) * 0.02);
-                servoGate.openGate();
-                gamepad1.rumble(1000);
-                if (distance < 240) {
-                    launcher.setShooterSpeedNear(launcher.distanceToSpeed(distance));
-                } else {
-                    launcher.setShooterSpeedFar(launcher.distanceToSpeed(distance));
-                }
-
-                launcher.setHoodPosition(launcher.distanceToHoodPosition(distance));
-                if (launcher.getShooterVelocity() >= launcher.distanceToSpeed(distance)) {
-                    intake.spinIntake(0.95);
-                }
+//                servoGate.openGate();
+//                gamepad1.rumble(1000);
+//                if (distance < 240) {
+//                    launcher.setShooterSpeedNear(launcher.distanceToSpeed(distance));
+//                } else {
+//                    launcher.setShooterSpeedFar(launcher.distanceToSpeed(distance));
+//                }
+//
+//                launcher.setHoodPosition(launcher.distanceToHoodPosition(distance));
+//                if (launcher.getShooterVelocity() >= launcher.distanceToSpeed(distance)) {
+//                    intake.spinIntake(0.95);
+//                }
             } else {
                 launcher.setShooterSpeedNear(shooterSpeed);
                 intake.spinIntake(0);
@@ -114,6 +117,7 @@ public class SpeedTuner extends LinearOpMode {
 //            telemetry.addData("Shooter Stuff: ", launcher.telemetryUpdate());
             telemetry.addData("Target ShooterSpeed", shooterSpeed);
             telemetry.addData("LaunchPower", this.launchPower);
+            telemetry.addData("Hood Position", position);
             telemetry.addData("Position", drive.getPositionTelemetry());
             if (aprilTag != null) {
                 telemetry.addData("AprilTag", aprilTag.getBotpose_MT2());

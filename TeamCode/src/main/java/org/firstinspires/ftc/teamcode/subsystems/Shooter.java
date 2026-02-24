@@ -11,14 +11,14 @@ import org.firstinspires.ftc.teamcode.LUT;
 
 public class Shooter extends Subsystem {
     private static final double CLOSE_DIST_CM = 140;
-    private static final double MID_DIST_CM = 240;
+    private static final double MID_DIST_CM = 270;
     private static final double FAR_DIST_CM = 370;
     private static final double CLOSE_SPEED = 1100;
     private static final double MID_SPEED   = 1300;
     private static final double FAR_SPEED   = 2000;
     private static final double CLOSE_HOOD = 0.5;
     private static final double MID_HOOD = 0.5; //0.2
-    private static final double FAR_HOOD = 0.5; //0.5
+    private static final double FAR_HOOD = 0.7; //0.5
     private final DcMotorEx shooter;
     private final Servo hoodServo;
 
