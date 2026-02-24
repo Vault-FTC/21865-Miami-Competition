@@ -21,7 +21,7 @@ import org.firstinspires.ftc.teamcode.subsystems.ServoGate;
 import org.firstinspires.ftc.teamcode.subsystems.Shooter;
 
 @Autonomous
-public class BlueNearAutoPedro extends LinearOpMode {
+public class BlueFarAuto extends LinearOpMode {
     Drivebase drivebase;
     Shooter shooter;
     Intake intake;
@@ -29,7 +29,7 @@ public class BlueNearAutoPedro extends LinearOpMode {
     ServoGate servoGate;
     CommandScheduler commandScheduler = CommandScheduler.getInstance();
     Follower follower;
-    private BlueNearPaths blueNearPaths;
+    private BlueFarPaths blueFarPaths;
     double time;
 
     void setTargets() {
@@ -44,7 +44,7 @@ public class BlueNearAutoPedro extends LinearOpMode {
         commandScheduler.clearRegistry();
         follower = Constants.PedroPathing.createFollower(hardwareMap);
 
-        blueNearPaths = new BlueNearPaths(follower);
+        blueFarPaths = new BlueFarPaths(follower);
 
         follower.setStartingPose(
                 new Pose(
@@ -55,7 +55,7 @@ public class BlueNearAutoPedro extends LinearOpMode {
         );
         setTargets();
         SequentialCommandGroup auto = SequentialCommandGroup.getBuilder()
-                .add(new PedroDriveToCommand(follower, blueNearPaths.BackUpToShootPosition, 3, telemetry))
+                .add(new PedroDriveToCommand(follower, blueFarPaths.Shoot1, 3, telemetry))
                 .add(new TimedShootCommand(shooter, intake, 3.5, telemetry, 1100, servoGate, time))
                 .add(ParallelCommandGroup.getBuilder()
                         .add(new IntakeCommand(intake, 1.5, telemetry, servoGate))
