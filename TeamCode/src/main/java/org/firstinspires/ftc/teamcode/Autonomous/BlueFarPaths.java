@@ -20,31 +20,31 @@ public class BlueFarPaths {
         Shoot1 = follower.pathBuilder()
                 .addPath(
                         new BezierLine(
-                                new Pose(54.361, 6.156),
-                                new Pose(62.350, 13.058)
+                                new Pose(56, 8),
+                                new Pose(56, 10)
                         )
                 )
-                .setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(125))
+                .setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(111))
                 .build();
 
         Intake1 = follower.pathBuilder()
                 .addPath(
                         new BezierLine(
-                                new Pose(62.350, 13.058),
-                                new Pose(7.512, 7.819)
+                                new Pose(56, 10),
+                                new Pose(40, 35.5)
                         )
-                )
-                .setLinearHeadingInterpolation(Math.toRadians(125), Math.toRadians(180))
+                ).setLinearHeadingInterpolation(Math.toRadians(111), -Math.toRadians(180))
+                .setReversed()
                 .build();
 
         Shoot2 = follower.pathBuilder()
                 .addPath(
                         new BezierLine(
-                                new Pose(7.512, 7.819),
-                                new Pose(62.230, 13.020)
+                                new Pose(40, 35.5),
+                                new Pose(56, 10)
                         )
                 )
-                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(125))
+                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(111))
                 .build();
 
         Intake2Prep = follower.pathBuilder()

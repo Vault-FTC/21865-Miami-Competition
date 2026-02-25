@@ -52,7 +52,7 @@ public class BlueNearPaths {
                                 new Pose(50.558, 91.700)
                         )
                 )
-                .setLinearHeadingInterpolation(Math.toRadians(180), -Math.toRadians(53))
+                .setLinearHeadingInterpolation(Math.toRadians(180), -Math.toRadians(73))
                 .setReversed()
                 .build();
 
@@ -93,7 +93,7 @@ public class BlueNearPaths {
                                 new Pose(50.341, 91.512)
                         )
                 )
-                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(140))
+                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(135))
                 .build();
 
         Prepare3rdRowArtifacts = follower.pathBuilder()
