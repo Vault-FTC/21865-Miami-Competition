@@ -34,7 +34,6 @@ public class BlueFarPaths {
                                 new Pose(40, 35.5)
                         )
                 ).setLinearHeadingInterpolation(Math.toRadians(111), -Math.toRadians(180))
-                .setReversed()
                 .build();
 
         Shoot2 = follower.pathBuilder()
