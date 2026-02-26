@@ -76,7 +76,7 @@ public class BlueFarAuto extends LinearOpMode {
                         .add(new PedroDriveToCommand(follower, blueFarPaths.Intake2, 3000,telemetry))
                         .build()
                 )
-//                .add(new PedroDriveToCommand(follower, blueFarPaths.Shoot3, 3000,telemetry))
+                .add(new PedroDriveToCommand(follower, blueFarPaths.Shoot3, 3000,telemetry))
 //                .add(new AimCommand(drivebase, limeLight, telemetry, follower))
 //                .add(new TimedShootCommand(shooter, intake, 2, telemetry, 1750, servoGate, time))
 //
@@ -87,9 +87,9 @@ public class BlueFarAuto extends LinearOpMode {
 //                )
 //                .add(new PedroDriveToCommand(follower, blueFarPaths.Shoot4, 3000,telemetry))
 //                .add(new AimCommand(drivebase, limeLight, telemetry, follower))
-//                .add(new TimedShootCommand(shooter, intake, 2.5, telemetry, 1750, servoGate, time))
-//                .add(new InstantCommand(() -> PoseStorage.startPose = new Pose2D(DistanceUnit.CM, drivebase.getPosition().getX(DistanceUnit.CM), drivebase.getPosition().getY(DistanceUnit.CM), AngleUnit.DEGREES,drivebase.getPosition().getHeading(AngleUnit.DEGREES) + 90)))
-//                .add(new PedroDriveToCommand(follower, blueFarPaths.Park, 1000, telemetry))
+                .add(new TimedShootCommand(shooter, intake, 2.5, telemetry, 1750, servoGate, time))
+                .add(new InstantCommand(() -> PoseStorage.startPose = new Pose2D(DistanceUnit.CM, drivebase.getPosition().getX(DistanceUnit.CM), drivebase.getPosition().getY(DistanceUnit.CM), AngleUnit.DEGREES,drivebase.getPosition().getHeading(AngleUnit.DEGREES) + 90)))
+                .add(new PedroDriveToCommand(follower, blueFarPaths.Park, 1000, telemetry))
                 .build();
         waitForStart();
         auto.schedule();
