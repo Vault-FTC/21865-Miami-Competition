@@ -5,7 +5,11 @@ import com.pedropathing.geometry.Pose;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.CommandSystem.CommandScheduler;
+import org.firstinspires.ftc.teamcode.CommandSystem.InstantCommand;
 import org.firstinspires.ftc.teamcode.CommandSystem.ParallelCommandGroup;
 import org.firstinspires.ftc.teamcode.CommandSystem.SequentialCommandGroup;
 import org.firstinspires.ftc.teamcode.Commands.AimCommand;
@@ -16,6 +20,7 @@ import org.firstinspires.ftc.teamcode.Constants;
 import org.firstinspires.ftc.teamcode.subsystems.Drivebase;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.subsystems.LimeLight;
+import org.firstinspires.ftc.teamcode.subsystems.PoseStorage;
 import org.firstinspires.ftc.teamcode.subsystems.ServoGate;
 import org.firstinspires.ftc.teamcode.subsystems.Shooter;
 
@@ -71,20 +76,20 @@ public class RedFarAuto extends LinearOpMode {
                         .add(new PedroDriveToCommand(follower, redFarPaths.Intake2, 3000,telemetry))
                         .build()
                 )
-//                .add(new PedroDriveToCommand(follower, blueFarPaths.Shoot3, 3000,telemetry))
-//                .add(new AimCommand(drivebase, limeLight, telemetry, follower))
-//                .add(new TimedShootCommand(shooter, intake, 2, telemetry, 1750, servoGate, time))
-//
-//                .add(ParallelCommandGroup.getBuilder()
-//                        .add(new IntakeCommand(intake, 1.5, telemetry, servoGate))
-//                        .add(new PedroDriveToCommand(follower, blueFarPaths.Intake3, 3000,telemetry))
-//                        .build()
-//                )
-//                .add(new PedroDriveToCommand(follower, blueFarPaths.Shoot4, 3000,telemetry))
-//                .add(new AimCommand(drivebase, limeLight, telemetry, follower))
-//                .add(new TimedShootCommand(shooter, intake, 2.5, telemetry, 1750, servoGate, time))
-//                .add(new InstantCommand(() -> PoseStorage.startPose = new Pose2D(DistanceUnit.CM, drivebase.getPosition().getX(DistanceUnit.CM), drivebase.getPosition().getY(DistanceUnit.CM), AngleUnit.DEGREES,drivebase.getPosition().getHeading(AngleUnit.DEGREES) + 90)))
-//                .add(new PedroDriveToCommand(follower, blueFarPaths.Park, 1000, telemetry))
+                .add(new PedroDriveToCommand(follower, redFarPaths.Shoot3, 3000,telemetry))
+                .add(new AimCommand(drivebase, limeLight, telemetry, follower))
+                .add(new TimedShootCommand(shooter, intake, 2, telemetry, 1500, servoGate, time))
+
+                .add(ParallelCommandGroup.getBuilder()
+                        .add(new IntakeCommand(intake, 1.5, telemetry, servoGate))
+                        .add(new PedroDriveToCommand(follower, redFarPaths.Intake3, 3000,telemetry))
+                        .build()
+                )
+                .add(new PedroDriveToCommand(follower, redFarPaths.Shoot4, 3000,telemetry))
+                .add(new AimCommand(drivebase, limeLight, telemetry, follower))
+                .add(new TimedShootCommand(shooter, intake, 2.5, telemetry, 1750, servoGate, time))
+                .add(new PedroDriveToCommand(follower, redFarPaths.Park, 1000, telemetry))
+                .add(new InstantCommand(() -> PoseStorage.startPose = new Pose2D(DistanceUnit.CM, drivebase.getPosition().getX(DistanceUnit.CM), drivebase.getPosition().getY(DistanceUnit.CM), AngleUnit.DEGREES,drivebase.getPosition().getHeading(AngleUnit.DEGREES) + 90)))
                 .build();
         waitForStart();
         auto.schedule();
