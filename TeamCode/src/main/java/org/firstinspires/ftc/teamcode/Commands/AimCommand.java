@@ -69,6 +69,6 @@ public class AimCommand extends Command
     @Override
     public boolean isFinished(){
        return elapsedTime.seconds() > 1;
-
     }
+
 }

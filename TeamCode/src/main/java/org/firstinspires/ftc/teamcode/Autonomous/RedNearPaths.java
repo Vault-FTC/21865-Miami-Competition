@@ -3,125 +3,93 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.bylazar.telemetry.TelemetryManager;
 import com.pedropathing.follower.Follower;
+import com.pedropathing.geometry.BezierCurve;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
 
 public class RedNearPaths {
-    private TelemetryManager telemetryManager; // Panels Telemetry instance
-    public Follower follower; // Pedro Pathing follower instance
-    public PathChain BackUpToShootPosition;
-    public PathChain PickupFirstRowArtifacts;
-    public PathChain ShootPosition2;
-    public PathChain Prepare2ndRowArtifacts;
-    public PathChain Pickup2ndRowArtifacts;
-    public PathChain OpenGate;
-    public PathChain ShootPosition3;
-    public PathChain Prepare3rdRowArtifacts;
-    public PathChain Pickup3rdRowArtifacts;
-    public PathChain FinalShootPosition;
+    public PathChain Shoot1;
+    public PathChain Intake1;
+    public PathChain Shoot2;
+    public PathChain Intake2;
+    public PathChain Shoot3;
+    public PathChain Intake4;
+    public PathChain Shoot4;
 
     public RedNearPaths(Follower follower) {
-        BackUpToShootPosition = follower.pathBuilder()
+        Shoot1 = follower.pathBuilder()
                 .addPath(
                         new BezierLine(
-                                new Pose(123.232, 123.118), // 144 - 20.768
-                                new Pose(93.337, 92.107)    // 144 - 50.663
+                                new Pose(125.268, 125.073),
+                                new Pose(96.390, 96.488)
                         )
                 )
                 .setTangentHeadingInterpolation()
                 .setReversed()
                 .build();
 
-        PickupFirstRowArtifacts = follower.pathBuilder()
+        Intake1 = follower.pathBuilder()
                 .addPath(
-                        new BezierLine(
-                                new Pose(93.337, 92.107),   // 144 - 50.663
-                                new Pose(132.324, 80.188)   // 144 - 11.676
+                        new BezierCurve(
+                                new Pose(96.390, 96.488),
+                                new Pose(95.244, 81.512),
+                                new Pose(129.756, 83.902)
                         )
                 )
-                .setTangentHeadingInterpolation()
+                .setLinearHeadingInterpolation(Math.toRadians(45), Math.toRadians(0))
                 .build();
 
-        ShootPosition2 = follower.pathBuilder()
+        Shoot2 = follower.pathBuilder()
                 .addPath(
                         new BezierLine(
-                                new Pose(132.324, 84.188),  // 144 - 11.676
-                                new Pose(93.442, 91.700)    // 144 - 50.558
+                                new Pose(129.756, 83.902),
+                                new Pose(96.171, 96.341)
                         )
                 )
-                .setLinearHeadingInterpolation(Math.toRadians(180), -Math.toRadians(53))
-                .setReversed()
+                .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(45))
                 .build();
 
-        Prepare2ndRowArtifacts = follower.pathBuilder()
+        Intake2 = follower.pathBuilder()
                 .addPath(
-                        new BezierLine(
-                                new Pose(93.442, 91.700),   // 144 - 50.558
-                                new Pose(106.824, 59.624)   // 144 - 37.176
+                        new BezierCurve(
+                                new Pose(96.171, 96.341),
+                                new Pose(90.939, 54.427),
+                                new Pose(130.976, 59.098)
                         )
                 )
-                .setLinearHeadingInterpolation(Math.toRadians(135), Math.toRadians(180))
+                .setLinearHeadingInterpolation(Math.toRadians(45), Math.toRadians(0))
                 .build();
 
-        Pickup2ndRowArtifacts = follower.pathBuilder()
+        Shoot3 = follower.pathBuilder()
                 .addPath(
                         new BezierLine(
-                                new Pose(106.824, 59.624),  // 144 - 37.176
-                                new Pose(132.043, 59.659)   // 144 - 11.957
+                                new Pose(130.976, 59.098),
+                                new Pose(96.439, 96.341)
                         )
                 )
-                .setTangentHeadingInterpolation()
+                .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(45))
                 .build();
 
-        OpenGate = follower.pathBuilder()
+        Intake4 = follower.pathBuilder()
                 .addPath(
-                        new BezierLine(
-                                new Pose(132.043, 59.659),  // 144 - 11.957
-                                new Pose(128.021, 69.700)   // 144 - 15.979
+                        new BezierCurve(
+                                new Pose(96.439, 96.341),
+                                new Pose(89.463, 27.427),
+                                new Pose(131.463, 35.244)
                         )
                 )
-                .setTangentHeadingInterpolation()
+                .setLinearHeadingInterpolation(Math.toRadians(45), Math.toRadians(0))
                 .build();
 
-        ShootPosition3 = follower.pathBuilder()
+        Shoot4 = follower.pathBuilder()
                 .addPath(
                         new BezierLine(
-                                new Pose(128.021, 69.700),  // 144 - 15.979
-                                new Pose(93.659, 91.512)    // 144 - 50.341
+                                new Pose(131.463, 35.244),
+                                new Pose(86.585, 114.463)
                         )
                 )
-                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(140))
-                .build();
-
-        Prepare3rdRowArtifacts = follower.pathBuilder()
-                .addPath(
-                        new BezierLine(
-                                new Pose(93.659, 91.512),   // 144 - 50.341
-                                new Pose(108.411, 35.172)   // 144 - 35.589
-                        )
-                )
-                .setLinearHeadingInterpolation(Math.toRadians(135), Math.toRadians(180))
-                .build();
-
-        Pickup3rdRowArtifacts = follower.pathBuilder()
-                .addPath(
-                        new BezierLine(
-                                new Pose(108.411, 35.172),  // 144 - 35.589
-                                new Pose(132.063, 35.401)   // 144 - 11.937
-                        )
-                )
-                .setTangentHeadingInterpolation()
-                .build();
-
-        FinalShootPosition = follower.pathBuilder()
-                .addPath(
-                        new BezierLine(
-                                new Pose(132.063, 35.401),  // 144 - 11.937
-                                new Pose(83.756, 106.319)   // 144 - 60.244
-                        )
-                )
-                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(155))
+                .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(30))
                 .build();
     }
 }

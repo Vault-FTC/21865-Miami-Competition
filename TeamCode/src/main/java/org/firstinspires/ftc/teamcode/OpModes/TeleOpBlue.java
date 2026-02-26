@@ -105,19 +105,17 @@ public class TeleOpBlue extends LinearOpMode {
                     intake.spinIntake(0.95);
                 }
             } else {
-                if (distance < 240) {
-                    launcher.setShooterSpeedNear(launcher.distanceToSpeed(distance));
-                } else {
-                    launcher.setShooterSpeedFar(launcher.distanceToSpeed(distance));
-                }
-
-                launcher.setHoodPosition(launcher.distanceToHoodPosition(distance));
                 intake.spinIntake(0);
                 servoGate.closeGate();
             }
 
+            if (distance < 240) {
+                launcher.setShooterSpeedNear(launcher.distanceToSpeed(distance));
+            } else {
+                launcher.setShooterSpeedFar(launcher.distanceToSpeed(distance));
+            }
 
-
+            launcher.setHoodPosition(launcher.distanceToHoodPosition(distance));
             drive.drive(joystick_y, joystick_x, joystick_rx, headingOffset);
 
             telemetry.addData("Angle from goal", angleError * 180/Math.PI);
