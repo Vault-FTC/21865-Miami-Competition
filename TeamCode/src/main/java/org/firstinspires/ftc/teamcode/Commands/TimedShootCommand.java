@@ -51,7 +51,6 @@ public class TimedShootCommand extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        shooter.setShooterSpeedNear(MotorSpeeds.ZERO.speed);
         intake.spinIntake(0);
     //    intake.spinKicker(0);
     }
