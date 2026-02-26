@@ -81,7 +81,7 @@ public class RedNearAutoPedro extends LinearOpMode {
                         .build()
                 )
                 .add(new PedroDriveToCommand(follower, redNearPaths.Shoot4, 3000,telemetry))
-                .add(new InstantCommand(() -> PoseStorage.startPose = new Pose2D(DistanceUnit.CM, drivebase.getPosition().getX(DistanceUnit.CM), drivebase.getPosition().getY(DistanceUnit.CM), AngleUnit.DEGREES,(drivebase.getPosition().getHeading(AngleUnit.DEGREES)) - 90)))
+                .add(new InstantCommand(() -> PoseStorage.startPose = new Pose2D(DistanceUnit.CM, drivebase.getPosition().getX(DistanceUnit.CM), drivebase.getPosition().getY(DistanceUnit.CM), AngleUnit.DEGREES,(drivebase.getPosition().getHeading(AngleUnit.DEGREES)) + 90)))
                 .add(new TimedShootCommand(shooter, intake, 2.5, telemetry, 1100, servoGate, time))
                 .build();
         waitForStart();

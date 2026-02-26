@@ -60,7 +60,7 @@ public class BlueFarAuto extends LinearOpMode {
         setTargets();
         SequentialCommandGroup auto = SequentialCommandGroup.getBuilder()
                 .add(new PedroDriveToCommand(follower, blueFarPaths.Shoot1, 3, telemetry))
-                .add(new AimCommand(drivebase, limeLight, telemetry, follower))
+//                .add(new AimCommand(drivebase, limeLight, telemetry, follower))
                 .add(new TimedShootCommand(shooter, intake, 3.5, telemetry, 1500, servoGate, time))
                 .add(ParallelCommandGroup.getBuilder()
                         .add(new IntakeCommand(intake, 1.5, telemetry, servoGate))
@@ -68,7 +68,7 @@ public class BlueFarAuto extends LinearOpMode {
                         .build()
                 )
                 .add(new PedroDriveToCommand(follower, blueFarPaths.Shoot2, 2, telemetry))
-                .add(new AimCommand(drivebase, limeLight, telemetry, follower))
+//                .add(new AimCommand(drivebase, limeLight, telemetry, follower))
                 .add(new TimedShootCommand(shooter, intake, 3.5, telemetry, 1500, servoGate, time))
 //                .add(new PedroDriveToCommand(follower, blueFarPaths.Intake2Prep, 3000, telemetry))
                 .add(ParallelCommandGroup.getBuilder()
