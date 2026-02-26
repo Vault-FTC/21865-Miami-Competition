@@ -47,8 +47,8 @@ public class RedFarAuto extends LinearOpMode {
 
         follower.setStartingPose(
                 new Pose(
-                        55,
-                        6,
+                        88.000,
+                        8.000,
                         Math.toRadians(90)
                 )
         );
