@@ -5,6 +5,9 @@ import com.pedropathing.geometry.Pose;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.CommandSystem.CommandScheduler;
 import org.firstinspires.ftc.teamcode.CommandSystem.InstantCommand;
 import org.firstinspires.ftc.teamcode.CommandSystem.ParallelCommandGroup;
@@ -81,7 +84,7 @@ public class BlueNearAutoPedro extends LinearOpMode {
                         .build()
                 )
                 .add(new PedroDriveToCommand(follower, blueNearPaths.FinalShootPosition, 3000,telemetry))
-                .add(new InstantCommand(() -> PoseStorage.startPose = drivebase.getPosition()))
+                .add(new InstantCommand(() -> PoseStorage.startPose = new Pose2D(DistanceUnit.CM, drivebase.getPosition().getX(DistanceUnit.CM), drivebase.getPosition().getY(DistanceUnit.CM), AngleUnit.DEGREES,(drivebase.getPosition().getHeading(AngleUnit.DEGREES)) + 90)))
                 .add(new TimedShootCommand(shooter, intake, 2.5, telemetry, 1100, servoGate, time))
                 .build();
         waitForStart();
