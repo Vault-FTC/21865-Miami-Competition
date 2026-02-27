@@ -52,8 +52,8 @@ public class RedFarAuto extends LinearOpMode {
 
         follower.setStartingPose(
                 new Pose(
-                        88.000,
-                        8.000,
+                        90.000,
+                        6.000,
                         Math.toRadians(90)
                 )
         );
@@ -76,20 +76,20 @@ public class RedFarAuto extends LinearOpMode {
                         .add(new PedroDriveToCommand(follower, redFarPaths.Intake2, 3000,telemetry))
                         .build()
                 )
-                .add(new PedroDriveToCommand(follower, redFarPaths.Shoot3, 3000,telemetry))
-                .add(new AimCommand(drivebase, limeLight, telemetry, follower))
-                .add(new TimedShootCommand(shooter, intake, 2, telemetry, 1500, servoGate, time))
-
-                .add(ParallelCommandGroup.getBuilder()
-                        .add(new IntakeCommand(intake, 1.5, telemetry, servoGate))
-                        .add(new PedroDriveToCommand(follower, redFarPaths.Intake3, 3000,telemetry))
-                        .build()
-                )
-                .add(new PedroDriveToCommand(follower, redFarPaths.Shoot4, 3000,telemetry))
-                .add(new AimCommand(drivebase, limeLight, telemetry, follower))
-                .add(new TimedShootCommand(shooter, intake, 2.5, telemetry, 1750, servoGate, time))
-                .add(new PedroDriveToCommand(follower, redFarPaths.Park, 1000, telemetry))
-                .add(new InstantCommand(() -> PoseStorage.startPose = new Pose2D(DistanceUnit.CM, drivebase.getPosition().getX(DistanceUnit.CM), drivebase.getPosition().getY(DistanceUnit.CM), AngleUnit.DEGREES,drivebase.getPosition().getHeading(AngleUnit.DEGREES) + 90)))
+//                .add(new PedroDriveToCommand(follower, redFarPaths.Shoot3, 3000,telemetry))
+//                .add(new AimCommand(drivebase, limeLight, telemetry, follower))
+//                .add(new TimedShootCommand(shooter, intake, 2, telemetry, 1500, servoGate, time))
+//
+//                .add(ParallelCommandGroup.getBuilder()
+//                        .add(new IntakeCommand(intake, 1.5, telemetry, servoGate))
+//                        .add(new PedroDriveToCommand(follower, redFarPaths.Intake3, 3000,telemetry))
+//                        .build()
+//                )
+//                .add(new PedroDriveToCommand(follower, redFarPaths.Shoot4, 3000,telemetry))
+//                .add(new AimCommand(drivebase, limeLight, telemetry, follower))
+//                .add(new TimedShootCommand(shooter, intake, 2.5, telemetry, 1750, servoGate, time))
+//                .add(new PedroDriveToCommand(follower, redFarPaths.Park, 1000, telemetry))
+//                .add(new InstantCommand(() -> PoseStorage.startPose = new Pose2D(DistanceUnit.CM, drivebase.getPosition().getX(DistanceUnit.CM), drivebase.getPosition().getY(DistanceUnit.CM), AngleUnit.DEGREES,drivebase.getPosition().getHeading(AngleUnit.DEGREES) + 90)))
                 .build();
         waitForStart();
         auto.schedule();

@@ -52,39 +52,39 @@ public class BlueNearAutoPedro extends LinearOpMode {
         follower.setStartingPose(
                 new Pose(
                         20,
-                        123,
-                        Math.toRadians(135)
+                        127,
+                        Math.toRadians(143.6)
                 )
         );
         setTargets();
         SequentialCommandGroup auto = SequentialCommandGroup.getBuilder()
-                .add(new PedroDriveToCommand(follower, blueNearPaths.BackUpToShootPosition, 3, telemetry))
+                .add(new PedroDriveToCommand(follower, blueNearPaths.Shoot1, 3, telemetry))
                 .add(new TimedShootCommand(shooter, intake, 3.5, telemetry, 1100, servoGate, time))
                 .add(ParallelCommandGroup.getBuilder()
                         .add(new IntakeCommand(intake, 1.5, telemetry, servoGate))
-                        .add(new PedroDriveToCommand(follower, blueNearPaths.PickupFirstRowArtifacts, 3, telemetry))
+                        .add(new PedroDriveToCommand(follower, blueNearPaths.Intake1, 3, telemetry))
                         .build()
                 )
                 .add(new PedroDriveToCommand(follower, blueNearPaths.OpenGate, 2, telemetry))
-                .add(new PedroDriveToCommand(follower, blueNearPaths.ShootPosition2, 2, telemetry))
+                .add(new PedroDriveToCommand(follower, blueNearPaths.Shoot2, 2, telemetry))
                 .add(new TimedShootCommand(shooter, intake, 2, telemetry, 1100, servoGate, time))
                 .add(new PedroDriveToCommand(follower, blueNearPaths.Prepare2ndRowArtifacts, 3000, telemetry))
                 .add(ParallelCommandGroup.getBuilder()
                         .add(new IntakeCommand(intake, 1.5, telemetry, servoGate))
-                        .add(new PedroDriveToCommand(follower, blueNearPaths.Pickup2ndRowArtifacts, 3000,telemetry))
+                        .add(new PedroDriveToCommand(follower, blueNearPaths.Intake2, 3000,telemetry))
                         .build()
                 )
-                .add(new PedroDriveToCommand(follower, blueNearPaths.ShootPosition3, 3000,telemetry))
+                .add(new PedroDriveToCommand(follower, blueNearPaths.Shoot3, 3000,telemetry))
                 .add(new TimedShootCommand(shooter, intake, 2, telemetry, 1100, servoGate, time))
 
                 .add(new PedroDriveToCommand(follower, blueNearPaths.Prepare3rdRowArtifacts, 3000,telemetry))
                 .add(ParallelCommandGroup.getBuilder()
                         .add(new IntakeCommand(intake, 1.5, telemetry, servoGate))
-                        .add(new PedroDriveToCommand(follower, blueNearPaths.Pickup3rdRowArtifacts, 3000,telemetry))
+                        .add(new PedroDriveToCommand(follower, blueNearPaths.Intake3, 3000,telemetry))
                         .build()
                 )
-                .add(new PedroDriveToCommand(follower, blueNearPaths.FinalShootPosition, 3000,telemetry))
-                .add(new InstantCommand(() -> PoseStorage.startPose = new Pose2D(DistanceUnit.CM, drivebase.getPosition().getX(DistanceUnit.CM), drivebase.getPosition().getY(DistanceUnit.CM), AngleUnit.DEGREES,(drivebase.getPosition().getHeading(AngleUnit.DEGREES)) + 90)))
+                .add(new PedroDriveToCommand(follower, blueNearPaths.Shoot4, 3000,telemetry))
+//                .add(new InstantCommand(() -> PoseStorage.startPose = new Pose2D(DistanceUnit.CM, drivebase.getPosition().getX(DistanceUnit.CM), drivebase.getPosition().getY(DistanceUnit.CM), AngleUnit.DEGREES,(drivebase.getPosition().getHeading(AngleUnit.DEGREES)) + 90)))
                 .add(new TimedShootCommand(shooter, intake, 2.5, telemetry, 1100, servoGate, time))
                 .build();
         waitForStart();
@@ -95,6 +95,7 @@ public class BlueNearAutoPedro extends LinearOpMode {
             telemetry.addData("Position", drivebase.getPositionTelemetry());
             drivebase.update();
             telemetry.update();
+            PoseStorage.startPose = new Pose2D(DistanceUnit.CM, drivebase.getPosition().getX(DistanceUnit.CM), drivebase.getPosition().getY(DistanceUnit.CM), AngleUnit.DEGREES,(drivebase.getPosition().getHeading(AngleUnit.DEGREES)) + 90);
         }
     }
 }
