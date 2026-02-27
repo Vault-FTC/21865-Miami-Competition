@@ -14,14 +14,16 @@ public class TimedShootCommand extends Command {
     double motorSpeed;
     private final double durationMs;
     private double startTime;
+    double intakeSpeed;
     double currentTime = 0;
-    public TimedShootCommand(Shooter shooter, Intake intake, double durationSeconds, Telemetry telemetry, double motorSpeed, ServoGate servoGate, double time) {
+    public TimedShootCommand(Shooter shooter, Intake intake, double durationSeconds, Telemetry telemetry, double motorSpeed, ServoGate servoGate, double intakeSpeed) {
         this.shooter = shooter;
         this.intake = intake;
         this.servoGate = servoGate;
         this.telemetry = telemetry;
         this.motorSpeed = motorSpeed;
         this.durationMs = durationSeconds * 1000;
+        this.intakeSpeed = intakeSpeed;
         addRequirements(this.shooter, this.intake);
     }
 
@@ -38,7 +40,7 @@ public class TimedShootCommand extends Command {
 
         servoGate.openGate();
         if (shooter.getShooterVelocity() >= motorSpeed) {
-            intake.spinIntake(0.95);
+            intake.spinIntake(intakeSpeed);
         } else {
             shooter.setShooterSpeedNear(motorSpeed);
         }
