@@ -103,7 +103,7 @@ public class TeleOpBlue extends LinearOpMode {
                 joystick_rx = joystick_rx + angleError * ((180/Math.PI) * 0.02);
                 servoGate.openGate();
                 gamepad1.rumble(1000);
-                if (Math.abs(angleError * ((180/Math.PI))) < 2.5 && Math.abs(drive.getOdo().getHeadingVelocity(UnnormalizedAngleUnit.DEGREES)) < 0.2) {
+                if (Math.abs(angleError * ((180/Math.PI))) < 2.5 && Math.abs(drive.getOdo().getHeadingVelocity(UnnormalizedAngleUnit.DEGREES)) < 0.075) {
                     intake.spinIntake(0.95);
                 }
             } else if (gamepad1.right_trigger_pressed)  {
