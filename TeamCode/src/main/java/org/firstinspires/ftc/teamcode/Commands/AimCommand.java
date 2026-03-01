@@ -21,14 +21,16 @@ public class AimCommand extends Command
     ElapsedTime elapsedTime = new ElapsedTime();
 
     private final Follower follower;
-    private final double GOAL_X = -152.4;
-    private final double GOAL_Y = -152.4;
+    private double GOAL_X;
+    private double GOAL_Y;
 
-    public AimCommand(Drivebase drivebase, LimeLight limeLight, Telemetry telemetry, Follower follower){
+    public AimCommand(Drivebase drivebase, LimeLight limeLight, Telemetry telemetry, Follower follower, double goalx, double goaly){
         this.drivebase = drivebase;
         this.limeLight = limeLight;
         this.telemetry = telemetry;
         this.follower = follower;
+        this.GOAL_X = goalx;
+        this.GOAL_Y = goaly;
     }
 
     @Override
@@ -58,7 +60,15 @@ public class AimCommand extends Command
             double tx = limeLight.getTx();
             targetHeading -= Math.toRadians(tx);
         }
-        follower.setHeading(targetHeading);
+        double error = targetHeading - pose.getHeading();
+        double wrappedError = angleWrap(error);
+        drivebase.drive(0, 0, wrappedError * -0.2);
+
+        telemetry.addData("Heading (deg)", Math.toDegrees(pose.getHeading()));
+        telemetry.addData("Error (deg)", Math.toDegrees(wrappedError));
+
+        follower.update();
+
     }
 
     @Override
@@ -70,5 +80,17 @@ public class AimCommand extends Command
     public boolean isFinished(){
        return elapsedTime.seconds() > 1;
     }
+
+    @Override
+    public void end(boolean interrupted) {
+        telemetry.addLine("Aim ended");
+        drivebase.drive(0,0,0);
+    }
+    private double angleWrap(double radians) {
+        while (radians > Math.PI) radians -= 2 * Math.PI;
+        while (radians < -Math.PI) radians += 2 * Math.PI;
+        return radians;
+    }
+
 
 }

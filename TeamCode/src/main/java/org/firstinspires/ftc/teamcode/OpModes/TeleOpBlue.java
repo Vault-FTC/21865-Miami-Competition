@@ -5,8 +5,10 @@ import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
+import org.firstinspires.ftc.robotcore.external.navigation.UnnormalizedAngleUnit;
 import org.firstinspires.ftc.teamcode.Constants;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.subsystems.Lights;
@@ -101,10 +103,18 @@ public class TeleOpBlue extends LinearOpMode {
                 joystick_rx = joystick_rx + angleError * ((180/Math.PI) * 0.02);
                 servoGate.openGate();
                 gamepad1.rumble(1000);
-                if (Math.abs(angleError * ((180/Math.PI))) < 2.5) {
+                if (Math.abs(angleError * ((180/Math.PI))) < 2.5 && Math.abs(drive.getOdo().getHeadingVelocity(UnnormalizedAngleUnit.DEGREES)) < 10  ) {
                     intake.spinIntake(0.95);
                 }
-            } else {
+            } else if (gamepad1.right_trigger_pressed)  {
+                joystick_rx = joystick_rx + angleError * ((180/Math.PI) * 0.02);
+                servoGate.openGate();
+                gamepad1.rumble(1000);
+                if (Math.abs(angleError * ((180/Math.PI))) < 2.5 && launcher.getShooterVelocity() >= launcher.distanceToSpeed(distance)) {
+                    intake.spinIntake(0.7);
+                }
+            }
+            else {
                 intake.spinIntake(0);
                 servoGate.closeGate();
             }
