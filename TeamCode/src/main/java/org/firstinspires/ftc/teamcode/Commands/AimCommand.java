@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.Commands;
 
-import static org.firstinspires.ftc.teamcode.OpModes.PedroTuning.follower;
-
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.Pose;
 import com.qualcomm.hardware.limelightvision.LLResult;
@@ -21,8 +19,8 @@ public class AimCommand extends Command
     ElapsedTime elapsedTime = new ElapsedTime();
 
     private final Follower follower;
-    private double GOAL_X;
-    private double GOAL_Y;
+    private final double GOAL_X;
+    private final double GOAL_Y;
 
     public AimCommand(Drivebase drivebase, LimeLight limeLight, Telemetry telemetry, Follower follower, double goalx, double goaly){
         this.drivebase = drivebase;
@@ -62,7 +60,7 @@ public class AimCommand extends Command
         }
         double error = targetHeading - pose.getHeading();
         double wrappedError = angleWrap(error);
-        drivebase.drive(0, 0, wrappedError * -0.2);
+        drivebase.drive(0, 0, wrappedError * -0.75);
 
         telemetry.addData("Heading (deg)", Math.toDegrees(pose.getHeading()));
         telemetry.addData("Error (deg)", Math.toDegrees(wrappedError));
