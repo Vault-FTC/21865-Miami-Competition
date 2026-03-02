@@ -61,7 +61,7 @@ public class BlueFarAuto extends LinearOpMode {
         SequentialCommandGroup auto = SequentialCommandGroup.getBuilder()
                 .add(new PedroDriveToCommand(follower, blueFarPaths.Shoot1, 3, telemetry))
                 .add(new AimCommand(drivebase, limeLight, telemetry, follower, blueFarPaths.GOAL_X, blueFarPaths.GOAL_Y))
-                .add(new TimedShootCommand(shooter, intake, 5, telemetry, 1450, servoGate, 0.7))
+                .add(new TimedShootCommand(shooter, intake, 5, telemetry, 1450, servoGate, 0.7, 0.7))
                 .add(ParallelCommandGroup.getBuilder()
                         .add(new IntakeCommand(intake, 3, telemetry, servoGate))
                         .add(new PedroDriveToCommand(follower, blueFarPaths.Intake1, 3, telemetry))
@@ -69,7 +69,7 @@ public class BlueFarAuto extends LinearOpMode {
                 )
                 .add(new PedroDriveToCommand(follower, blueFarPaths.Shoot2, 2, telemetry))
                 .add(new AimCommand(drivebase, limeLight, telemetry, follower, blueFarPaths.GOAL_X, blueFarPaths.GOAL_Y))
-                .add(new TimedShootCommand(shooter, intake, 2, telemetry, 1450, servoGate, 0.7))
+                .add(new TimedShootCommand(shooter, intake, 2, telemetry, 1450, servoGate, 0.7, 0.7))
                 .add(ParallelCommandGroup.getBuilder()
                         .add(new IntakeCommand(intake, 3, telemetry, servoGate))
                         .add(new PedroDriveToCommand(follower, blueFarPaths.Intake2, 3000,telemetry))
@@ -77,7 +77,7 @@ public class BlueFarAuto extends LinearOpMode {
                 )
                 .add(new PedroDriveToCommand(follower, blueFarPaths.Shoot3, 3000,telemetry))
                 .add(new AimCommand(drivebase, limeLight, telemetry, follower, blueFarPaths.GOAL_X, blueFarPaths.GOAL_Y))
-                .add(new TimedShootCommand(shooter, intake, 2, telemetry, 1450, servoGate, 0.7))
+                .add(new TimedShootCommand(shooter, intake, 2, telemetry, 1450, servoGate, 0.7, 0.7))
                 .add(new PedroDriveToCommand(follower, blueFarPaths.Park, 1000, telemetry))
                 .build();
         waitForStart();
@@ -85,8 +85,8 @@ public class BlueFarAuto extends LinearOpMode {
         while(opModeIsActive()) {
             time = getRuntime();
             commandScheduler.run();
-            PoseStorage.startPose = new Pose2D(DistanceUnit.CM, drivebase.getPosition().getX(DistanceUnit.CM), drivebase.getPosition().getY(DistanceUnit.CM), AngleUnit.DEGREES,drivebase.getPosition().getHeading(AngleUnit.DEGREES) + 90);
             telemetry.addData("Position", drivebase.getPositionTelemetry());
+            PoseStorage.startPose = new Pose2D(DistanceUnit.CM, drivebase.getPosition().getX(DistanceUnit.CM), drivebase.getPosition().getY(DistanceUnit.CM), AngleUnit.DEGREES,drivebase.getPosition().getHeading(AngleUnit.DEGREES) + 90);
             drivebase.update();
             telemetry.update();
         }

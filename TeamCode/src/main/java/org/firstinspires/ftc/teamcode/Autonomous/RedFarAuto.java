@@ -61,7 +61,7 @@ public class RedFarAuto extends LinearOpMode {
         SequentialCommandGroup auto = SequentialCommandGroup.getBuilder()
                 .add(new PedroDriveToCommand(follower, redFarPaths.Shoot1, 3, telemetry))
                 .add(new AimCommand(drivebase, limeLight, telemetry, follower, redFarPaths.GOAL_X, redFarPaths.GOAL_Y))
-                .add(new TimedShootCommand(shooter, intake, 5, telemetry, 1500, servoGate, 0.7))
+                .add(new TimedShootCommand(shooter, intake, 5, telemetry, 1500, servoGate, 0.7, 0.7))
                 .add(ParallelCommandGroup.getBuilder()
                         .add(new IntakeCommand(intake, 2, telemetry, servoGate))
                         .add(new PedroDriveToCommand(follower, redFarPaths.Intake1, 3, telemetry))
@@ -69,7 +69,7 @@ public class RedFarAuto extends LinearOpMode {
                 )
                 .add(new PedroDriveToCommand(follower, redFarPaths.Shoot2, 2, telemetry))
                 .add(new AimCommand(drivebase, limeLight, telemetry, follower, redFarPaths.GOAL_X, redFarPaths.GOAL_Y))
-                .add(new TimedShootCommand(shooter, intake, 3.5, telemetry, 1500, servoGate, 0.7))
+                .add(new TimedShootCommand(shooter, intake, 3.5, telemetry, 1500, servoGate, 0.7, 0.7))
                 .add(ParallelCommandGroup.getBuilder()
                         .add(new IntakeCommand(intake, 1.5, telemetry, servoGate))
                         .add(new PedroDriveToCommand(follower, redFarPaths.Intake2, 3000,telemetry))
@@ -77,7 +77,7 @@ public class RedFarAuto extends LinearOpMode {
                 )
                 .add(new PedroDriveToCommand(follower, redFarPaths.Shoot3, 3000,telemetry))
                 .add(new AimCommand(drivebase, limeLight, telemetry, follower, redFarPaths.GOAL_X, redFarPaths.GOAL_Y))
-                .add(new TimedShootCommand(shooter, intake, 2.5, telemetry, 1500, servoGate, 0.7))
+                .add(new TimedShootCommand(shooter, intake, 2.5, telemetry, 1500, servoGate, 0.7, 0.7))
                 .add(new PedroDriveToCommand(follower, redFarPaths.Park, 1000, telemetry))
                 .build();
         waitForStart();

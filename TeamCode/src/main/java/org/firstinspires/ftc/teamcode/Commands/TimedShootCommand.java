@@ -11,13 +11,16 @@ public class TimedShootCommand extends Command {
     Shooter shooter;
     Intake intake;
     private final ServoGate servoGate;
+
+    double hoodPosition;
     double motorSpeed;
     private final double durationMs;
     private double startTime;
     double intakeSpeed;
     double currentTime = 0;
-    public TimedShootCommand(Shooter shooter, Intake intake, double durationSeconds, Telemetry telemetry, double motorSpeed, ServoGate servoGate, double intakeSpeed) {
+    public TimedShootCommand(Shooter shooter, Intake intake, double durationSeconds, Telemetry telemetry, double motorSpeed, ServoGate servoGate, double intakeSpeed, double hoodPosition) {
         this.shooter = shooter;
+        this.hoodPosition = hoodPosition;
         this.intake = intake;
         this.servoGate = servoGate;
         this.telemetry = telemetry;
@@ -35,6 +38,7 @@ public class TimedShootCommand extends Command {
     }
     @Override
     public void execute() {
+        shooter.setHoodPosition(hoodPosition);
         currentTime = timer.milliseconds();
         double elapsed = currentTime - startTime;
 
