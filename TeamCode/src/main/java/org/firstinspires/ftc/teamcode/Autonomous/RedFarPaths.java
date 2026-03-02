@@ -25,7 +25,7 @@ public class RedFarPaths {
                                 new Pose(83.000, 13.000)
                         )
                 )
-                .setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(40))
+                .setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(60))
                 .build();
 
         Intake1 = follower.pathBuilder()

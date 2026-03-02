@@ -59,21 +59,21 @@ public class RedNearAutoPedro extends LinearOpMode {
         setTargets();
         SequentialCommandGroup auto = SequentialCommandGroup.getBuilder()
                 .add(new PedroDriveToCommand(follower, redNearPaths.Shoot1, 3, telemetry))
-                .add(new TimedShootCommand(shooter, intake, 3.5, telemetry, 1100, servoGate, time))
+                .add(new TimedShootCommand(shooter, intake, 3.5, telemetry, 1100, servoGate, 0.95))
                 .add(ParallelCommandGroup.getBuilder()
                         .add(new IntakeCommand(intake, 2, telemetry, servoGate))
                         .add(new PedroDriveToCommand(follower, redNearPaths.Intake1, 3, telemetry))
                         .build()
                 )
                 .add(new PedroDriveToCommand(follower, redNearPaths.Shoot2, 2, telemetry))
-                .add(new TimedShootCommand(shooter, intake, 2, telemetry, 1100, servoGate, time))
+                .add(new TimedShootCommand(shooter, intake, 2, telemetry, 1100, servoGate, 0.95))
                 .add(ParallelCommandGroup.getBuilder()
                         .add(new IntakeCommand(intake, 2, telemetry, servoGate))
                         .add(new PedroDriveToCommand(follower, redNearPaths.Intake2, 3000,telemetry))
                         .build()
                 )
                 .add(new PedroDriveToCommand(follower, redNearPaths.Shoot3, 3000,telemetry))
-                .add(new TimedShootCommand(shooter, intake, 2, telemetry, 1100, servoGate, time))
+                .add(new TimedShootCommand(shooter, intake, 2, telemetry, 1100, servoGate, 0.95))
 
                 .add(ParallelCommandGroup.getBuilder()
                         .add(new IntakeCommand(intake, 2.5, telemetry, servoGate))
@@ -82,7 +82,7 @@ public class RedNearAutoPedro extends LinearOpMode {
                 )
                 .add(new PedroDriveToCommand(follower, redNearPaths.Shoot4, 3000,telemetry))
                 .add(new InstantCommand(() -> PoseStorage.startPose = new Pose2D(DistanceUnit.CM, drivebase.getPosition().getX(DistanceUnit.CM), drivebase.getPosition().getY(DistanceUnit.CM), AngleUnit.DEGREES,(drivebase.getPosition().getHeading(AngleUnit.DEGREES)) + 90)))
-                .add(new TimedShootCommand(shooter, intake, 2.5, telemetry, 1100, servoGate, time))
+                .add(new TimedShootCommand(shooter, intake, 2.5, telemetry, 1100, servoGate, 0.95))
                 .build();
         waitForStart();
         auto.schedule();
