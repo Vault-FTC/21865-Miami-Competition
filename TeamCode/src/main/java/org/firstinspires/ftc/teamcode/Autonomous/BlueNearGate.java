@@ -32,7 +32,7 @@ public class BlueNearGate extends LinearOpMode {
     ServoGate servoGate;
     CommandScheduler commandScheduler = CommandScheduler.getInstance();
     Follower follower;
-    private BlueNearGatePaths BlueNearGatePaths;
+    private BlueNearPaths blueNearPaths;
     double time;
 
     void setTargets() {
@@ -47,7 +47,7 @@ public class BlueNearGate extends LinearOpMode {
         commandScheduler.clearRegistry();
         follower = Constants.PedroPathing.createFollower(hardwareMap);
 
-        BlueNearGatePaths = new BlueNearGatePaths(follower);
+        blueNearPaths = new BlueNearPaths(follower);
 
         follower.setStartingPose(
                 new Pose(
@@ -58,32 +58,33 @@ public class BlueNearGate extends LinearOpMode {
         );
         setTargets();
         SequentialCommandGroup auto = SequentialCommandGroup.getBuilder()
-                .add(new PedroDriveToCommand(follower, BlueNearGatePaths.Shoot1, 3, telemetry))
-                .add(new TimedShootCommand(shooter, intake, 3.5, telemetry, 1100, servoGate, 0.95))
+//                .add(new PedroDriveToCommand(follower, blueNearPaths.Shoot1, 3, telemetry))
+                .add(new TimedShootCommand(shooter, intake, 3.5, telemetry, 1100, servoGate, 0.95, 0.1))
                 .add(ParallelCommandGroup.getBuilder()
-                        .add(new IntakeCommand(intake, 1.5, telemetry, servoGate))
-                        .add(new PedroDriveToCommand(follower, BlueNearGatePaths.Intake1, 3, telemetry))
+                        .add(new IntakeCommand(intake, 2.25, telemetry, servoGate))
+                        .add(new PedroDriveToCommand(follower, blueNearPaths.Intake1, 2, telemetry))
                         .build()
                 )
-                .add(new PedroDriveToCommand(follower, BlueNearGatePaths.Gate1, 2, telemetry))
-                .add(new PedroDriveToCommand(follower, BlueNearGatePaths.Shoot2, 2, telemetry))
-                .add(new TimedShootCommand(shooter, intake, 2, telemetry, 1100, servoGate, 0.95))
+                .add(new PedroDriveToCommand(follower, blueNearPaths.Gate1, 2, telemetry))
+                .add(new PedroDriveToCommand(follower, blueNearPaths.Shoot2, 2, telemetry))
+                .add(new TimedShootCommand(shooter, intake, 2, telemetry, 1100, servoGate, 0.95, 0.4))
                 .add(ParallelCommandGroup.getBuilder()
-                        .add(new IntakeCommand(intake, 1.5, telemetry, servoGate))
-                        .add(new PedroDriveToCommand(follower, BlueNearGatePaths.Intake2, 3000,telemetry))
+                        .add(new IntakeCommand(intake, 2.25, telemetry, servoGate))
+                        .add(new PedroDriveToCommand(follower, blueNearPaths.Intake2, 2, telemetry))
                         .build()
                 )
-                .add(new PedroDriveToCommand(follower, BlueNearGatePaths.Gate2, 3000,telemetry))
-                .add(new TimedShootCommand(shooter, intake, 2, telemetry, 1100, servoGate, 0.95))
-
+                .add(new PedroDriveToCommand(follower, blueNearPaths.Gate2, 2, telemetry))
+                .add(new PedroDriveToCommand(follower, blueNearPaths.Shoot3, 2, telemetry))
+                .add(new TimedShootCommand(shooter, intake, 2, telemetry, 1100, servoGate, 0.95, 0.4))
                 .add(ParallelCommandGroup.getBuilder()
-                        .add(new IntakeCommand(intake, 1.5, telemetry, servoGate))
-                        .add(new PedroDriveToCommand(follower, BlueNearGatePaths.Intake3, 3000,telemetry))
+                        .add(new IntakeCommand(intake, 3, telemetry, servoGate))
+                        .add(new PedroDriveToCommand(follower, blueNearPaths.Intake3, 2, telemetry))
                         .build()
                 )
-                .add(new PedroDriveToCommand(follower, BlueNearGatePaths.Shoot4, 3000,telemetry))
+                .add(new PedroDriveToCommand(follower, blueNearPaths.Shoot4, 2, telemetry))
+                .add(new TimedShootCommand(shooter, intake, 2.5, telemetry, 1100, servoGate, 0.95, 0.4))
+                .add(new PedroDriveToCommand(follower, blueNearPaths.Park, 2, telemetry))
                 .add(new InstantCommand(() -> PoseStorage.startPose = new Pose2D(DistanceUnit.CM, drivebase.getPosition().getX(DistanceUnit.CM), drivebase.getPosition().getY(DistanceUnit.CM), AngleUnit.DEGREES,(drivebase.getPosition().getHeading(AngleUnit.DEGREES)) + 90)))
-                .add(new TimedShootCommand(shooter, intake, 2.5, telemetry, 1100, servoGate, 0.95))
                 .build();
         waitForStart();
         auto.schedule();

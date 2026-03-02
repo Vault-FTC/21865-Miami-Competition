@@ -13,11 +13,11 @@ public class BlueNearPaths {
     public Follower follower; // Pedro Pathing follower instance
     public PathChain Shoot1;
     public PathChain Intake1;
-    public PathChain OpenGate;
+    public PathChain Gate1;
+    public PathChain Gate2;
     public PathChain Shoot2;
     public PathChain Intake2;
     public PathChain Shoot3;
-    
     public PathChain Intake3;
     public PathChain Shoot4;
     public PathChain Park;
@@ -43,7 +43,7 @@ public class BlueNearPaths {
 
                 .build();
 
-        OpenGate = follower.pathBuilder().addPath(
+        Gate1 = follower.pathBuilder().addPath(
                         new BezierCurve(
                                 new Pose(15.000, 83.000),
                                 new Pose(25.000, 76.000),
@@ -59,7 +59,7 @@ public class BlueNearPaths {
 
                                 new Pose(37.000, 105.000)
                         )
-                ).setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(135))
+                ).setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(160))
 
                 .build();
 
@@ -73,13 +73,23 @@ public class BlueNearPaths {
 
                 .build();
 
-          Shoot3 = follower.pathBuilder().addPath(
+        Gate2 = follower.pathBuilder().addPath(
+                new BezierCurve(
+                        new Pose(15.500, 60.000),
+                        new Pose(25.000, 76.000),
+                        new Pose(4.000, 76.000)
+                )
+        ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(90))
+
+                .build();
+
+        Shoot3 = follower.pathBuilder().addPath(
                         new BezierCurve(
                                 new Pose(15.500, 60.000),
                                 new Pose(26.000, 55.000),
                                 new Pose(37.000, 105.000)
                         )
-                ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(135))
+                ).setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(135))
 
                 .build();
 
@@ -99,7 +109,7 @@ public class BlueNearPaths {
 
                                 new Pose(37.000, 105.000)
                         )
-                ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(135))
+                ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(115))
 
                 .build();
 
