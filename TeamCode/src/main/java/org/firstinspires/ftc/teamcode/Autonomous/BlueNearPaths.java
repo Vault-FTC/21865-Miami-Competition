@@ -46,7 +46,7 @@ public class BlueNearPaths {
         OpenGate = follower.pathBuilder().addPath(
                         new BezierCurve(
                                 new Pose(15.000, 83.000),
-                                new Pose(22.500, 76.000),
+                                new Pose(25.000, 76.000),
                                 new Pose(4.000, 76.000)
                         )
                 ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(90))
