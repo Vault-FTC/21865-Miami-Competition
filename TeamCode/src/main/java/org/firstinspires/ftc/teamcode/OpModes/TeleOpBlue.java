@@ -94,7 +94,6 @@ public class TeleOpBlue extends LinearOpMode {
                 intake.spinIntake(-0.95);
                 launcher.setShooterSpeedNear(-900);
             } else if (autoShoot) {
-//              joystick_rx = joystick_rx - aprilTag.getTargetXDegrees() * 0.02;
                 joystick_rx = joystick_rx + angleError * ((180/Math.PI) * 0.02);
                 servoGate.openGate();
                 gamepad1.rumble(1000);
@@ -102,11 +101,11 @@ public class TeleOpBlue extends LinearOpMode {
                     intake.spinIntake(0.95);
                 }
             } else if (gamepad1.right_trigger_pressed)  {
-                joystick_rx = joystick_rx + (angleError+0.03) * ((180/Math.PI) * 0.02);
+                joystick_rx = joystick_rx + (angleError+0.1) * ((180/Math.PI) * 0.02);
                 servoGate.openGate();
                 gamepad1.rumble(1000);
-                if (Math.abs((angleError+0.03 ) * ((180/Math.PI))) < 2.5 && launcher.getShooterVelocity() >= launcher.distanceToSpeed(distance)) {
-                    intake.spinIntake(0.7);
+                if (Math.abs((angleError+0.1) * ((180/Math.PI))) < 1 && launcher.getShooterVelocity() >= launcher.distanceToSpeed(distance)) {
+                    intake.spinIntake(0.6);
                 }
             }
             else {
@@ -134,6 +133,7 @@ public class TeleOpBlue extends LinearOpMode {
             telemetry.addData("Shooter Stuff: ", launcher.telemetryUpdate());
             telemetry.addData("LaunchPower", this.launchPower);
             telemetry.addData("Position", drive.getPositionTelemetry());
+            telemetry.addData("Number of artifacts", intake.numberOfArtifacts());
             if (aprilTag != null) {
                 telemetry.addData("AprilTag", aprilTag.getBotpose_MT2());
             }
