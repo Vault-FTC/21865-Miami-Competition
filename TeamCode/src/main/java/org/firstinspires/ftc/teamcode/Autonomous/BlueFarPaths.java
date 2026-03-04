@@ -7,7 +7,7 @@ import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
 
 public class BlueFarPaths {
-    public double GOAL_X = 12;
+    public double GOAL_X = 6;
     public double GOAL_Y = 143;
     public PathChain Shoot1;
     public PathChain Intake1;
@@ -24,7 +24,7 @@ public class BlueFarPaths {
                 .addPath(
                         new BezierLine(
                                 new Pose(54.000, 6.000),
-                                new Pose(60.000, 12.000)
+                                new Pose(57, 12.000)
                         )
                 )
                 .setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(105))
@@ -33,8 +33,8 @@ public class BlueFarPaths {
         Intake1 = follower.pathBuilder()
                 .addPath(
                         new BezierCurve(
-                                new Pose(60.000, 12.000),
-                                new Pose(61.280, 37.732),
+                                new Pose(57, 12.000),
+                                new Pose(61.280, 36),
                                 new Pose(20, 36.000)
                         )
                 )
@@ -44,8 +44,8 @@ public class BlueFarPaths {
         Shoot2 = follower.pathBuilder()
                 .addPath(
                         new BezierLine(
-                                new Pose(14.122, 36.000),
-                                new Pose(60.000, 12.000)
+                                new Pose(20, 36.000),
+                                new Pose(57, 12.000)
                         )
                 )
                 .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(120))
@@ -54,8 +54,8 @@ public class BlueFarPaths {
         Intake2 = follower.pathBuilder()
                 .addPath(
                         new BezierLine(
-                                new Pose(60.000, 12.000),
-                                new Pose(20, 6)
+                                new Pose(57, 12.000),
+                                new Pose(10, 6)
                         )
                 )
                 .setLinearHeadingInterpolation(Math.toRadians(120), Math.toRadians(180))
@@ -65,7 +65,7 @@ public class BlueFarPaths {
                 .addPath(
                         new BezierLine(
                                 new Pose(8.000, 10.000),
-                                new Pose(60.024, 11.951)
+                                new Pose(57, 11.951)
                         )
                 )
                 .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(120))
@@ -74,8 +74,8 @@ public class BlueFarPaths {
         Park = follower.pathBuilder()
                 .addPath(
                         new BezierLine(
-                                new Pose(62.782, 12.452),
-                                new Pose(63.006, 31.364)
+                                new Pose(57, 11.951),
+                                new Pose(57, 31.364)
                         )
                 )
                 .setLinearHeadingInterpolation(Math.toRadians(125), Math.toRadians(90))

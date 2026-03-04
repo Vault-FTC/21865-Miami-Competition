@@ -52,7 +52,7 @@ public class BlueFarAuto extends LinearOpMode {
 
         follower.setStartingPose(
                 new Pose(
-                        55,
+                        54,
                         6,
                         Math.toRadians(90)
                 )
@@ -61,7 +61,7 @@ public class BlueFarAuto extends LinearOpMode {
         SequentialCommandGroup auto = SequentialCommandGroup.getBuilder()
                 .add(new PedroDriveToCommand(follower, blueFarPaths.Shoot1, 3, telemetry))
                 .add(new AimCommand(drivebase, limeLight, telemetry, follower, blueFarPaths.GOAL_X, blueFarPaths.GOAL_Y))
-                .add(new TimedShootCommand(shooter, intake, 5, telemetry, 1450, servoGate, 0.7, 0.7))
+                .add(new TimedShootCommand(shooter, intake, 3, telemetry, 1400, servoGate, 0.7, 0.7))
                 .add(ParallelCommandGroup.getBuilder()
                         .add(new IntakeCommand(intake, 3, telemetry, servoGate))
                         .add(new PedroDriveToCommand(follower, blueFarPaths.Intake1, 3, telemetry))
@@ -72,13 +72,17 @@ public class BlueFarAuto extends LinearOpMode {
                 .add(new TimedShootCommand(shooter, intake, 2, telemetry, 1450, servoGate, 0.7, 0.7))
                 .add(ParallelCommandGroup.getBuilder()
                         .add(new IntakeCommand(intake, 3, telemetry, servoGate))
-                        .add(new PedroDriveToCommand(follower, blueFarPaths.Intake2, 3000,telemetry))
+                        .add(new PedroDriveToCommand(follower, blueFarPaths.Intake2, 3,telemetry))
                         .build()
                 )
-                .add(new PedroDriveToCommand(follower, blueFarPaths.Shoot3, 3000,telemetry))
+
+                .add(ParallelCommandGroup.getBuilder()
+                        .add(new IntakeCommand(intake, 1.5, telemetry, servoGate))
+                        .add(new PedroDriveToCommand(follower, blueFarPaths.Shoot3, 3,telemetry))                        .build()
+                )
                 .add(new AimCommand(drivebase, limeLight, telemetry, follower, blueFarPaths.GOAL_X, blueFarPaths.GOAL_Y))
                 .add(new TimedShootCommand(shooter, intake, 2, telemetry, 1450, servoGate, 0.7, 0.7))
-                .add(new PedroDriveToCommand(follower, blueFarPaths.Park, 1000, telemetry))
+                .add(new PedroDriveToCommand(follower, blueFarPaths.Park, 1, telemetry))
                 .build();
         waitForStart();
         auto.schedule();
