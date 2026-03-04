@@ -34,17 +34,17 @@ public class BlueFarPaths {
                 .addPath(
                         new BezierCurve(
                                 new Pose(57, 12.000),
-                                new Pose(61.280, 36),
-                                new Pose(20, 36.000)
+                                new Pose(61.280, 33),
+                                new Pose(20, 33)
                         )
                 )
-                .setLinearHeadingInterpolation(Math.toRadians(120), Math.toRadians(180))
+                .setLinearHeadingInterpolation(Math.toRadians(105), Math.toRadians(180))
                 .build();
 
         Shoot2 = follower.pathBuilder()
                 .addPath(
                         new BezierLine(
-                                new Pose(20, 36.000),
+                                new Pose(20, 33),
                                 new Pose(57, 12.000)
                         )
                 )
@@ -55,7 +55,7 @@ public class BlueFarPaths {
                 .addPath(
                         new BezierLine(
                                 new Pose(57, 12.000),
-                                new Pose(10, 6)
+                                new Pose(10, 3)
                         )
                 )
                 .setLinearHeadingInterpolation(Math.toRadians(120), Math.toRadians(180))
@@ -64,11 +64,11 @@ public class BlueFarPaths {
         Shoot3 = follower.pathBuilder()
                 .addPath(
                         new BezierLine(
-                                new Pose(8.000, 10.000),
+                                new Pose(10, 3),
                                 new Pose(57, 11.951)
                         )
                 )
-                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(120))
+                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(130))
                 .build();
 
         Park = follower.pathBuilder()
