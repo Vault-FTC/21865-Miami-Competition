@@ -33,7 +33,7 @@ public class RedFarPaths {
                         new BezierCurve(
                                 new Pose(83.000, 13.000),
                                 new Pose(91.582, 50),
-                                new Pose(125, 43)
+                                new Pose(130.645, 35.165)
                         )
                 )
                 .setLinearHeadingInterpolation(Math.toRadians(60), Math.toRadians(0))
@@ -51,13 +51,12 @@ public class RedFarPaths {
 
         Intake2 = follower.pathBuilder()
                 .addPath(
-                        new BezierCurve(
+                        new BezierLine(
                                 new Pose(83.000, 13.000),
-                                new Pose(135, 50),
-                                new Pose(130, 15)
+                                new Pose(138.045, 9.620)
                         )
                 )
-                .setLinearHeadingInterpolation(Math.toRadians(60), Math.toRadians(-90))
+                .setLinearHeadingInterpolation(Math.toRadians(60), Math.toRadians(0))
                 .build();
 
         Shoot3 = follower.pathBuilder()

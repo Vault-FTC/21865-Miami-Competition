@@ -76,10 +76,6 @@ public class TeleOpBlue extends LinearOpMode {
                 drive.setCurrentPose(aprilTag.getBotpose_MT2().getPosition().toUnit(DistanceUnit.CM).x,
                         aprilTag.getBotpose_MT2().getPosition().toUnit(DistanceUnit.CM).y);
                 telemetry.addData("BotPose", aprilTag.getBotpose_MT2().getPosition());
-
-//                drive.setCurrentPose(aprilTag.getBotpose_MT2().getPosition().toUnit(DistanceUnit.CM).x,
-//                        aprilTag.getBotpose_MT2().getPosition().toUnit(DistanceUnit.CM).y,
-//                        drive.getPosition().getHeading(AngleUnit.RADIANS));
             }
 
 
@@ -96,16 +92,16 @@ public class TeleOpBlue extends LinearOpMode {
             } else if (autoShoot) {
                 joystick_rx = joystick_rx + angleError * ((180/Math.PI) * 0.02);
                 servoGate.openGate();
-                gamepad1.rumble(1000);
                 if (Math.abs(angleError * ((180/Math.PI))) < 2.5 && Math.abs(drive.getOdo().getHeadingVelocity(UnnormalizedAngleUnit.DEGREES)) < 10  ) {
                     intake.spinIntake(0.95);
+                    gamepad1.rumble(1000);
                 }
             } else if (gamepad1.right_trigger_pressed)  {
                 joystick_rx = joystick_rx + (angleError+0.1) * ((180/Math.PI) * 0.02);
                 servoGate.openGate();
-                gamepad1.rumble(1000);
                 if (Math.abs((angleError+0.1) * ((180/Math.PI))) < 1 && launcher.getShooterVelocity() >= launcher.distanceToSpeed(distance)) {
                     intake.spinIntake(0.6);
+                    gamepad1.rumble(1000);
                 }
             }
             else {
