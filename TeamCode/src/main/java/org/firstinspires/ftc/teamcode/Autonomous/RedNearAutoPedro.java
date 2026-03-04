@@ -59,7 +59,7 @@ public class RedNearAutoPedro extends LinearOpMode {
         setTargets();
         SequentialCommandGroup auto = SequentialCommandGroup.getBuilder()
 //                .add(new PedroDriveToCommand(follower, redNearPaths.Shoot1, 3, telemetry))
-                .add(new TimedShootCommand(shooter, intake, 3.5, telemetry, 1100, servoGate, 0.95, 0.1))
+                .add(new TimedShootCommand(shooter, intake, 3.5, telemetry, 1100, servoGate, 0.95, 0.05))
                 .add(ParallelCommandGroup.getBuilder()
                         .add(new IntakeCommand(intake, 2.25, telemetry, servoGate))
                         .add(new PedroDriveToCommand(follower, redNearPaths.Intake1, 2, telemetry))

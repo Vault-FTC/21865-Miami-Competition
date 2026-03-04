@@ -9,19 +9,19 @@ public class TestOpMode extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
-        DcMotorEx lf = hardwareMap.get(DcMotorEx.class, "frontLeftMotor");
-        DcMotorEx rf = hardwareMap.get(DcMotorEx.class, "frontRightMotor");
-        DcMotorEx lb = hardwareMap.get(DcMotorEx.class, "backLeftMotor");
-        DcMotorEx rb = hardwareMap.get(DcMotorEx.class, "backRightMotor");
+        DcMotorEx frontLeftMotor = hardwareMap.get(DcMotorEx.class, "frontLeftMotor");
+        DcMotorEx frontRightMotor = hardwareMap.get(DcMotorEx.class, "frontRightMotor");
+        DcMotorEx backLeftMotor = hardwareMap.get(DcMotorEx.class, "backLeftMotor");
+        DcMotorEx backRightMotor = hardwareMap.get(DcMotorEx.class, "backRightMotor");
 
         waitForStart();
 
         while(opModeIsActive())
         {
-            doMotor(gamepad1.a, lf, "LF");
-            doMotor(gamepad1.b, lb, "LB");
-            doMotor(gamepad1.x, rf, "RF");
-            doMotor(gamepad1.y, rb, "RB");
+            doMotor(gamepad1.a, frontLeftMotor, "frontLeftMotor");
+            doMotor(gamepad1.x, frontRightMotor, "frontRightMotor");
+            doMotor(gamepad1.b, backLeftMotor, "backLeftMotor");
+            doMotor(gamepad1.y, backRightMotor, "backRightMotor");
             telemetry.update();
         }
     }

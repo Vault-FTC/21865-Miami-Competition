@@ -153,6 +153,12 @@ public class Drivebase extends Subsystem {
         drive(forwardPower, strafePower, turnPower);
 
     }
+    public void brake() {
+        frontLeftMotor.setPower(0);
+        frontRightMotor.setPower(0);
+        backLeftMotor.setPower(0);
+        backRightMotor.setPower(0);
+    }
 
     public boolean isAtPosition(Location target) {
         return isAtPosition(target, 15, 17.5);
