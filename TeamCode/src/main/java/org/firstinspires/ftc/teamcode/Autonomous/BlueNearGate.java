@@ -13,6 +13,7 @@ import org.firstinspires.ftc.teamcode.CommandSystem.InstantCommand;
 import org.firstinspires.ftc.teamcode.CommandSystem.ParallelCommandGroup;
 import org.firstinspires.ftc.teamcode.CommandSystem.SequentialCommandGroup;
 import org.firstinspires.ftc.teamcode.Commands.AimCommand;
+import org.firstinspires.ftc.teamcode.Commands.BrakeCommand;
 import org.firstinspires.ftc.teamcode.Commands.IntakeCommand;
 import org.firstinspires.ftc.teamcode.Commands.PedroDriveToCommand;
 import org.firstinspires.ftc.teamcode.Commands.TimedShootCommand;
@@ -53,41 +54,49 @@ public class BlueNearGate extends LinearOpMode {
         follower.setStartingPose(
                 new Pose(
                         20,
-                        123,
-                        Math.toRadians(135)
+                        127,
+                        Math.toRadians(143.5)
                 )
         );
         setTargets();
         SequentialCommandGroup auto = SequentialCommandGroup.getBuilder()
-                .add(new TimedShootCommand(shooter, intake, 3.5, telemetry, 800, servoGate, 0.95, 0.05))
+//                .add(new PedroDriveToCommand(follower, blueNearPaths.Shoot1, 3, telemetry))
+                .add(new TimedShootCommand(shooter, intake, 3.5, telemetry, 950, servoGate, 0.95, 0.01))
                 .add(ParallelCommandGroup.getBuilder()
-                        .add(new IntakeCommand(intake, 2.25, telemetry, servoGate))
+                        .add(new IntakeCommand(intake, 2.5, telemetry, servoGate))
                         .add(new PedroDriveToCommand(follower, blueNearPaths.Intake1, 2, telemetry))
                         .build()
                 )
+                .add(new BrakeCommand(drivebase, 0.3, telemetry))
                 .add(new PedroDriveToCommand(follower, blueNearPaths.Gate1, 2, telemetry))
+                .add(new BrakeCommand(drivebase, 0.3, telemetry))
                 .add(new PedroDriveToCommand(follower, blueNearPaths.Shoot2, 2, telemetry))
-                .add(new AimCommand(drivebase, limeLight, telemetry, follower, blueNearPaths.GOAL_X, blueNearPaths.GOAL_Y))
-                .add(new TimedShootCommand(shooter, intake, 2, telemetry, 1000, servoGate, 0.95, 0.5))
+                .add(new BrakeCommand(drivebase, 0.3, telemetry))
+                //.add(new AimCommand(drivebase, limeLight, telemetry, follower, blueNearPaths.GOAL_X, blueNearPaths.GOAL_Y))
+                .add(new TimedShootCommand(shooter, intake, 2, telemetry, 1100, servoGate, 0.95, 0.3))
                 .add(ParallelCommandGroup.getBuilder()
-                        .add(new IntakeCommand(intake, 2.25, telemetry, servoGate))
+                        .add(new IntakeCommand(intake, 2.75, telemetry, servoGate))
                         .add(new PedroDriveToCommand(follower, blueNearPaths.Intake2, 2, telemetry))
                         .build()
                 )
+                .add(new BrakeCommand(drivebase, 0.3, telemetry))
                 .add(new PedroDriveToCommand(follower, blueNearPaths.Gate2, 2, telemetry))
                 .add(new PedroDriveToCommand(follower, blueNearPaths.Shoot3Gate, 2, telemetry))
-                .add(new AimCommand(drivebase, limeLight, telemetry, follower, blueNearPaths.GOAL_X, blueNearPaths.GOAL_Y))
-                .add(new TimedShootCommand(shooter, intake, 2, telemetry, 1000, servoGate, 0.95, 0.5))
+                .add(new BrakeCommand(drivebase, 0.3, telemetry))
+                //.add(new AimCommand(drivebase, limeLight, telemetry, follower, blueNearPaths.GOAL_X, blueNearPaths.GOAL_Y))
+                .add(new TimedShootCommand(shooter, intake, 2, telemetry, 1100, servoGate, 0.95, 0.3))
                 .add(ParallelCommandGroup.getBuilder()
-                        .add(new IntakeCommand(intake, 3, telemetry, servoGate))
+                        .add(new IntakeCommand(intake, 3.25, telemetry, servoGate))
                         .add(new PedroDriveToCommand(follower, blueNearPaths.Intake3, 2, telemetry))
                         .build()
                 )
+                .add(new BrakeCommand(drivebase, 0.3, telemetry))
                 .add(new PedroDriveToCommand(follower, blueNearPaths.Shoot4, 2, telemetry))
-                .add(new AimCommand(drivebase, limeLight, telemetry, follower, blueNearPaths.GOAL_X, blueNearPaths.GOAL_Y))
-                .add(new TimedShootCommand(shooter, intake, 2.5, telemetry, 1000, servoGate, 0.95, 0.5))
+                .add(new BrakeCommand(drivebase, 0.3, telemetry))
+                //.add(new AimCommand(drivebase, limeLight, telemetry, follower, blueNearPaths.GOAL_X, blueNearPaths.GOAL_Y))
+                .add(new TimedShootCommand(shooter, intake, 2.5, telemetry, 1100, servoGate, 0.95, 0.3))
                 .add(new PedroDriveToCommand(follower, blueNearPaths.Park, 2, telemetry))
-                .add(new InstantCommand(() -> PoseStorage.startPose = new Pose2D(DistanceUnit.CM, drivebase.getPosition().getX(DistanceUnit.CM), drivebase.getPosition().getY(DistanceUnit.CM), AngleUnit.DEGREES,(drivebase.getPosition().getHeading(AngleUnit.DEGREES)) + 90)))
+                .add(new BrakeCommand(drivebase, 0.3, telemetry))
                 .build();
         waitForStart();
         auto.schedule();
@@ -95,6 +104,7 @@ public class BlueNearGate extends LinearOpMode {
             time = getRuntime();
             commandScheduler.run();
             telemetry.addData("Position", drivebase.getPositionTelemetry());
+            PoseStorage.startPose = new Pose2D(DistanceUnit.CM, drivebase.getPosition().getX(DistanceUnit.CM), drivebase.getPosition().getY(DistanceUnit.CM), AngleUnit.DEGREES,(drivebase.getPosition().getHeading(AngleUnit.DEGREES)) + 90);
             drivebase.update();
             telemetry.update();
         }

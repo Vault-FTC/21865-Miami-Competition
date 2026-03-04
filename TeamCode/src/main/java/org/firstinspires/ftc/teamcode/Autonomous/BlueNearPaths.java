@@ -23,16 +23,7 @@ public class BlueNearPaths {
     public PathChain Park;
 
     public BlueNearPaths(Follower follower) {
-        Shoot1 = follower.pathBuilder().addPath(
-                        new BezierLine(
-                                new Pose(20.000, 123.000),
-
-                                new Pose(50.500, 92.000)
-                        )
-                ).setLinearHeadingInterpolation(Math.toRadians(135), Math.toRadians(135))
-
-                .build();
-        Intake1 = follower.pathBuilder().addPath(
+                Intake1 = follower.pathBuilder().addPath(
                         new BezierCurve(
                                 new Pose(20.000, 127.000),
                                 new Pose(63.000, 78.000),
@@ -88,7 +79,7 @@ public class BlueNearPaths {
 
                                 new Pose(45.000, 95.000)
                         )
-                ).setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(137))
+                ).setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(130))
 
                 .build();
 
@@ -98,7 +89,7 @@ public class BlueNearPaths {
 
                                 new Pose(45.000, 95.000)
                         )
-                ).setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(130))
+                ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(130))
 
                 .build();
 
@@ -114,7 +105,7 @@ public class BlueNearPaths {
 
         Shoot4 = follower.pathBuilder().addPath(
                         new BezierLine(
-                                new Pose(20.000, 36.000),
+                                new Pose(23.000, 36.000),
 
                                 new Pose(45.000, 95.000)
                         )

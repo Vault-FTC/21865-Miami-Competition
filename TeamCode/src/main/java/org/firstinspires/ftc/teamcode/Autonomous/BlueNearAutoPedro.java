@@ -55,7 +55,7 @@ public class BlueNearAutoPedro extends LinearOpMode {
                 new Pose(
                         20,
                         127,
-                        Math.toRadians(135)
+                        Math.toRadians(143.5)
                 )
         );
         setTargets();
