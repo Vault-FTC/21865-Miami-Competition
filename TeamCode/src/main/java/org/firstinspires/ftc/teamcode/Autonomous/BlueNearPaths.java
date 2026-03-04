@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
-
 import com.bylazar.telemetry.TelemetryManager;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.BezierCurve;
@@ -9,14 +8,15 @@ import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
 
 public class BlueNearPaths {
-    private TelemetryManager telemetryManager; // Panels Telemetry instance
-    public Follower follower; // Pedro Pathing follower instance
+    public double GOAL_X = 12;
+    public double GOAL_Y = 135;
     public PathChain Shoot1;
     public PathChain Intake1;
     public PathChain Gate1;
-    public PathChain Gate2;
     public PathChain Shoot2;
     public PathChain Intake2;
+    public PathChain Gate2;
+    public PathChain Shoot3Gate;
     public PathChain Shoot3;
     public PathChain Intake3;
     public PathChain Shoot4;
@@ -29,25 +29,24 @@ public class BlueNearPaths {
 
                                 new Pose(50.500, 92.000)
                         )
-                ).setLinearHeadingInterpolation(Math.toRadians(135), Math.toRadians(137))
+                ).setLinearHeadingInterpolation(Math.toRadians(135), Math.toRadians(135))
 
                 .build();
-
         Intake1 = follower.pathBuilder().addPath(
                         new BezierCurve(
                                 new Pose(20.000, 127.000),
-                                new Pose(70.000, 79.000),
-                                new Pose(15.000, 83.000)
+                                new Pose(63.000, 78.000),
+                                new Pose(15.000, 84.000)
                         )
-                ).setLinearHeadingInterpolation(Math.toRadians(135), Math.toRadians(180))
+                ).setLinearHeadingInterpolation(Math.toRadians(143.5), Math.toRadians(180))
 
                 .build();
 
         Gate1 = follower.pathBuilder().addPath(
-                        new BezierCurve(
-                                new Pose(15.000, 83.000),
-                                new Pose(25.000, 76.000),
-                                new Pose(4.000, 76.000)
+                        new BezierLine(
+                                new Pose(15.000, 84.000),
+
+                                new Pose(6, 80)
                         )
                 ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(90))
 
@@ -55,51 +54,61 @@ public class BlueNearPaths {
 
         Shoot2 = follower.pathBuilder().addPath(
                         new BezierLine(
-                                new Pose(4.000, 76.000),
+                                new Pose(6.000, 80.000),
 
-                                new Pose(37.000, 105.000)
+                                new Pose(45.000, 95.000)
                         )
-                ).setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(160))
+                ).setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(130))
 
                 .build();
 
         Intake2 = follower.pathBuilder().addPath(
                         new BezierCurve(
-                                new Pose(37.000, 105.000),
-                                new Pose(62.000, 54.000),
-                                new Pose(15.500, 60.00)
+                                new Pose(45.000, 95.000),
+                                new Pose(63.000, 54.000),
+                                new Pose(15.000, 60.000)
                         )
-                ).setLinearHeadingInterpolation(Math.toRadians(135), Math.toRadians(180))
+                ).setLinearHeadingInterpolation(Math.toRadians(130), Math.toRadians(180))
 
                 .build();
 
         Gate2 = follower.pathBuilder().addPath(
-                new BezierCurve(
-                        new Pose(15.500, 60.000),
-                        new Pose(25.000, 76.000),
-                        new Pose(4.000, 76.000)
-                )
-        ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(90))
+                        new BezierCurve(
+                                new Pose(15.000, 60.000),
+                                new Pose(28.000, 65.000),
+                                new Pose(6.000, 80.000)
+                        )
+                ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(90))
+
+                .build();
+
+        Shoot3Gate = follower.pathBuilder().addPath(
+                        new BezierLine(
+                                new Pose(6.000, 80.000),
+
+                                new Pose(45.000, 95.000)
+                        )
+                ).setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(137))
 
                 .build();
 
         Shoot3 = follower.pathBuilder().addPath(
-                        new BezierCurve(
-                                new Pose(15.500, 60.000),
-                                new Pose(26.000, 55.000),
-                                new Pose(37.000, 105.000)
+                        new BezierLine(
+                                new Pose(15.000, 60.000),
+
+                                new Pose(45.000, 95.000)
                         )
-                ).setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(135))
+                ).setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(130))
 
                 .build();
 
         Intake3 = follower.pathBuilder().addPath(
                         new BezierCurve(
-                                new Pose(37.000, 105.000),
-                                new Pose(62.000, 15.000),
+                                new Pose(45.000, 95.000),
+                                new Pose(63.000, 28.000),
                                 new Pose(15.000, 36.000)
                         )
-                ).setLinearHeadingInterpolation(Math.toRadians(135), Math.toRadians(180))
+                ).setLinearHeadingInterpolation(Math.toRadians(130), Math.toRadians(180))
 
                 .build();
 
@@ -107,19 +116,19 @@ public class BlueNearPaths {
                         new BezierLine(
                                 new Pose(15.000, 36.000),
 
-                                new Pose(37.000, 105.000)
+                                new Pose(45.000, 95.000)
                         )
-                ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(115))
+                ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(143))
 
                 .build();
 
         Park = follower.pathBuilder().addPath(
                         new BezierLine(
-                                new Pose(37.000, 105.000),
+                                new Pose(45.000, 95.000),
 
-                                new Pose(20.000, 100.000)
+                                new Pose(20.000, 85.000)
                         )
-                ).setLinearHeadingInterpolation(Math.toRadians(135), Math.toRadians(270))
+                ).setLinearHeadingInterpolation(Math.toRadians(143), Math.toRadians(260))
 
                 .build();
     }

@@ -60,7 +60,7 @@ public class AimCommand extends Command
         }
         double error = targetHeading - pose.getHeading();
         double wrappedError = angleWrap(error);
-        drivebase.drive(0, 0, wrappedError * -0.75);
+        drivebase.drive(0, 0, wrappedError * -0.9);
 
         telemetry.addData("Heading (deg)", Math.toDegrees(pose.getHeading()));
         telemetry.addData("Error (deg)", Math.toDegrees(wrappedError));
