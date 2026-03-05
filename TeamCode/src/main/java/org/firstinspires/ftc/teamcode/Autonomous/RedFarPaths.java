@@ -81,7 +81,7 @@ public class RedFarPaths {
                 )
                 .setLinearHeadingInterpolation(
                         Math.toRadians(0),                    // 180 - 180
-                        Math.toRadians(65)                    // 180 - 130
+                        Math.toRadians(70)                    // 180 - 130
                 )
                 .build();
 

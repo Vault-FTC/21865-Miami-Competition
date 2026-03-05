@@ -68,7 +68,7 @@ public class BlueFarPaths {
                                 new Pose(57, 11.951)
                         )
                 )
-                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(130))
+                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(125))
                 .build();
 
         Park = follower.pathBuilder()
