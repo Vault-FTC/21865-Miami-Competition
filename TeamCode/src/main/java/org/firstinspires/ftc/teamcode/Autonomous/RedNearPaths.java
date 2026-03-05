@@ -43,7 +43,7 @@ public class RedNearPaths {
 
         Shoot2 = follower.pathBuilder().addPath(
                         new BezierLine(
-                                new Pose(128.000, 78.000),
+                                new Pose(128.000, 74.000),
                                 new Pose(99.000, 95.000)
                         )
                 ).setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(50))
@@ -61,18 +61,18 @@ public class RedNearPaths {
         Gate2 = follower.pathBuilder().addPath(
                         new BezierCurve(
                                 new Pose(135.000, 63.000),
-                                new Pose(116.000, 65.000),
-                                new Pose(138.000, 80.000)
+                                new Pose(110.000, 65.000),
+                                new Pose(128.000, 74.000)
                         )
                 ).setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(90))
                 .build();
 
         Shoot3Gate = follower.pathBuilder().addPath(
                         new BezierLine(
-                                new Pose(138.000, 80.000),
+                                new Pose(128.000, 74.000),
                                 new Pose(99.000, 95.000)
                         )
-                ).setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(50))
+                ).setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(42))
                 .build();
 
         Shoot3 = follower.pathBuilder().addPath(
@@ -89,7 +89,7 @@ public class RedNearPaths {
                                 new Pose(81.000, 28.000),
                                 new Pose(128.000, 38.000)
                         )
-                ).setLinearHeadingInterpolation(Math.toRadians(45), Math.toRadians(0))
+                ).setLinearHeadingInterpolation(Math.toRadians(42), Math.toRadians(0))
                 .build();
 
         Shoot4 = follower.pathBuilder().addPath(
