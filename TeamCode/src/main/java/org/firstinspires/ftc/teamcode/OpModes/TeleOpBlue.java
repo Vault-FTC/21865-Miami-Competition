@@ -47,6 +47,7 @@ public class TeleOpBlue extends LinearOpMode {
         setTargets();
         green = RevBlinkinLedDriver.BlinkinPattern.GREEN;
         red = RevBlinkinLedDriver.BlinkinPattern.RED;
+        double velocityDeg = drive.getOdo().getHeadingVelocity(UnnormalizedAngleUnit.DEGREES);
 
         double position = 0.5;
 
@@ -90,14 +91,18 @@ public class TeleOpBlue extends LinearOpMode {
                 intake.spinIntake(-0.95);
                 launcher.setShooterSpeedNear(-900);
             } else if (autoShoot) {
-                joystick_rx = joystick_rx + angleError * ((180/Math.PI) * 0.02);
+                double kP = 0.02;
+                double kD = 0.0015;
+                double errorDeg = angleError * (180 / Math.PI);
+                joystick_rx = joystick_rx + errorDeg * kP - velocityDeg * kD;
                 servoGate.openGate();
-                if (Math.abs(angleError * ((180/Math.PI))) < 2.5 && Math.abs(drive.getOdo().getHeadingVelocity(UnnormalizedAngleUnit.DEGREES)) < 10  ) {
+                if (Math.abs(angleError * ((180/Math.PI))) < 2.5 && Math.abs(velocityDeg) < 10) {
                     intake.spinIntake(0.95);
                     gamepad1.rumble(1000);
                 }
             } else if (gamepad1.right_trigger_pressed)  {
-                joystick_rx = joystick_rx + (angleError+0.1) * ((180/Math.PI) * 0.02);
+                double errorDeg = (angleError+0.1) * (180 / Math.PI);
+                joystick_rx = joystick_rx + errorDeg * 0.02 - velocityDeg * 0.0015;
                 servoGate.openGate();
                 if (Math.abs((angleError+0.1) * ((180/Math.PI))) < 1 && launcher.getShooterVelocity() >= launcher.distanceToSpeed(distance)) {
                     intake.spinIntake(0.6);

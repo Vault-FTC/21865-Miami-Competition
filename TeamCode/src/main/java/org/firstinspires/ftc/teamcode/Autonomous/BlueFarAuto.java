@@ -94,6 +94,8 @@ public class BlueFarAuto extends LinearOpMode {
                         .add(new PedroDriveToCommand(follower, blueFarPaths.Shoot3, 3,telemetry))
                         .build()
                 )
+                .add(new AimCommand(drivebase, limeLight, telemetry, follower, blueFarPaths.GOAL_X, blueFarPaths.GOAL_Y))
+                .add(new TimedShootCommand(shooter, intake, 2, telemetry, 1450, servoGate, 0.7, 0.7))
                 .add(new PedroDriveToCommand(follower, blueFarPaths.Park, 1, telemetry))
                 .build();
         waitForStart();
