@@ -85,7 +85,7 @@ public class TeleOpBlue extends LinearOpMode {
             }
 
             if (gamepad1.left_bumper) {
-                intake.spinIntake(0.95);
+                intake.spinIntake(1);
 
             } else if (gamepad1.b) {
                 intake.spinIntake(-0.95);
@@ -97,7 +97,7 @@ public class TeleOpBlue extends LinearOpMode {
                 joystick_rx = joystick_rx + errorDeg * kP - velocityDeg * kD;
                 servoGate.openGate();
                 if (Math.abs(angleError * ((180/Math.PI))) < 2.5 && Math.abs(velocityDeg) < 10) {
-                    intake.spinIntake(0.95);
+                    intake.spinIntake(1);
                     gamepad1.rumble(1000);
                 }
             } else if (gamepad1.right_trigger_pressed)  {
