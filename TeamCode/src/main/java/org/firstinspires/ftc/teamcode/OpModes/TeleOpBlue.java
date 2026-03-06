@@ -87,9 +87,7 @@ public class TeleOpBlue extends LinearOpMode {
             if (gamepad1.start) {
                 drive.resetHeading(-90);
             }
-            if (gamepad1.triangle) {
-                drive.driveToPosition(gatePosition, 0, telemetry);
-            }
+
             if (gamepad1.left_bumper) {
                 intake.spinIntake(1);
 
@@ -133,7 +131,12 @@ public class TeleOpBlue extends LinearOpMode {
             }
 
             launcher.setHoodPosition(launcher.distanceToHoodPosition(distance));
-            drive.drive(joystick_y, joystick_x, joystick_rx, headingOffset);
+            if (gamepad1.triangle) {
+                drive.driveToPosition(gatePosition, 0, telemetry);
+            }
+            else {
+                drive.drive(joystick_y, joystick_x, joystick_rx, headingOffset);
+            }
 
             telemetry.addData("Angle from goal", angleError * 180/Math.PI);
             telemetry.addData("Distance from goal", distance);
