@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.robotcore.external.navigation.UnnormalizedAngleUnit;
+import org.firstinspires.ftc.teamcode.Autonomous.Location;
 import org.firstinspires.ftc.teamcode.Constants;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.subsystems.Lights;
@@ -29,6 +30,8 @@ public class TeleOpBlue extends LinearOpMode {
     Drivebase drivebase;
     Lights lights;
     double launchPower = 0;
+
+    Location gatePosition = new Location(54, -157, -124);
     Pose2D goal = Constants.BLUE_CENTER_GOAL;
     double headingOffset = 0;
 
@@ -85,7 +88,7 @@ public class TeleOpBlue extends LinearOpMode {
                 drive.resetHeading(-90);
             }
             if (gamepad1.triangle) {
-
+                drive.driveToPosition(gatePosition, 0, telemetry);
             }
             if (gamepad1.left_bumper) {
                 intake.spinIntake(1);
