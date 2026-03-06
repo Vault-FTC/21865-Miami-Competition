@@ -58,7 +58,7 @@ public class BlueFarPaths {
                                 new Pose(10, 3)
                         )
                 )
-                .setLinearHeadingInterpolation(Math.toRadians(120), Math.toRadians(180))
+                .setLinearHeadingInterpolation(Math.toRadians(120), Math.toRadians(190))
                 .build();
 
         Shoot3 = follower.pathBuilder()

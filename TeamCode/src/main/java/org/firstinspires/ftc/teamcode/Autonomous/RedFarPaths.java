@@ -36,7 +36,7 @@ public class RedFarPaths {
                 .addPath(
                         new BezierCurve(
                                 new Pose(87.000, 12.000),     // 144 - 57
-                                new Pose(82.720, 45),     // 144 - 61.280
+                                new Pose(87, 45),     // 144 - 61.280
                                 new Pose(130, 45)     // 144 - 20
                         )
                 )
