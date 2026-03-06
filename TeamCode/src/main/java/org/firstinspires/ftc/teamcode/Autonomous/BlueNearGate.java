@@ -61,7 +61,7 @@ public class BlueNearGate extends LinearOpMode {
         setTargets();
         SequentialCommandGroup auto = SequentialCommandGroup.getBuilder()
                 .add(new PedroDriveToCommand(follower, blueNearPaths.Shoot1, 3, telemetry))
-                .add(new TimedShootCommand(shooter, intake, 3.5, telemetry, 950, servoGate, 0.7, 0.01))
+                .add(new TimedShootCommand(shooter, intake, 3.5, telemetry, 1100, servoGate, 0.7, 0.45))
                 .add(ParallelCommandGroup.getBuilder()
                         .add(new IntakeCommand(intake, 2.5, telemetry, servoGate))
                         .add(new PedroDriveToCommand(follower, blueNearPaths.Intake1, 2, telemetry))
