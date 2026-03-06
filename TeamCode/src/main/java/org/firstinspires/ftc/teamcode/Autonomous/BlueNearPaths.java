@@ -24,12 +24,19 @@ public class BlueNearPaths {
     public PathChain Park;
 
     public BlueNearPaths(Follower follower) {
-                Intake1 = follower.pathBuilder().addPath(
-                        new BezierCurve(
-                                new Pose(20.000, 127.000),
-                                new Pose(68.000, 78.000),
-                                new Pose(15.000, 84.000)
-                        )
+        Shoot1 = follower.pathBuilder().addPath(
+                new BezierLine(
+                        new Pose(20, 127),
+                        new Pose(45, 95)
+                )
+        ).setReversed().build();
+
+        Intake1 = follower.pathBuilder().addPath(
+                   new BezierCurve(
+                           new Pose(45, 95),
+                           new Pose(68.000, 78.000),
+                           new Pose(15.000, 84.000)
+                   )
                 ).setLinearHeadingInterpolation(Math.toRadians(143.5), Math.toRadians(180))
 
                 .build();

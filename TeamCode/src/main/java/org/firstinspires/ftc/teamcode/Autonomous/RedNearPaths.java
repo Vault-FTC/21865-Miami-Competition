@@ -30,9 +30,16 @@ public class RedNearPaths {
     public PathChain Park;
 
     public RedNearPaths(Follower follower) {
+        Shoot1 = follower.pathBuilder().addPath(
+                new BezierLine(
+                        new Pose(124, 127),
+                        new Pose(99, 95)
+                )
+        ).setReversed().build();
+
         Intake1 = follower.pathBuilder().addPath(
                         new BezierCurve(
-                                new Pose(124.000, 127.000),
+                                new Pose(99, 95),
                                 new Pose(81.000, 78.000),
                                 new Pose(129.000, 86.000)
                         )
