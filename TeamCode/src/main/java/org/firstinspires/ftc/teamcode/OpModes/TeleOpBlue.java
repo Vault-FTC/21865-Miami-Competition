@@ -5,7 +5,6 @@ import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.robotcore.external.navigation.UnnormalizedAngleUnit;
@@ -27,6 +26,7 @@ public class TeleOpBlue extends LinearOpMode {
     Intake intake;
     RevBlinkinLedDriver.BlinkinPattern green;
     RevBlinkinLedDriver.BlinkinPattern red;
+    Drivebase drivebase;
     Lights lights;
     double launchPower = 0;
     Pose2D goal = Constants.BLUE_CENTER_GOAL;
@@ -41,6 +41,7 @@ public class TeleOpBlue extends LinearOpMode {
     public void runOpMode() {
         intake = new Intake(hardwareMap);
         lights = new Lights(hardwareMap);
+        drivebase = new Drivebase(hardwareMap);
         Drivebase drive = new Drivebase(hardwareMap);
         ServoGate servoGate = new ServoGate(hardwareMap);
         Shooter launcher = new Shooter(hardwareMap);
@@ -83,7 +84,9 @@ public class TeleOpBlue extends LinearOpMode {
             if (gamepad1.start) {
                 drive.resetHeading(-90);
             }
+            if (gamepad1.triangle) {
 
+            }
             if (gamepad1.left_bumper) {
                 intake.spinIntake(1);
 
