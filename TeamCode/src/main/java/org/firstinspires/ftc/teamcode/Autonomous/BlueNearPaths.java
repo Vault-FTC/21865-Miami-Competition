@@ -20,6 +20,8 @@ public class BlueNearPaths {
     public PathChain Shoot3Gate;
     public PathChain Shoot3;
     public PathChain Intake3;
+    public PathChain GateIntake3;
+    public PathChain GateShoot4;
     public PathChain Shoot4;
     public PathChain Park;
 
@@ -29,7 +31,8 @@ public class BlueNearPaths {
                         new Pose(20, 127),
                         new Pose(45, 95)
                 )
-        ).setReversed().build();
+        ).setLinearHeadingInterpolation(Math.toRadians(143.5), Math.toRadians(137))
+                .build();
 
         Intake1 = follower.pathBuilder().addPath(
                    new BezierCurve(
@@ -37,7 +40,7 @@ public class BlueNearPaths {
                            new Pose(68.000, 78.000),
                            new Pose(15.000, 84.000)
                    )
-                ).setLinearHeadingInterpolation(Math.toRadians(143.5), Math.toRadians(180))
+                ).setLinearHeadingInterpolation(Math.toRadians(137), Math.toRadians(180))
 
                 .build();
 
@@ -117,6 +120,25 @@ public class BlueNearPaths {
                                 new Pose(23.000, 36.000)
                         )
                 ).setLinearHeadingInterpolation(Math.toRadians(135), Math.toRadians(180))
+
+                .build();
+
+        GateIntake3 = follower.pathBuilder().addPath(
+                        new BezierCurve(
+                                new Pose(45.000, 95.000),
+                                new Pose(40.000, 60.000),
+                                new Pose(7.000, 60.000)
+                        )
+                ).setLinearHeadingInterpolation(Math.toRadians(135), Math.toRadians(154))
+
+                .build();
+        GateShoot4 = follower.pathBuilder().addPath(
+                        new BezierCurve(
+                                new Pose(7.000, 60.000),
+                                new Pose(45.000, 34.000),
+                                new Pose(45.000, 95.000)
+                        )
+                ).setLinearHeadingInterpolation(Math.toRadians(154), Math.toRadians(135))
 
                 .build();
 

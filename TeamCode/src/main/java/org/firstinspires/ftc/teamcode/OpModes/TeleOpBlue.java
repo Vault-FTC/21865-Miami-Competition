@@ -33,7 +33,7 @@ public class TeleOpBlue extends LinearOpMode {
     Lights lights;
     double launchPower = 0;
 
-    Location gatePosition = new Location(54, -157, -124);
+    Location gatePosition = new Location(60, -163, -124);
     Pose2D goal = Constants.BLUE_CENTER_GOAL;
     double headingOffset = 0;
 
@@ -154,6 +154,7 @@ public class TeleOpBlue extends LinearOpMode {
             launcher.setHoodPosition(launcher.distanceToHoodPosition(distance));
             if (gamepad1.triangle) {
                 drive.driveToPosition(gatePosition, 0, telemetry);
+                intake.spinIntake(0.9);
             }
             else {
                 drive.drive(joystick_y, joystick_x, joystick_rx, headingOffset);
