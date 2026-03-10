@@ -23,7 +23,7 @@ import org.firstinspires.ftc.teamcode.subsystems.Drivebase;
 // ALL SHOOTER SPEEDS ARE IN TICKS/SECOND. DO NOT, I REPEAT DO NOT, USE DEGREES/SECOND
 @TeleOp(name = "TeleOp Blue", group = "Teleop")
 public class TeleOpBlue extends LinearOpMode {
-    public static final double PROJECTILE_SPEED_CM = 2500; // Needs tuninggggggg
+    public static final double PROJECTILE_SPEED_CM = 5000; // Needs tuninggggggg
 
     public LimeLight limeLight;
     Intake intake;
@@ -129,7 +129,7 @@ public class TeleOpBlue extends LinearOpMode {
                 servoGate.openGate();
                 joystick_rx = joystick_rx + errorDeg * kP - velocityDeg * kD;
 
-                if (Math.abs((angleError+0.1) * ((180/Math.PI))) < 1 && launcher.getShooterVelocity() >= launcher.distanceToSpeed(distance)) {
+                if (launcher.getShooterVelocity() >= launcher.distanceToSpeed(distance)) {
                     intake.spinIntake(0.6);
                     gamepad1.rumble(1000);
                 }

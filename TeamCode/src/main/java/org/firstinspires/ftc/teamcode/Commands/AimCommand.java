@@ -60,7 +60,7 @@ public class AimCommand extends Command
         }
         double error = targetHeading - pose.getHeading();
         double wrappedError = angleWrap(error);
-        drivebase.drive(0, 0, wrappedError * 1.0);
+        drivebase.drive(0, 0, wrappedError * -1);
 
         telemetry.addData("Heading (deg)", Math.toDegrees(pose.getHeading()));
         telemetry.addData("Error (deg)", Math.toDegrees(wrappedError));
@@ -76,7 +76,7 @@ public class AimCommand extends Command
 
     @Override
     public boolean isFinished(){
-       return elapsedTime.seconds() > 1;
+       return elapsedTime.seconds() > 0.5;
     }
 
     @Override
