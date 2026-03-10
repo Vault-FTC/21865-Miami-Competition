@@ -71,6 +71,26 @@ public class BlueFarPaths {
                 .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(125))
                 .build();
 
+        Intake3 = follower.pathBuilder()
+                .addPath(
+                        new BezierLine(
+                                new Pose(57.000, 11.971),
+                                new Pose(10, 23.627)
+                        )
+                )
+                .setLinearHeadingInterpolation(Math.toRadians(125), Math.toRadians(180))
+                .build();
+
+        Shoot4 = follower.pathBuilder()
+                .addPath(
+                        new BezierLine(
+                                new Pose(10, 23.627),
+                                new Pose(57, 11.951)
+                        )
+                )
+                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(125))
+                .build();
+
         Park = follower.pathBuilder()
                 .addPath(
                         new BezierLine(
