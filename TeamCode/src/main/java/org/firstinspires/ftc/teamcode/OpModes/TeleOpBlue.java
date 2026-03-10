@@ -23,6 +23,8 @@ import org.firstinspires.ftc.teamcode.subsystems.Drivebase;
 // ALL SHOOTER SPEEDS ARE IN TICKS/SECOND. DO NOT, I REPEAT DO NOT, USE DEGREES/SECOND
 @TeleOp(name = "TeleOp Blue", group = "Teleop")
 public class TeleOpBlue extends LinearOpMode {
+    public static final double PROJECTILE_SPEED_CM = 2500; // Needs tuninggggggg
+
     public LimeLight limeLight;
     Intake intake;
     RevBlinkinLedDriver.BlinkinPattern green;
@@ -61,6 +63,8 @@ public class TeleOpBlue extends LinearOpMode {
         waitForStart();
         while (opModeIsActive()) {
 //            drive.update();
+            double kP = 0.02;
+            double kD = 0.0015;
             LLResult aprilTag = drive.update(limeLight);
             double distance = drive.distanceToGoal(drive.getPosition(), goal);
             double angleError = drive.angleToGoal(drive.getPosition(), goal);
@@ -68,6 +72,11 @@ public class TeleOpBlue extends LinearOpMode {
             double joystick_y = gamepad1.left_stick_x; // Forward/backward
             double joystick_x = gamepad1.left_stick_y;  // Strafe left/right
             double joystick_rx = -gamepad1.right_stick_x; // Rotation
+            double velocityX = drivebase.getOdo().getVelX(DistanceUnit.CM);
+            double velocityY = drivebase.getOdo().getVelY(DistanceUnit.CM);
+            double headingVelocity = drivebase.getOdo().getHeadingVelocity(UnnormalizedAngleUnit.DEGREES);
+            Pose2D currentPosition = drivebase.getPosition();
+
 
             if (gamepad1.dpadUpWasPressed()) {
                 position += 0.1;
@@ -95,8 +104,7 @@ public class TeleOpBlue extends LinearOpMode {
                 intake.spinIntake(-0.95);
                 launcher.setShooterSpeedNear(-900);
             } else if (autoShoot) {
-                double kP = 0.02;
-                double kD = 0.0015;
+
                 double errorDeg = angleError * (180 / Math.PI);
                 joystick_rx = joystick_rx + errorDeg * kP - velocityDeg * kD;
                 servoGate.openGate();
@@ -106,19 +114,28 @@ public class TeleOpBlue extends LinearOpMode {
                 }
             } else if (gamepad1.right_trigger_pressed)  {
                 double errorDeg = (angleError+0.1) * (180 / Math.PI);
-                joystick_rx = joystick_rx + errorDeg * 0.02 - velocityDeg * 0.0015;
+                joystick_rx = joystick_rx + errorDeg * kP - velocityDeg * kD;
                 servoGate.openGate();
                 if (Math.abs((angleError+0.1) * ((180/Math.PI))) < 1 && launcher.getShooterVelocity() >= launcher.distanceToSpeed(distance)) {
                     intake.spinIntake(0.6);
                     gamepad1.rumble(1000);
                 }
-            }
-            else {
-                intake.spinIntake(0);
-                servoGate.closeGate();
-            }
+            } else if (gamepad1.left_trigger_pressed){
+                // Shoot on the move code???? Maybe it'll workkkkk
+                double vPerpendicular = velocityX * Math.cos(angleError) - velocityY * Math.sin(angleError);
+                double leadAngle = Math.atan2(vPerpendicular, PROJECTILE_SPEED_CM);
+                double correctedError = angleError + leadAngle;
+                double errorDeg = correctedError * (180 / Math.PI);
 
-            if (gamepad1.x) {
+                joystick_rx = joystick_rx + errorDeg * kP - velocityDeg * kD;
+
+                if (Math.abs((angleError+0.1) * ((180/Math.PI))) < 1 && launcher.getShooterVelocity() >= launcher.distanceToSpeed(distance)) {
+                    intake.spinIntake(0.6);
+                    gamepad1.rumble(1000);
+                }
+
+                joystick_rx = joystick_rx + errorDeg * kP - velocityDeg * kD;
+            } else if (gamepad1.x) {
                 launcher.setShooterSpeedNear(1100);
                 servoGate.openGate();
                 if (launcher.getShooterVelocity() >= 1100) {
@@ -126,8 +143,12 @@ public class TeleOpBlue extends LinearOpMode {
                 }
             } else if (distance < 240) {
                 launcher.setShooterSpeedNear(launcher.distanceToSpeed(distance));
+                intake.spinIntake(0);
+                servoGate.closeGate();
             } else {
                 launcher.setShooterSpeedFar(launcher.distanceToSpeed(distance));
+                intake.spinIntake(0);
+                servoGate.closeGate();
             }
 
             launcher.setHoodPosition(launcher.distanceToHoodPosition(distance));
