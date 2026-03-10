@@ -126,7 +126,7 @@ public class TeleOpBlue extends LinearOpMode {
                 double leadAngle = Math.atan2(vPerpendicular, PROJECTILE_SPEED_CM);
                 double correctedError = angleError + leadAngle;
                 double errorDeg = correctedError * (180 / Math.PI);
-
+                servoGate.openGate();
                 joystick_rx = joystick_rx + errorDeg * kP - velocityDeg * kD;
 
                 if (Math.abs((angleError+0.1) * ((180/Math.PI))) < 1 && launcher.getShooterVelocity() >= launcher.distanceToSpeed(distance)) {
