@@ -55,16 +55,16 @@ public class BlueFarPaths {
                 .addPath(
                         new BezierLine(
                                 new Pose(57, 12.000),
-                                new Pose(10, 3)
+                                new Pose(10, 10)
                         )
                 )
-                .setLinearHeadingInterpolation(Math.toRadians(120), Math.toRadians(190))
+                .setLinearHeadingInterpolation(Math.toRadians(125), Math.toRadians(180))
                 .build();
 
         Shoot3 = follower.pathBuilder()
                 .addPath(
                         new BezierLine(
-                                new Pose(10, 3),
+                                new Pose(10, 10),
                                 new Pose(57, 11.951)
                         )
                 )
