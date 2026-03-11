@@ -1,13 +1,13 @@
-package org.firstinspires.ftc.teamcode.Autonomous;
+package org.firstinspires.ftc.teamcode.Autonomous.BlueAutons;
 
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.Pose;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
+import org.firstinspires.ftc.teamcode.Autonomous.Paths.BluePaths.BlueNearPaths;
 import org.firstinspires.ftc.teamcode.CommandSystem.CommandScheduler;
 import org.firstinspires.ftc.teamcode.CommandSystem.ParallelCommandGroup;
 import org.firstinspires.ftc.teamcode.CommandSystem.SequentialCommandGroup;
@@ -57,10 +57,14 @@ public class BlueNearTunnel extends LinearOpMode {
         );
         setTargets();
         SequentialCommandGroup auto = SequentialCommandGroup.getBuilder()
-                .add(new PedroDriveToCommand(follower, blueNearPaths.Shoot1, 2, telemetry))
-                .add(new TimedShootCommand(shooter, intake, 2.0, telemetry, 1100, servoGate, 0.7, 0.45))
                 .add(ParallelCommandGroup.getBuilder()
-                        .add(new IntakeCommand(intake, 2.5, telemetry, servoGate))
+                        .add(new IntakeCommand(intake, 1.0, telemetry,servoGate))
+                        .add(new PedroDriveToCommand(follower, blueNearPaths.Shoot1, 2, telemetry))
+                        .build()
+                )
+                .add(new TimedShootCommand(shooter, intake, 2.75, telemetry, 1100, servoGate, 0.95, 0.45))
+                .add(ParallelCommandGroup.getBuilder()
+                        .add(new IntakeCommand(intake, 1.75, telemetry, servoGate))
                         .add(new PedroDriveToCommand(follower, blueNearPaths.Intake1, 2, telemetry))
                         .build()
                 )
@@ -78,9 +82,9 @@ public class BlueNearTunnel extends LinearOpMode {
                 )
                 //.add(new BrakeCommand(drivebase, 0.3, telemetry))
                 //.add(new AimCommand(drivebase, limeLight, telemetry, follower, blueNearPaths.GOAL_X, blueNearPaths.GOAL_Y))
-                .add(new TimedShootCommand(shooter, intake, 2, telemetry, 1100, servoGate, 0.95, 0.45))
+                .add(new TimedShootCommand(shooter, intake, 0.75, telemetry, 1100, servoGate, 0.95, 0.45))
                 .add(ParallelCommandGroup.getBuilder()
-                        .add(new IntakeCommand(intake, 2.75, telemetry, servoGate))
+                        .add(new IntakeCommand(intake, 2.0, telemetry, servoGate))
                         .add(new PedroDriveToCommand(follower, blueNearPaths.Intake2, 2, telemetry))
                         .build()
                 )
@@ -92,18 +96,7 @@ public class BlueNearTunnel extends LinearOpMode {
                 )
                 //.add(new BrakeCommand(drivebase, 0.3, telemetry))
                 //.add(new AimCommand(drivebase, limeLight, telemetry, follower, blueNearPaths.GOAL_X, blueNearPaths.GOAL_Y))
-                .add(new TimedShootCommand(shooter, intake, 2, telemetry, 1100, servoGate, 0.95, 0.45))
-                .add(ParallelCommandGroup.getBuilder()
-                        .add(new IntakeCommand(intake, 3.25, telemetry, servoGate))
-                        .add(new PedroDriveToCommand(follower, blueNearPaths.GateIntake3, 2, telemetry))
-                        .build()
-                )
-                //.add(new BrakeCommand(drivebase, 0.3, telemetry))
-                .add(ParallelCommandGroup.getBuilder()
-                        .add(new IntakeCommand(intake, 1.0, telemetry, servoGate))
-                        .add(new PedroDriveToCommand(follower, blueNearPaths.GateShoot4, 2, telemetry))
-                        .build()
-                )
+                .add(new TimedShootCommand(shooter, intake, 0.75, telemetry, 1100, servoGate, 0.95, 0.45))
                 .add(ParallelCommandGroup.getBuilder()
                         .add(new IntakeCommand(intake, 3.25, telemetry, servoGate))
                         .add(new PedroDriveToCommand(follower, blueNearPaths.GateIntake3, 2, telemetry))
@@ -117,7 +110,21 @@ public class BlueNearTunnel extends LinearOpMode {
                 )
                 //.add(new BrakeCommand(drivebase, 0.3, telemetry))
                 //.add(new AimCommand(drivebase, limeLight, telemetry, follower, blueNearPaths.GOAL_X, blueNearPaths.GOAL_Y))
-                .add(new TimedShootCommand(shooter, intake, 2.5, telemetry, 1100, servoGate, 0.95, 0.45))
+                .add(new TimedShootCommand(shooter, intake, 0.75, telemetry, 1100, servoGate, 0.95, 0.45))
+                .add(ParallelCommandGroup.getBuilder()
+                        .add(new IntakeCommand(intake, 3.25, telemetry, servoGate))
+                        .add(new PedroDriveToCommand(follower, blueNearPaths.GateIntake3, 2, telemetry))
+                        .build()
+                )
+                //.add(new BrakeCommand(drivebase, 0.3, telemetry))
+                .add(ParallelCommandGroup.getBuilder()
+                        .add(new IntakeCommand(intake, 1.0, telemetry, servoGate))
+                        .add(new PedroDriveToCommand(follower, blueNearPaths.GateShoot4, 2, telemetry))
+                        .build()
+                )
+                //.add(new BrakeCommand(drivebase, 0.3, telemetry))
+                //.add(new AimCommand(drivebase, limeLight, telemetry, follower, blueNearPaths.GOAL_X, blueNearPaths.GOAL_Y))
+                .add(new TimedShootCommand(shooter, intake, 0.75, telemetry, 1100, servoGate, 0.95, 0.45))
                 .add(new PedroDriveToCommand(follower, blueNearPaths.Park, 2, telemetry))
                 //.add(new BrakeCommand(drivebase, 0.3, telemetry))
                 .build();
