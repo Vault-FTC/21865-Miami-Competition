@@ -178,7 +178,7 @@ public class BlueNearPaths {
                 .addPath(
                         new BezierLine(
                                 new Pose(8.000, 9.000),
-                                new Pose(48.000, 97.000)
+                                new Pose(45.000, 95.000)
                         )
                 )
                 .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(140))
