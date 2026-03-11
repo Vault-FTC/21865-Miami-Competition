@@ -15,6 +15,8 @@ public class RedFarPaths {
     public PathChain Shoot2;
     public PathChain Intake2;
     public PathChain Shoot3;
+    public PathChain Intake3;
+    public PathChain Shoot4;
     public PathChain Park;
 
     public RedFarPaths(Follower follower) {
@@ -84,6 +86,25 @@ public class RedFarPaths {
                         Math.toRadians(70)                    // 180 - 130
                 )
                 .build();
+        Intake3 = follower.pathBuilder()
+                .addPath(
+                        new BezierLine(
+                                new Pose(187, 11.971),
+                                new Pose(134, 23.627)
+                        )
+                )
+                .setLinearHeadingInterpolation(Math.toRadians(55), Math.toRadians(0))
+                .build();
+
+        Shoot4 = follower.pathBuilder()
+                .addPath(
+                        new BezierLine(
+                                new Pose(134, 23.627),
+                                new Pose(187, 11.951)
+                        )
+                )
+                .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(55))
+                .build();
 
         Park = follower.pathBuilder()
                 .addPath(
@@ -93,7 +114,7 @@ public class RedFarPaths {
                         )
                 )
                 .setLinearHeadingInterpolation(
-                        Math.toRadians(50),                   // 180 - 125
+                        Math.toRadians(55),                   // 180 - 125
                         Math.toRadians(90)                    // 180 - 90
                 )
                 .build();

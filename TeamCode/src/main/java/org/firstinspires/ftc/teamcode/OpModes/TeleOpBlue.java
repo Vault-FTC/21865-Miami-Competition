@@ -133,20 +133,23 @@ public class TeleOpBlue extends LinearOpMode {
                     intake.spinIntake(0.6);
                     gamepad1.rumble(1000);
                 }
-
-                joystick_rx = joystick_rx + errorDeg * kP - velocityDeg * kD;
             } else if (gamepad1.x) {
                 launcher.setShooterSpeedNear(1100);
                 servoGate.openGate();
                 if (launcher.getShooterVelocity() >= 1100) {
                     intake.spinIntake(0.95);
                 }
-            } else if (distance < 240) {
+            } else if (gamepad2.square) {
+                launcher.setShooterSpeedNear(1100);
+                servoGate.openGate();
+                if (launcher.getShooterVelocity() >= 1100) {
+                    intake.spinIntake(0.5);
+                }
+            } else if (gamepad2.triangle) {
+                launcher.setShooterSpeedNear(1100);
+                servoGate.openGate();
+            }else {
                 launcher.setShooterSpeedNear(launcher.distanceToSpeed(distance));
-                intake.spinIntake(0);
-                servoGate.closeGate();
-            } else {
-                launcher.setShooterSpeedFar(launcher.distanceToSpeed(distance));
                 intake.spinIntake(0);
                 servoGate.closeGate();
             }
