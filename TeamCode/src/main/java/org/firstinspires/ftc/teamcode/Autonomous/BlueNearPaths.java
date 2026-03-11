@@ -23,6 +23,9 @@ public class BlueNearPaths {
     public PathChain GateIntake3;
     public PathChain GateShoot4;
     public PathChain Shoot4;
+    public PathChain ShootToSet;
+    public PathChain SetToBase;
+    public PathChain BaseToShoot;
     public PathChain Park;
 
     public BlueNearPaths(Follower follower) {
@@ -151,6 +154,36 @@ public class BlueNearPaths {
                 ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(140))
 
                 .build();
+        ShootToSet = follower.pathBuilder()
+                .addPath(
+                        new BezierLine(
+                                new Pose(45.000, 95.000),
+                                new Pose(40.000, 10.000)
+                        )
+                )
+                .setLinearHeadingInterpolation(Math.toRadians(140), Math.toRadians(180))
+                .build();
+
+        SetToBase = follower.pathBuilder()
+                .addPath(
+                        new BezierLine(
+                                new Pose(40.000, 10.000),
+                                new Pose(8.000, 9.000)
+                        )
+                )
+                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(180))
+                .build();
+
+        BaseToShoot = follower.pathBuilder()
+                .addPath(
+                        new BezierLine(
+                                new Pose(8.000, 9.000),
+                                new Pose(48.000, 97.000)
+                        )
+                )
+                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(140))
+                .build();
+
 
         Park = follower.pathBuilder().addPath(
                         new BezierLine(
