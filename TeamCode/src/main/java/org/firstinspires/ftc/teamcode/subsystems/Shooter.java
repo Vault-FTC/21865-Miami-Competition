@@ -9,6 +9,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.CommandSystem.Subsystem;
 import org.firstinspires.ftc.teamcode.LUT;
 
+import java.util.Vector;
+
 public class Shooter extends Subsystem {
     private static final double CLOSE_DIST_CM = 140;
     private static final double MID_DIST_CM = 270;
@@ -40,13 +42,6 @@ public class Shooter extends Subsystem {
         speed = lut.getSpeed(distanceCm);
         distance = distanceCm;
         return speed;
-//        if (distanceCm <= CLOSE_DIST_CM) {
-//            return CLOSE_SPEED;
-//        } else if (distanceCm <= MID_DIST_CM) {
-//            return MID_SPEED;
-//        } else {
-//            return FAR_SPEED;
-//        }
     }
     public double distanceToHoodPosition(double distanceCm)
     {
@@ -58,7 +53,6 @@ public class Shooter extends Subsystem {
             return FAR_HOOD;
         }
     }
-
     public void setShooterSpeedNear(double speed){
         pidfCoefficients = new PIDFCoefficients(250, 0, 0, 15);
         shooter.setVelocity(speed);
@@ -67,39 +61,6 @@ public class Shooter extends Subsystem {
         pidfCoefficients = new PIDFCoefficients(350, 0, 0, 15.2); // p:440 f:14  for new shooter if we need to change it
         shooter.setVelocity(speed);
     }
-
-/** wait until we have hood assembled to implement autoSetHoodAngle**/
-//    public void autoSetHoodAngle (Limelight3A limelight3A, int id) {
-//        LLResult result = limelight3A.getLatestResult();
-//        double distanceToTarget = result.getT
-//        double targetAngle = odo.;
-//        double StrafeDistance_3D = id.getRobotPoseTargetSpace().getY();
-//    }
-    public void setShooterVelocityDynamic(double targetVelocity) {
-        double currentVelocity = shooter.getVelocity();
-        double currentTime = System.nanoTime() / 1e9; // seconds
-        double dt = currentTime - lastTime;
-        if (dt <= 0) dt = 0.001;
-
-        double acceleration = (targetVelocity - lastTargetVelocity) / dt;
-
-        double pidfPower = targetVelocity;
-
-        double extraPower = kA * acceleration;
-
-        double finalVelocity = pidfPower + extraPower;
-
-        shooter.setVelocity(finalVelocity);
-
-        lastTargetVelocity = targetVelocity;
-        lastTime = currentTime;
-    }
-    public void raiseHood(){
-        hoodServo.setPosition(0);
-    }
-    public void lowerHood() {
-        hoodServo.setPosition(1);
-    }
     public void setHoodPosition(double position) {
         hoodServo.setPosition(position);
     }
@@ -107,13 +68,13 @@ public class Shooter extends Subsystem {
         return "Servo Position: " + hoodServo.getPosition()
                 + " \n Shooter Speed: " + getShooterVelocity() + " \n " + "Target Speed/Vel: " + distance + ":" + speed;
     }
-    public void stop(){
-        hoodServo.setPosition(0.5);
-    }
-
     public double getShooterVelocity()
     {
         return shooter.getVelocity();
     }
+//    private Vector calculateShotVectorAndUpdateRobotAngle(double robotHeading) {
+//        double g = 32.174 * 12;
+//        double x = robotToGoalVector.getMagnitude
+//    }
 }
 
