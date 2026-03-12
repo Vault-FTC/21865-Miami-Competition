@@ -94,6 +94,18 @@ public class RedFarAuto extends LinearOpMode {
                 )
                 .add(new AimCommand(drivebase, limeLight, telemetry, follower, redFarPaths.GOAL_X, redFarPaths.GOAL_Y))
                 .add(new TimedShootCommand(shooter, intake, 2.5, telemetry, 1450, servoGate, 0.7, 0.7))
+                .add(ParallelCommandGroup.getBuilder()
+                        .add(new IntakeCommand(intake, 1.5, telemetry, servoGate))
+                        .add(new PedroDriveToCommand(follower, redFarPaths.Intake3, 3,telemetry))
+                        .build()
+                )
+                .add(ParallelCommandGroup.getBuilder()
+                        .add(new IntakeCommand(intake, 1.5, telemetry, servoGate))
+                        .add(new PedroDriveToCommand(follower, redFarPaths.Shoot4, 3,telemetry))
+                        .build()
+                )
+                .add(new AimCommand(drivebase, limeLight, telemetry, follower, redFarPaths.GOAL_X, redFarPaths.GOAL_Y))
+                .add(new TimedShootCommand(shooter, intake, 2.5, telemetry, 1450, servoGate, 0.7, 0.7))
                 .add(new PedroDriveToCommand(follower, redFarPaths.Park, 3, telemetry))
                 .build();
         waitForStart();
