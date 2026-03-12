@@ -58,7 +58,7 @@ public class ShootOnTheMove extends LinearOpMode {
         while (opModeIsActive()) {
             double velocityDeg = drivebase.getOdo().getHeadingVelocity(UnnormalizedAngleUnit.DEGREES);
 //            drivebase.update();
-            double kP = 0.02;
+            double kP = 0.002;
             LLResult aprilTag = drivebase.update(limeLight);
             double distance = drivebase.distanceToGoal(drivebase.getPosition(), goal);
             boolean autoShoot = gamepad1.right_bumper;
