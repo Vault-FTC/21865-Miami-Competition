@@ -8,7 +8,7 @@ public class ShooterConstants {
 
     public static final Pose2D BLUE_CENTER_GOAL = new Pose2D(DistanceUnit.CM, -157.5, -152.4, AngleUnit.RADIANS, 0); // x, y -152.4, -152.4,
     public static final Pose2D RED_CENTER_GOAL = new Pose2D(DistanceUnit.CM, -152.4, 152.4, AngleUnit.RADIANS, 0);
-    public static double SCORE_HEIGHT = 26;
+    public static double SCORE_HEIGHT = 30;
     public static double SCORE_ANGLE = Math.toRadians(-30);
     public static double PASS_THROUGH_POINT_RADIUS = 5;
 

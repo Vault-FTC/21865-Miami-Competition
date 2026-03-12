@@ -29,6 +29,8 @@ public class ShootOnTheMove extends LinearOpMode {
     Drivebase drivebase;
     Lights lights;
     double launchPower = 0;
+    double error;
+    double targetHeading;
 
     Location gatePosition = new Location(60, -163, -124);
     Pose2D goal = Constants.BLUE_CENTER_GOAL;
@@ -50,10 +52,6 @@ public class ShootOnTheMove extends LinearOpMode {
         green = RevBlinkinLedDriver.BlinkinPattern.GREEN;
         red = RevBlinkinLedDriver.BlinkinPattern.RED;
 
-
-        double position = 0.5;
-
-//        drivebase.setCurrentPose(0,0,-Math.PI/2);
         drivebase.setCurrentPose(PoseStorage.startPose);
 
         waitForStart();
@@ -61,18 +59,12 @@ public class ShootOnTheMove extends LinearOpMode {
             double velocityDeg = drivebase.getOdo().getHeadingVelocity(UnnormalizedAngleUnit.DEGREES);
 //            drivebase.update();
             double kP = 0.02;
-            double kD = 0.0015;
             LLResult aprilTag = drivebase.update(limeLight);
             double distance = drivebase.distanceToGoal(drivebase.getPosition(), goal);
-            double angleError = drivebase.angleToGoal(drivebase.getPosition(), goal);
             boolean autoShoot = gamepad1.right_bumper;
             double joystick_y = gamepad1.left_stick_x; // Forward/backward
             double joystick_x = gamepad1.left_stick_y;  // Strafe left/right
             double joystick_rx = -gamepad1.right_stick_x; // Rotation
-            double velocityX = this.drivebase.getOdo().getVelX(DistanceUnit.CM);
-            double velocityY = this.drivebase.getOdo().getVelY(DistanceUnit.CM);
-            double headingVelocity = this.drivebase.getOdo().getHeadingVelocity(UnnormalizedAngleUnit.DEGREES);
-            Pose2D currentPosition = this.drivebase.getPosition();
             
             if (aprilTag != null) {
                 drivebase.setCurrentPose(aprilTag.getBotpose_MT2().getPosition().toUnit(DistanceUnit.CM).x,
@@ -92,8 +84,10 @@ public class ShootOnTheMove extends LinearOpMode {
                 intake.spinIntake(-0.95);
                 launcher.setShooterSpeedNear(-900);
             } else if (autoShoot) {
-                double targetHeading = launcher.updateShootOnMove(this.drivebase.getOdo(), goal.getX(DistanceUnit.CM), goal.getY(DistanceUnit.CM));
-                double error = targetHeading - drivebase.getOdo().getHeading(AngleUnit.DEGREES);
+                targetHeading = launcher.updateShootOnMove(this.drivebase.getOdo(), goal.getX(DistanceUnit.CM), goal.getY(DistanceUnit.CM));
+                error = targetHeading - drivebase.getOdo().getHeading(AngleUnit.DEGREES);
+                while (error > 180) error -= 360;
+                while (error < -180) error += 360;
                 joystick_rx = joystick_rx + error * kP;
                 servoGate.openGate();
                 if (Math.abs(error) < 2.5 && Math.abs(velocityDeg) < 10) {
@@ -131,7 +125,10 @@ public class ShootOnTheMove extends LinearOpMode {
                 drivebase.drive(joystick_y, joystick_x, joystick_rx, headingOffset);
             }
 
-            telemetry.addData("Angle from goal", angleError * 180/Math.PI);
+            telemetry.addData("targetHeading", targetHeading);
+            telemetry.addData("currentHeading", drivebase.getOdo().getHeading(AngleUnit.DEGREES));
+            telemetry.addData("error", error);
+            telemetry.addData("joystick_rx contribution", error * kP);
             telemetry.addData("Distance from goal", distance);
             telemetry.addData("Shooter Stuff: ", launcher.telemetryUpdate());
             telemetry.addData("LaunchPower", this.launchPower);
