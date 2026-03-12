@@ -87,8 +87,8 @@ public class Shooter extends Subsystem {
         double velocityX = pinpoint.getVelX(DistanceUnit.CM);
         double velocityY = pinpoint.getVelY(DistanceUnit.CM);
         double robotVelocityMag = Math.sqrt((velocityX*velocityX) + (velocityY*velocityY));
-        double robotToGoalX = pinpoint.getPosX(DistanceUnit.CM) - GOAL_X;
-        double robotToGoalY = pinpoint.getPosY(DistanceUnit.CM) - GOAL_Y;
+        double robotToGoalX = GOAL_X - pinpoint.getPosX(DistanceUnit.CM);
+        double robotToGoalY = GOAL_Y - pinpoint.getPosY(DistanceUnit.CM);
         double rawDistance = Math.sqrt(robotToGoalX * robotToGoalX + robotToGoalY * robotToGoalY);
 
         // constants
@@ -120,7 +120,7 @@ public class Shooter extends Subsystem {
 
         double robotVelCompOffset = Math.atan(perpendicularComponent / ivr);
         double goalTheta = Math.atan2(robotToGoalY, robotToGoalX);
-        double robotAngle = Math.toDegrees(goalTheta - robotVelCompOffset - pinpoint.getHeading(AngleUnit.RADIANS));
+        double robotAngle = Math.toDegrees(pinpoint.getHeading(AngleUnit.RADIANS) - goalTheta + robotVelCompOffset);
         return robotAngle;
     }
 }
