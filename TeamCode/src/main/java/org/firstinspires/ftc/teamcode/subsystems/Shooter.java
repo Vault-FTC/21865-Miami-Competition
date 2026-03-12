@@ -1,11 +1,16 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import com.pedropathing.math.MathFunctions;
+import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.CommandSystem.Subsystem;
 import org.firstinspires.ftc.teamcode.LUT;
 
@@ -72,9 +77,51 @@ public class Shooter extends Subsystem {
     {
         return shooter.getVelocity();
     }
-//    private Vector calculateShotVectorAndUpdateRobotAngle(double robotHeading) {
-//        double g = 32.174 * 12;
-//        double x = robotToGoalVector.getMagnitude
-//    }
+
+    double degreesToPosition(double degrees) {
+        return 0.15 + (degrees - 15) / (75 - 15) * (0.70 - 0.15);
+    }
+
+    public double updateShootOnMove(GoBildaPinpointDriver pinpoint, double GOAL_X, double GOAL_Y) {
+        Pose2D pose = pinpoint.getPosition();
+        double velocityX = pinpoint.getVelX(DistanceUnit.CM);
+        double velocityY = pinpoint.getVelY(DistanceUnit.CM);
+        double robotVelocityMag = Math.sqrt((velocityX*velocityX) + (velocityY*velocityY));
+        double robotToGoalX = pinpoint.getPosX(DistanceUnit.CM) - GOAL_X;
+        double robotToGoalY = pinpoint.getPosY(DistanceUnit.CM) - GOAL_Y;
+        double rawDistance = Math.sqrt(robotToGoalX * robotToGoalX + robotToGoalY * robotToGoalY);
+
+        // constants
+        double g = 981;
+        double x = rawDistance - ShooterConstants.PASS_THROUGH_POINT_RADIUS;
+        double y = ShooterConstants.SCORE_HEIGHT;
+        double a = ShooterConstants.SCORE_ANGLE;
+
+        // initial launch components
+        double hoodAngle = MathFunctions.clamp(Math.atan(2 * y / x - Math.tan(a)), ShooterConstants.HOOD_MAX_ANGLE, ShooterConstants.HOOD_MIN_ANGLE);
+        double flywheelSpeed = Math.sqrt(g * x * x / (2 * Math.pow(Math.cos(hoodAngle), 2) * (x * Math.tan(hoodAngle) - y)));
+
+
+        double coordinateTheta = Math.atan2(velocityY, velocityX) - Math.atan2(robotToGoalY, robotToGoalX);
+
+        double parallelComponent = -Math.cos(coordinateTheta) * robotVelocityMag;
+        double perpendicularComponent = Math.sin(coordinateTheta) * robotVelocityMag;
+
+        double velocityZ = flywheelSpeed * Math.sin(hoodAngle);
+        double time = x / (flywheelSpeed * Math.cos(hoodAngle));
+        double ivr = x / time + parallelComponent;
+        double nvr = Math.sqrt(ivr * ivr + perpendicularComponent * perpendicularComponent);
+        double ndr = nvr * time;
+
+        hoodAngle = MathFunctions.clamp(Math.atan(velocityZ / nvr), ShooterConstants.HOOD_MAX_ANGLE, ShooterConstants.HOOD_MIN_ANGLE);
+        flywheelSpeed = Math.sqrt(g * ndr * ndr / (2 * Math.pow(Math.cos(hoodAngle), 2) * (ndr * Math.tan(hoodAngle) - y)));
+        setHoodPosition(ShooterConstants.getHoodPositionFromDegrees(hoodAngle));
+        setShooterSpeedNear(flywheelSpeed);
+
+        double robotVelCompOffset = Math.atan(perpendicularComponent / ivr);
+        double goalTheta = Math.atan2(robotToGoalY, robotToGoalX);
+        double robotAngle = Math.toDegrees(goalTheta - robotVelCompOffset - pinpoint.getHeading(AngleUnit.RADIANS));
+        return robotAngle;
+    }
 }
 
