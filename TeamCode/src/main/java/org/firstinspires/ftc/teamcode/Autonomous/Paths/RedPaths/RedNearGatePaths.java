@@ -81,7 +81,7 @@ public class RedNearGatePaths {
                                 new Pose(99.000, 80.00),
                                 new Pose(99.000, 95.000)
                         )
-                ).setLinearHeadingInterpolation(Math.toRadians(22), Math.toRadians(46))
+                ).setLinearHeadingInterpolation(Math.toRadians(22), Math.toRadians(44))
                 .build();
 
         Intake4 = follower.pathBuilder().addPath(
