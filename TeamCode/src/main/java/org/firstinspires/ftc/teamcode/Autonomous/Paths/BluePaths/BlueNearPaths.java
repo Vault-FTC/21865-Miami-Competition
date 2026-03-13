@@ -197,7 +197,6 @@ public class BlueNearPaths {
         Park = follower.pathBuilder().addPath(
                         new BezierLine(
                                 new Pose(45.000, 95.000),
-
                                 new Pose(35.000, 90.000)
                         )
                 ).setLinearHeadingInterpolation(Math.toRadians(137), Math.toRadians(250))
