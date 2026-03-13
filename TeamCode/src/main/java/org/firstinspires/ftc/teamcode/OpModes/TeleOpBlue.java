@@ -113,10 +113,10 @@ public class TeleOpBlue extends LinearOpMode {
                     gamepad1.rumble(1000);
                 }
             } else if (gamepad1.right_trigger_pressed)  {
-                double errorDeg = (angleError+0.1) * (180 / Math.PI);
+                double errorDeg = (angleError+0.05) * (180 / Math.PI);
                 joystick_rx = joystick_rx + errorDeg * kP - velocityDeg * kD;
                 servoGate.openGate();
-                if (Math.abs((angleError+0.1) * ((180/Math.PI))) < 1 && launcher.getShooterVelocity() >= launcher.distanceToSpeed(distance)) {
+                if (Math.abs((angleError+0.05) * ((180/Math.PI))) < 1 && launcher.getShooterVelocity() >= launcher.distanceToSpeed(distance)) {
                     intake.spinIntake(0.6);
                     gamepad1.rumble(1000);
                 }

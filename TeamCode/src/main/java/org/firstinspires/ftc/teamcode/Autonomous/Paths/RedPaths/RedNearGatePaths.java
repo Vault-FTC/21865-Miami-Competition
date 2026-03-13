@@ -52,18 +52,18 @@ public class RedNearGatePaths {
                         new BezierCurve(
                                 new Pose(99.000, 95.000),
                                 new Pose(99.000, 70.000),
-                                new Pose(131.000, 63.000)
+                                new Pose(131.000, 63.500)
                         )
-                ).setLinearHeadingInterpolation(Math.toRadians(48), Math.toRadians(22))
+                ).setLinearHeadingInterpolation(Math.toRadians(48), Math.toRadians(21))
                 .build();
 
         Shoot3 = follower.pathBuilder().addPath(
                         new BezierCurve(
-                                new Pose(131.000, 63.000),
+                                new Pose(131.000, 63.500),
                                 new Pose(99.000, 80.000),
                                 new Pose(99.000, 95.000)
                         )
-                ).setLinearHeadingInterpolation(Math.toRadians(22), Math.toRadians(46))
+                ).setLinearHeadingInterpolation(Math.toRadians(21), Math.toRadians(46))
                 .build();
 
         Intake3 = follower.pathBuilder().addPath(
@@ -77,11 +77,11 @@ public class RedNearGatePaths {
 
         Shoot4 = follower.pathBuilder().addPath(
                         new BezierCurve(
-                                new Pose(131.000, 63.000),
+                                new Pose(131.000, 63.500),
                                 new Pose(99.000, 80.00),
                                 new Pose(99.000, 95.000)
                         )
-                ).setLinearHeadingInterpolation(Math.toRadians(22), Math.toRadians(44))
+                ).setLinearHeadingInterpolation(Math.toRadians(21), Math.toRadians(46))
                 .build();
 
         Intake4 = follower.pathBuilder().addPath(
@@ -95,11 +95,11 @@ public class RedNearGatePaths {
 
         Shoot5 = follower.pathBuilder().addPath(
                         new BezierCurve(
-                                new Pose(130.000, 63.000),
+                                new Pose(130.000, 63.500),
                                 new Pose(99.000, 80.00),
                                 new Pose(99.000, 95.000)
                         )
-                ).setLinearHeadingInterpolation(Math.toRadians(24), Math.toRadians(46))
+                ).setLinearHeadingInterpolation(Math.toRadians(21), Math.toRadians(46))
                 .build();
 
         Intake5 = follower.pathBuilder().addPath(
