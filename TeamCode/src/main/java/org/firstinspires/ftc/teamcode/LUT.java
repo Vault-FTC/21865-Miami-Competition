@@ -42,13 +42,13 @@ public class LUT {
         addSpeed(290, 1317.282);
         addSpeed(300, 1336.48);
         addSpeed(310, 1355.778);
-        addSpeed(320, 1375.176);
-        addSpeed(330, 1394.674);
-        addSpeed(340, 1414.272);
-        addSpeed(350, 1433.97);
-        addSpeed(360, 1453.768);
-        addSpeed(370, 1473.666);
-        addSpeed(380, 1493.664);
+        addSpeed(320, 1358.176);
+        addSpeed(330, 1361.674);
+        addSpeed(340, 1364.272);
+        addSpeed(350, 1383.97);
+        addSpeed(360, 1403.000);
+        addSpeed(370, 1423.666);
+        addSpeed(380, 1443.664);
     }
 
     public void LUTHood () {

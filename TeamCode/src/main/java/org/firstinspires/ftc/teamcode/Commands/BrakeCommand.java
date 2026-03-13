@@ -40,6 +40,6 @@ public class BrakeCommand extends Command {
     }
     @Override
     public void end(boolean interrupted) {
-        drivebase.brake();
+        drivebase.end();
     }
 }
