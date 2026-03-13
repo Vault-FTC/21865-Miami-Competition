@@ -36,7 +36,7 @@ public class RedNearGatePaths {
                                 new Pose(81.000, 54.000),
                                 new Pose(125.000, 63.000)
                         )
-                ).setLinearHeadingInterpolation(Math.toRadians(50), Math.toRadians(0))
+                ).setLinearHeadingInterpolation(Math.toRadians(48), Math.toRadians(0))
                 .build();
 
         Shoot2 = follower.pathBuilder().addPath(
@@ -52,36 +52,36 @@ public class RedNearGatePaths {
                         new BezierCurve(
                                 new Pose(99.000, 95.000),
                                 new Pose(99.000, 70.000),
-                                new Pose(127.500, 63.000)
+                                new Pose(131.000, 63.000)
                         )
-                ).setLinearHeadingInterpolation(Math.toRadians(48), Math.toRadians(24))
+                ).setLinearHeadingInterpolation(Math.toRadians(48), Math.toRadians(22))
                 .build();
 
         Shoot3 = follower.pathBuilder().addPath(
                         new BezierCurve(
-                                new Pose(127.500, 63.000),
+                                new Pose(131.000, 63.000),
                                 new Pose(99.000, 80.000),
                                 new Pose(99.000, 95.000)
                         )
-                ).setLinearHeadingInterpolation(Math.toRadians(24), Math.toRadians(48))
+                ).setLinearHeadingInterpolation(Math.toRadians(22), Math.toRadians(46))
                 .build();
 
         Intake3 = follower.pathBuilder().addPath(
                         new BezierCurve(
                                 new Pose(99.000, 95.000),
                                 new Pose(81.000, 54.000),
-                                new Pose(130.000, 63.000)
+                                new Pose(131.000, 63.000)
                         )
-                ).setLinearHeadingInterpolation(Math.toRadians(48), Math.toRadians(24))
+                ).setLinearHeadingInterpolation(Math.toRadians(46), Math.toRadians(22))
                 .build();
 
         Shoot4 = follower.pathBuilder().addPath(
                         new BezierCurve(
-                                new Pose(130.000, 63.000),
+                                new Pose(131.000, 63.000),
                                 new Pose(99.000, 80.00),
                                 new Pose(99.000, 95.000)
                         )
-                ).setLinearHeadingInterpolation(Math.toRadians(24), Math.toRadians(48))
+                ).setLinearHeadingInterpolation(Math.toRadians(22), Math.toRadians(46))
                 .build();
 
         Intake4 = follower.pathBuilder().addPath(
@@ -90,7 +90,7 @@ public class RedNearGatePaths {
                                 new Pose(78.000, 50.000),
                                 new Pose(130.000, 63.000)
                         )
-                ).setLinearHeadingInterpolation(Math.toRadians(48), Math.toRadians(24))
+                ).setLinearHeadingInterpolation(Math.toRadians(46), Math.toRadians(24))
                 .build();
 
         Shoot5 = follower.pathBuilder().addPath(
@@ -99,7 +99,7 @@ public class RedNearGatePaths {
                                 new Pose(99.000, 80.00),
                                 new Pose(99.000, 95.000)
                         )
-                ).setLinearHeadingInterpolation(Math.toRadians(24), Math.toRadians(48))
+                ).setLinearHeadingInterpolation(Math.toRadians(24), Math.toRadians(46))
                 .build();
 
         Intake5 = follower.pathBuilder().addPath(
@@ -108,7 +108,7 @@ public class RedNearGatePaths {
                                 new Pose(90.000, 83.000),
                                 new Pose(127.000, 86.000)
                         )
-                ).setLinearHeadingInterpolation(Math.toRadians(48), Math.toRadians(0))
+                ).setLinearHeadingInterpolation(Math.toRadians(46), Math.toRadians(0))
                 .build();
 
         Shoot6 = follower.pathBuilder().addPath(
