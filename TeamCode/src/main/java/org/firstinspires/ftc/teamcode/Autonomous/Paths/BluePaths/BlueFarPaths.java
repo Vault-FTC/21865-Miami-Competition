@@ -7,7 +7,7 @@ import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
 
 public class BlueFarPaths {
-    public double GOAL_X = 6;
+    public double GOAL_X = 0;
     public double GOAL_Y = 143;
     public PathChain Shoot1;
     public PathChain Intake1;
@@ -48,7 +48,7 @@ public class BlueFarPaths {
                                 new Pose(57, 12.000)
                         )
                 )
-                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(125))
+                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(129))
                 .build();
 
         Intake2 = follower.pathBuilder()
@@ -58,7 +58,7 @@ public class BlueFarPaths {
                                 new Pose(10, 5)
                         )
                 )
-                .setLinearHeadingInterpolation(Math.toRadians(125), Math.toRadians(180))
+                .setLinearHeadingInterpolation(Math.toRadians(129), Math.toRadians(180))
                 .build();
 
         Shoot3 = follower.pathBuilder()
@@ -68,17 +68,17 @@ public class BlueFarPaths {
                                 new Pose(57, 11.951)
                         )
                 )
-                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(125))
+                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(129))
                 .build();
 
         Intake3 = follower.pathBuilder()
                 .addPath(
                         new BezierLine(
                                 new Pose(57.000, 11.971),
-                                new Pose(10, 23.627)
+                                new Pose(3, 13.627) // x used to be 10. y used to be 23.627. Change back!!!
                         )
                 )
-                .setLinearHeadingInterpolation(Math.toRadians(125), Math.toRadians(180))
+                .setLinearHeadingInterpolation(Math.toRadians(129), Math.toRadians(180))
                 .build();
 
         Shoot4 = follower.pathBuilder()
@@ -88,7 +88,7 @@ public class BlueFarPaths {
                                 new Pose(57, 11.951)
                         )
                 )
-                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(125))
+                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(129))
                 .build();
 
         Park = follower.pathBuilder()
@@ -98,7 +98,7 @@ public class BlueFarPaths {
                                 new Pose(57, 31.364)
                         )
                 )
-                .setLinearHeadingInterpolation(Math.toRadians(125), Math.toRadians(90))
+                .setLinearHeadingInterpolation(Math.toRadians(129), Math.toRadians(90))
                 .build();
     }
 }

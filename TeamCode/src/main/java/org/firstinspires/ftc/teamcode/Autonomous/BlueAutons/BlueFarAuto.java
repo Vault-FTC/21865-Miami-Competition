@@ -41,7 +41,7 @@ public class BlueFarAuto extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         drivebase = new Drivebase(hardwareMap);
-        shooter = new Shooter(hardwareMap);
+        shooter = new Shooter(hardwareMap, drivebase, servoGate);
         intake = new Intake(hardwareMap);
         limeLight = new LimeLight(hardwareMap,20);
         servoGate = new ServoGate(hardwareMap);
@@ -100,14 +100,14 @@ public class BlueFarAuto extends LinearOpMode {
                         .add(new PedroDriveToCommand(follower, blueFarPaths.Intake3, 3,telemetry))
                         .build()
                 )
-                .add(ParallelCommandGroup.getBuilder()
-                        .add(new IntakeCommand(intake, 1, telemetry, servoGate))
-                        .add(new PedroDriveToCommand(follower, blueFarPaths.Shoot4, 3,telemetry))
-                        .build()
-                )
-                .add(new AimCommand(drivebase, limeLight, telemetry, follower, blueFarPaths.GOAL_X, blueFarPaths.GOAL_Y))
-                .add(new TimedShootCommand(shooter, intake, 1, telemetry, 1450, servoGate, 0.7, 0.7))
-                .add(new PedroDriveToCommand(follower, blueFarPaths.Park, 1, telemetry))
+//                .add(ParallelCommandGroup.getBuilder()
+//                        .add(new IntakeCommand(intake, 1, telemetry, servoGate))
+//                        .add(new PedroDriveToCommand(follower, blueFarPaths.Shoot4, 3,telemetry))
+//                        .build()
+//                )
+//                .add(new AimCommand(drivebase, limeLight, telemetry, follower, blueFarPaths.GOAL_X, blueFarPaths.GOAL_Y))
+//                .add(new TimedShootCommand(shooter, intake, 1, telemetry, 1450, servoGate, 0.7, 0.7))
+//                .add(new PedroDriveToCommand(follower, blueFarPaths.Park, 1, telemetry))
                 .build();
         waitForStart();
         auto.schedule();

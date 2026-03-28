@@ -4,10 +4,17 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
+import org.firstinspires.ftc.teamcode.subsystems.CaseModes;
+import org.firstinspires.ftc.teamcode.subsystems.TestSubsystem;
+
 @TeleOp
 public class TestOpMode extends LinearOpMode {
+
+    TestSubsystem test;
+
     @Override
     public void runOpMode() throws InterruptedException {
+        test = new TestSubsystem(hardwareMap);
 
         DcMotorEx frontLeftMotor = hardwareMap.get(DcMotorEx.class, "frontLeftMotor");
         DcMotorEx frontRightMotor = hardwareMap.get(DcMotorEx.class, "frontRightMotor");
@@ -16,12 +23,25 @@ public class TestOpMode extends LinearOpMode {
 
         waitForStart();
 
-        while(opModeIsActive())
-        {
+        while(opModeIsActive()) {
+            if (gamepad1.a) {
+                test.setMode(CaseModes.SHOOT);
+            }
+            else if (gamepad1.b){
+                test.setMode(CaseModes.REVERSE);
+            }
+            else
+            {
+                test.setMode(CaseModes.OFF);
+            }
+
             doMotor(gamepad1.a, frontLeftMotor, "frontLeftMotor");
             doMotor(gamepad1.x, frontRightMotor, "frontRightMotor");
             doMotor(gamepad1.b, backLeftMotor, "backLeftMotor");
             doMotor(gamepad1.y, backRightMotor, "backRightMotor");
+
+
+            test.update();
             telemetry.update();
         }
     }

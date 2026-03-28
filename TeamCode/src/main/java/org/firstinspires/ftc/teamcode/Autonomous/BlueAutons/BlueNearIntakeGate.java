@@ -39,7 +39,7 @@ public class BlueNearIntakeGate extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         drivebase = new Drivebase(hardwareMap);
-        shooter = new Shooter(hardwareMap);
+        shooter = new Shooter(hardwareMap, drivebase, servoGate);
         intake = new Intake(hardwareMap);
         limeLight = new LimeLight(hardwareMap,20);
         servoGate = new ServoGate(hardwareMap);
@@ -63,7 +63,7 @@ public class BlueNearIntakeGate extends LinearOpMode {
                         .add(new TimedShootCommand(shooter, intake, 0.001, telemetry, 1100, servoGate, 0.0, 0.45))
                         .build()
                 )
-                .add(new TimedShootCommand(shooter, intake, 1.05, telemetry, 1100, servoGate, 0.95, 0.45))
+                .add(new TimedShootCommand(shooter, intake, 1.1, telemetry, 1100, servoGate, 0.95, 0.45))
                 .add(ParallelCommandGroup.getBuilder()
                         .add(new IntakeCommand(intake, 1.5, telemetry, servoGate))
                         .add(new PedroDriveToCommand(follower, redNearGatePaths.Intake1, 2, telemetry))
@@ -99,7 +99,7 @@ public class BlueNearIntakeGate extends LinearOpMode {
                 .add(new TimedShootCommand(shooter, intake, 0.6, telemetry, 1100, servoGate, 0.95, 0.45))
                 .add(ParallelCommandGroup.getBuilder()
                         .add(new IntakeCommand(intake, 1.0, telemetry, servoGate))
-                        .add(new PedroDriveToCommand(follower, redNearGatePaths.Intake2, 2, telemetry))
+                        .add(new PedroDriveToCommand(follower, redNearGatePaths.Intake3, 2, telemetry))
                         .build()
                 )
                 .add(ParallelCommandGroup.getBuilder()
@@ -118,7 +118,7 @@ public class BlueNearIntakeGate extends LinearOpMode {
                 .add(new TimedShootCommand(shooter, intake, 0.6, telemetry, 1100, servoGate, 0.95, 0.45))
                 .add(ParallelCommandGroup.getBuilder()
                         .add(new IntakeCommand(intake, 1.0, telemetry, servoGate))
-                        .add(new PedroDriveToCommand(follower, redNearGatePaths.Intake2, 2, telemetry))
+                        .add(new PedroDriveToCommand(follower, redNearGatePaths.Intake4, 2, telemetry))
                         .build()
                 )
                 .add(ParallelCommandGroup.getBuilder()

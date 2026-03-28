@@ -6,6 +6,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.CommandSystem.Command;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.subsystems.ServoGate;
+import org.firstinspires.ftc.teamcode.subsystems.Shooter;
 
 public class IntakeCommand extends Command {
     Telemetry telemetry;
@@ -32,7 +33,7 @@ public class IntakeCommand extends Command {
     @Override
     public void execute() {
         intake.spinIntake(0.95);
-        servoGate.closeGate();
+        Shooter.closeGate();
         telemetry.addData("Running", "Intake Command");
     }
 

@@ -18,6 +18,7 @@ import org.firstinspires.ftc.teamcode.subsystems.PoseStorage;
 import org.firstinspires.ftc.teamcode.subsystems.ServoGate;
 import org.firstinspires.ftc.teamcode.subsystems.Shooter;
 import org.firstinspires.ftc.teamcode.subsystems.Drivebase;
+import org.firstinspires.ftc.teamcode.subsystems.CaseModes;
 
 
 // ALL SHOOTER SPEEDS ARE IN TICKS/SECOND. DO NOT, I REPEAT DO NOT, USE DEGREES/SECOND
@@ -49,7 +50,7 @@ public class TeleOpBlue extends LinearOpMode {
         drivebase = new Drivebase(hardwareMap);
         Drivebase drive = new Drivebase(hardwareMap);
         ServoGate servoGate = new ServoGate(hardwareMap);
-        Shooter launcher = new Shooter(hardwareMap);
+        Shooter launcher = new Shooter(hardwareMap, drive, servoGate);
         setTargets();
         green = RevBlinkinLedDriver.BlinkinPattern.GREEN;
         red = RevBlinkinLedDriver.BlinkinPattern.RED;
@@ -104,14 +105,8 @@ public class TeleOpBlue extends LinearOpMode {
                 intake.spinIntake(-0.95);
                 launcher.setShooterSpeedNear(-900);
             } else if (autoShoot) {
+                launcher.setState(CaseModes.SHOOT);
 
-                double errorDeg = angleError * (180 / Math.PI);
-                joystick_rx = joystick_rx + errorDeg * kP - velocityDeg * kD;
-                servoGate.openGate();
-                if (Math.abs(angleError * ((180/Math.PI))) < 2.5 && Math.abs(velocityDeg) < 10) {
-                    intake.spinIntake(1);
-                    gamepad1.rumble(1000);
-                }
             } else if (gamepad1.right_trigger_pressed)  {
                 double errorDeg = (angleError+0.05) * (180 / Math.PI);
                 joystick_rx = joystick_rx + errorDeg * kP - velocityDeg * kD;
@@ -120,7 +115,8 @@ public class TeleOpBlue extends LinearOpMode {
                     intake.spinIntake(0.6);
                     gamepad1.rumble(1000);
                 }
-            } else if (gamepad1.left_trigger_pressed){
+            }
+            else if (gamepad1.left_trigger_pressed){
                 // Shoot on the move code???? Maybe it'll workkkkk
                 double vPerpendicular = velocityX * Math.cos(angleError) - velocityY * Math.sin(angleError);
                 double leadAngle = Math.atan2(vPerpendicular, PROJECTILE_SPEED_CM);
@@ -148,7 +144,7 @@ public class TeleOpBlue extends LinearOpMode {
             } else if (gamepad2.triangle) {
                 launcher.setShooterSpeedNear(1100);
                 servoGate.openGate();
-            }else {
+            } else {
                 launcher.setShooterSpeedNear(launcher.distanceToSpeed(distance));
                 intake.spinIntake(0);
                 servoGate.closeGate();

@@ -1,47 +1,83 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
-import com.pedropathing.math.MathFunctions;
-import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.gamepad1;
+
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
+import org.firstinspires.ftc.robotcore.external.navigation.UnnormalizedAngleUnit;
 import org.firstinspires.ftc.teamcode.CommandSystem.Subsystem;
+import org.firstinspires.ftc.teamcode.Constants;
 import org.firstinspires.ftc.teamcode.LUT;
-
-import java.util.Vector;
 
 public class Shooter extends Subsystem {
     private static final double CLOSE_DIST_CM = 140;
     private static final double MID_DIST_CM = 270;
-    private static final double FAR_DIST_CM = 370;
-    private static final double CLOSE_SPEED = 1100;
-    private static final double MID_SPEED   = 1300;
-    private static final double FAR_SPEED   = 2000;
     private static final double CLOSE_HOOD = 0.15;
     private static final double MID_HOOD = 0.5; //0.2
     private static final double FAR_HOOD = 0.7; //0.5
     private final DcMotorEx shooter;
-    private final Servo hoodServo;
+    private ServoGate servoGate;
+    private Drivebase driveBase;
+    private final Servo hood;
+    private Drivebase drive;
+    private Intake intake;
 
     private final LUT lut = new LUT();
-    double lastTime = 0;
-    double lastTargetVelocity = 0;
-    double kA = 0.5; // tune this experimentally
     double distance, speed;
+    CaseModes currentMode = CaseModes.OFF;
+    double kP = 0.02;
+    double kD = 0.0015;
+
+    Pose2D goal = Constants.BLUE_CENTER_GOAL;
 
     PIDFCoefficients pidfCoefficients = new PIDFCoefficients(250, 0, 0, 15);
-    public Shooter(HardwareMap hardwareMap) {
+
+    public Shooter(HardwareMap hardwareMap, Drivebase driveBase, ServoGate servoGate) {
         shooter = hardwareMap.get(DcMotorEx.class, "shooter");
-        hoodServo = hardwareMap.get(Servo.class, "hood");
+        hood = hardwareMap.get(Servo.class, "hood");
+        this.servoGate = servoGate;
+        this.driveBase = driveBase;
         shooter.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         shooter.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
+    }
+
+    public void update() {
+        double angleError = Drivebase.angleToGoal(drive.getPosition(), goal);
+        double joystick_rx = -gamepad1.right_stick_x; // Rotation
+        double velocityDeg = drive.getOdo().getHeadingVelocity(UnnormalizedAngleUnit.DEGREES);
+        switch(currentMode){
+            case OFF:
+                shooter.setVelocity(0);
+                servoGate.closeGate();
+                break;
+            case SHOOT:
+                intake.spinIntake(0.9);
+                double errorDeg = (angleError+0.05) * (180 / Math.PI);
+                joystick_rx = joystick_rx + errorDeg * kP - velocityDeg * kD;
+                servoGate.openGate();
+                if (Math.abs((angleError+0.05) * ((180/Math.PI))) < 1 && getShooterVelocity() >= distanceToSpeed(distance)) {
+                    intake.spinIntake(0.6);
+                    gamepad1.rumble(1000);
+                }
+                break;
+            case SHOOT_GATE_CLOSED:
+                servoGate.closeGate();
+            case REVERSE:
+                servoGate.openGate();
+                intake.spinIntake(-0.9);
+                shooter.setPower(-0.3);
+                break;
+        }
+    }
+
+    public void setState(CaseModes s) {
+        currentMode = s;
     }
     public double distanceToSpeed(double distanceCm) {
         speed = lut.getSpeed(distanceCm);
@@ -67,10 +103,10 @@ public class Shooter extends Subsystem {
         shooter.setVelocity(speed);
     }
     public void setHoodPosition(double position) {
-        hoodServo.setPosition(position);
+        hood.setPosition(position);
     }
     public String telemetryUpdate() {
-        return "Servo Position: " + hoodServo.getPosition()
+        return "Servo Position: " + hood.getPosition()
                 + " \n Shooter Speed: " + getShooterVelocity() + " \n " + "Target Speed/Vel: " + distance + ":" + speed;
     }
     public double getShooterVelocity()
@@ -82,46 +118,4 @@ public class Shooter extends Subsystem {
         return 0.15 + (degrees - 15) / (75 - 15) * (0.70 - 0.15);
     }
 
-    public double updateShootOnMove(GoBildaPinpointDriver pinpoint, double GOAL_X, double GOAL_Y) {
-        Pose2D pose = pinpoint.getPosition();
-        double velocityX = pinpoint.getVelX(DistanceUnit.CM);
-        double velocityY = pinpoint.getVelY(DistanceUnit.CM);
-        double robotVelocityMag = Math.sqrt((velocityX*velocityX) + (velocityY*velocityY));
-        double robotToGoalX = GOAL_X - pinpoint.getPosX(DistanceUnit.CM);
-        double robotToGoalY = GOAL_Y - pinpoint.getPosY(DistanceUnit.CM);
-        double rawDistance = Math.sqrt(robotToGoalX * robotToGoalX + robotToGoalY * robotToGoalY);
-
-        // constants
-        double g = 981;
-        double x = rawDistance - ShooterConstants.PASS_THROUGH_POINT_RADIUS;
-        double y = ShooterConstants.SCORE_HEIGHT;
-        double a = ShooterConstants.SCORE_ANGLE;
-
-        // initial launch components
-        double hoodAngle = MathFunctions.clamp(Math.atan(2 * y / x - Math.tan(a)), ShooterConstants.HOOD_MAX_ANGLE, ShooterConstants.HOOD_MIN_ANGLE);
-        double flywheelSpeed = Math.sqrt(g * x * x / (2 * Math.pow(Math.cos(hoodAngle), 2) * (x * Math.tan(hoodAngle) - y)));
-
-
-        double coordinateTheta = Math.atan2(velocityY, velocityX) - Math.atan2(robotToGoalY, robotToGoalX);
-
-        double parallelComponent = -Math.cos(coordinateTheta) * robotVelocityMag;
-        double perpendicularComponent = Math.sin(coordinateTheta) * robotVelocityMag;
-
-        double velocityZ = flywheelSpeed * Math.sin(hoodAngle);
-        double time = x / (flywheelSpeed * Math.cos(hoodAngle));
-        double ivr = x / time + parallelComponent;
-        double nvr = Math.sqrt(ivr * ivr + perpendicularComponent * perpendicularComponent);
-        double ndr = nvr * time;
-
-        hoodAngle = MathFunctions.clamp(Math.atan(velocityZ / nvr), ShooterConstants.HOOD_MAX_ANGLE, ShooterConstants.HOOD_MIN_ANGLE);
-        flywheelSpeed = Math.sqrt(g * ndr * ndr / (2 * Math.pow(Math.cos(hoodAngle), 2) * (ndr * Math.tan(hoodAngle) - y)));
-        setHoodPosition(ShooterConstants.getHoodPositionFromDegrees(hoodAngle));
-        setShooterSpeedNear(flywheelSpeed);
-
-        double robotVelCompOffset = Math.atan(perpendicularComponent / ivr);
-        double goalTheta = Math.atan2(robotToGoalY, robotToGoalX);
-        double robotAngle = Math.toDegrees(pinpoint.getHeading(AngleUnit.RADIANS) - goalTheta + robotVelCompOffset);
-        return robotAngle;
-    }
 }
-
