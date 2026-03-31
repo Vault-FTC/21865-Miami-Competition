@@ -14,5 +14,6 @@ public class TeleOpRed extends TeleOpBlue {
         gatePosition = new Location(57, -147, 123);
         goal = Constants.RED_CENTER_GOAL;
         headingOffset = Math.PI;
+        parkPosition = new Location(411, -22.6,-90 );
     }
 }

@@ -34,6 +34,7 @@ public class TeleOpBlue extends LinearOpMode {
     double launchPower = 0;
 
     Location gatePosition = new Location(60, -163, -124);
+    Location parkPosition = new Location(130.7, 65, 90);
     Pose2D goal = Constants.BLUE_CENTER_GOAL;
     double headingOffset = 0;
 
@@ -100,7 +101,7 @@ public class TeleOpBlue extends LinearOpMode {
             if (gamepad1.left_bumper) {
                 intake.spinIntake(1);
 
-            } else if (gamepad1.b) {
+            } else if (gamepad1.circle) {
                 intake.spinIntake(-0.95);
                 launcher.setShooterSpeedNear(-900);
             } else if (autoShoot) {
@@ -133,7 +134,7 @@ public class TeleOpBlue extends LinearOpMode {
                     intake.spinIntake(0.6);
                     gamepad1.rumble(1000);
                 }
-            } else if (gamepad1.x) {
+            } else if (gamepad1.square) {
                 launcher.setShooterSpeedNear(1100);
                 servoGate.openGate();
                 if (launcher.getShooterVelocity() >= 1100) {
@@ -158,6 +159,8 @@ public class TeleOpBlue extends LinearOpMode {
             if (gamepad1.triangle) {
                 drive.driveToPosition(gatePosition, 0, telemetry);
                 intake.spinIntake(0.9);
+            } else if (gamepad1.share) {
+                drive.driveToPosition(parkPosition, 0, telemetry);
             }
             else {
                 drive.drive(joystick_y, joystick_x, joystick_rx, headingOffset);
