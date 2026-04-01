@@ -12,8 +12,10 @@ public class Intake extends Subsystem {
     private DcMotorEx intake;
     private DigitalChannel breakbeam1;
     private DigitalChannel breakbeam2;
+    CaseModes currentMode = CaseModes.OFF;
 
-   //
+
+    //
     public Intake(HardwareMap hardwareMap) {
         intake = hardwareMap.get(DcMotorEx.class, "intake");
         breakbeam1 = hardwareMap.get(DigitalChannel.class, "breakbeam1");
@@ -21,6 +23,24 @@ public class Intake extends Subsystem {
 
         breakbeam1.setMode(DigitalChannel.Mode.INPUT);
         breakbeam2.setMode(DigitalChannel.Mode.INPUT);
+
+    }
+    public void update()
+    {
+        switch(currentMode) {
+            case ON:
+                intake.setPower(1);
+                break;
+            case OFF:
+                intake.setPower(0);
+                break;
+            case REVERSE:
+                intake.setPower(-1);
+                break;
+        }
+    }
+    public void setState(CaseModes s) {
+        currentMode = s;
     }
     public void spinIntake(double power) {
         intake.setPower(power);

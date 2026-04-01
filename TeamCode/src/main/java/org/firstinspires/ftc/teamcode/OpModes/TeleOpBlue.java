@@ -19,6 +19,7 @@ import org.firstinspires.ftc.teamcode.subsystems.ServoGate;
 import org.firstinspires.ftc.teamcode.subsystems.Shooter;
 import org.firstinspires.ftc.teamcode.subsystems.Drivebase;
 import org.firstinspires.ftc.teamcode.subsystems.CaseModes;
+import org.firstinspires.ftc.teamcode.subsystems.TestSubsystem;
 
 
 // ALL SHOOTER SPEEDS ARE IN TICKS/SECOND. DO NOT, I REPEAT DO NOT, USE DEGREES/SECOND
@@ -99,7 +100,7 @@ public class TeleOpBlue extends LinearOpMode {
             }
 
             if (gamepad1.left_bumper) {
-                intake.spinIntake(1);
+                intake.setState(CaseModes.ON);
 
             } else if (gamepad1.b) {
                 intake.spinIntake(-0.95);
