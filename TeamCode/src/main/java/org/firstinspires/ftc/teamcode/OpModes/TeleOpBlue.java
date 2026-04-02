@@ -101,9 +101,8 @@ public class TeleOpBlue extends LinearOpMode {
 
             if (gamepad1.left_bumper) {
                 intake.setState(CaseModes.ON);
-
             } else if (gamepad1.b) {
-                intake.spinIntake(-0.95);
+                intake.setState(CaseModes.REVERSE);
                 launcher.setShooterSpeedNear(-900);
             } else if (autoShoot) {
                 launcher.setState(CaseModes.SHOOT);
@@ -113,7 +112,7 @@ public class TeleOpBlue extends LinearOpMode {
                 joystick_rx = joystick_rx + errorDeg * kP - velocityDeg * kD;
                 servoGate.openGate();
                 if (Math.abs((angleError+0.05) * ((180/Math.PI))) < 1 && launcher.getShooterVelocity() >= launcher.distanceToSpeed(distance)) {
-                    intake.spinIntake(0.6);
+                    intake.setState(CaseModes.SIXTY_PERCENT_SPEED);
                     gamepad1.rumble(1000);
                 }
             }
@@ -127,34 +126,34 @@ public class TeleOpBlue extends LinearOpMode {
                 joystick_rx = joystick_rx + errorDeg * kP - velocityDeg * kD;
 
                 if (launcher.getShooterVelocity() >= launcher.distanceToSpeed(distance)) {
-                    intake.spinIntake(0.6);
+                    intake.setState(CaseModes.SIXTY_PERCENT_SPEED);
                     gamepad1.rumble(1000);
                 }
             } else if (gamepad1.x) {
                 launcher.setShooterSpeedNear(1100);
                 servoGate.openGate();
                 if (launcher.getShooterVelocity() >= 1100) {
-                    intake.spinIntake(0.95);
+                    intake.setState(CaseModes.ON);
                 }
             } else if (gamepad2.square) {
                 launcher.setShooterSpeedNear(1100);
                 servoGate.openGate();
                 if (launcher.getShooterVelocity() >= 1100) {
-                    intake.spinIntake(0.5);
+                    intake.setState(CaseModes.HALF_SPEED);
                 }
             } else if (gamepad2.triangle) {
                 launcher.setShooterSpeedNear(1100);
                 servoGate.openGate();
             } else {
                 launcher.setShooterSpeedNear(launcher.distanceToSpeed(distance));
-                intake.spinIntake(0);
+                intake.setState(CaseModes.OFF);
                 servoGate.closeGate();
             }
 
             launcher.setHoodPosition(launcher.distanceToHoodPosition(distance));
             if (gamepad1.triangle) {
                 drive.driveToPosition(gatePosition, 0, telemetry);
-                intake.spinIntake(0.9);
+                intake.setState(CaseModes.ON);
             }
             else {
                 drive.drive(joystick_y, joystick_x, joystick_rx, headingOffset);
@@ -170,6 +169,7 @@ public class TeleOpBlue extends LinearOpMode {
                 telemetry.addData("AprilTag", aprilTag.getBotpose_MT2());
             }
             telemetry.update();
+            intake.update();
         }
     }
 }

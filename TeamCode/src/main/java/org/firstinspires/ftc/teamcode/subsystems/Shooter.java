@@ -57,12 +57,12 @@ public class Shooter extends Subsystem {
                 servoGate.closeGate();
                 break;
             case SHOOT:
-                intake.spinIntake(0.9);
+                intake.setState(CaseModes.ON);
                 double errorDeg = (angleError+0.05) * (180 / Math.PI);
                 joystick_rx = joystick_rx + errorDeg * kP - velocityDeg * kD;
                 servoGate.openGate();
                 if (Math.abs((angleError+0.05) * ((180/Math.PI))) < 1 && getShooterVelocity() >= distanceToSpeed(distance)) {
-                    intake.spinIntake(0.6);
+                    intake.setState(CaseModes.SIXTY_PERCENT_SPEED);
                     gamepad1.rumble(1000);
                 }
                 break;
@@ -70,7 +70,7 @@ public class Shooter extends Subsystem {
                 servoGate.closeGate();
             case REVERSE:
                 servoGate.openGate();
-                intake.spinIntake(-0.9);
+                intake.setState(CaseModes.REVERSE);
                 shooter.setPower(-0.3);
                 break;
         }

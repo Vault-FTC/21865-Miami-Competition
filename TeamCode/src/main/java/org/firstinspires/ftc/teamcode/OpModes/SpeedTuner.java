@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.Constants;
+import org.firstinspires.ftc.teamcode.subsystems.CaseModes;
 import org.firstinspires.ftc.teamcode.subsystems.Drivebase;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.subsystems.Lights;
@@ -34,7 +35,7 @@ public class SpeedTuner extends LinearOpMode {
         lights = new Lights(hardwareMap);
         Drivebase drive = new Drivebase(hardwareMap);
         ServoGate servoGate = new ServoGate(hardwareMap);
-        Shooter launcher = new Shooter(hardwareMap);
+        Shooter launcher = new Shooter(hardwareMap, drive, servoGate);
         setTargets();
 
         double position = 0.5;
@@ -80,12 +81,12 @@ public class SpeedTuner extends LinearOpMode {
             }
             if (gamepad1.square) {
                 servoGate.openGate();
-                intake.spinIntake(0.95);
+                intake.setState(CaseModes.ON);
             } else if (gamepad1.left_bumper) {
-                intake.spinIntake(0.95);
+                intake.setState(CaseModes.ON);
 
             } else if (gamepad1.b) {
-                intake.spinIntake(-0.95);
+                intake.setState(CaseModes.REVERSE);
                 launcher.setShooterSpeedNear(-900);
             } else if (autoShoot) {
 //              joystick_rx = joystick_rx - aprilTag.getTargetXDegrees() * 0.02;
@@ -104,7 +105,7 @@ public class SpeedTuner extends LinearOpMode {
 //                }
             } else {
                 launcher.setShooterSpeedNear(shooterSpeed);
-                intake.spinIntake(0);
+                intake.setState(CaseModes.OFF);
                 servoGate.closeGate();
             }
 

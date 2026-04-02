@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
+import org.firstinspires.ftc.teamcode.subsystems.CaseModes;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.subsystems.ServoGate;
 
@@ -65,11 +66,11 @@ public class PIDTuner extends OpMode {
         }
         if (gamepad1.square) {
             servoGate.openGate();
-            intake.spinIntake(0.95);
+            intake.setState(CaseModes.ON);
         }
         else {
             servoGate.closeGate();
-            intake.spinIntake(0);
+            intake.setState(CaseModes.OFF);
         }
         PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P, 0, 0, F);
         shooter.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);

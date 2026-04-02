@@ -25,6 +25,7 @@ public class Intake extends Subsystem {
         breakbeam2.setMode(DigitalChannel.Mode.INPUT);
 
     }
+
     public void update()
     {
         switch(currentMode) {
@@ -34,16 +35,20 @@ public class Intake extends Subsystem {
             case OFF:
                 intake.setPower(0);
                 break;
+            case HALF_SPEED:
+                intake.setPower(0.5);
+                break;
+            case SIXTY_PERCENT_SPEED:
+                intake.setPower(0.6);
+                break;
             case REVERSE:
                 intake.setPower(-1);
                 break;
         }
     }
+
     public void setState(CaseModes s) {
         currentMode = s;
-    }
-    public void spinIntake(double power) {
-        intake.setPower(power);
     }
 
     public double numberOfArtifacts() {
