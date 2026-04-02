@@ -14,6 +14,7 @@ import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.subsystems.Lights;
 
 import org.firstinspires.ftc.teamcode.subsystems.LimeLight;
+import org.firstinspires.ftc.teamcode.subsystems.NewDriveSpeeds;
 import org.firstinspires.ftc.teamcode.subsystems.PoseStorage;
 import org.firstinspires.ftc.teamcode.subsystems.ServoGate;
 import org.firstinspires.ftc.teamcode.subsystems.Shooter;
@@ -78,6 +79,23 @@ public class TeleOpBlue extends LinearOpMode {
             double velocityY = drivebase.getOdo().getVelY(DistanceUnit.CM);
             double headingVelocity = drivebase.getOdo().getHeadingVelocity(UnnormalizedAngleUnit.DEGREES);
             Pose2D currentPosition = drivebase.getPosition();
+
+            if(gamepad1.left_bumper && gamepad1.a)
+            {
+                drivebase.setstate(NewDriveSpeeds.DRIVE_FULL);
+            }
+            else if(gamepad1.left_bumper && gamepad1.b)
+            {
+                drivebase.setstate(NewDriveSpeeds.DRIVE_ALMOST_FULL);
+            }
+            else if(gamepad1.left_bumper && gamepad1.x)
+            {
+                drivebase.setstate(NewDriveSpeeds.DRIVE_SEVENTY_PERCENT);
+            }
+            else if(gamepad1.left_bumper && gamepad1.y)
+            {
+                drivebase.setstate(NewDriveSpeeds.DRIVE_HALF);
+            }
 
 
             if (gamepad1.dpadUpWasPressed()) {

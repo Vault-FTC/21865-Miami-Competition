@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import static org.firstinspires.ftc.teamcode.subsystems.NewDriveSpeeds.DRIVE_FULL;
+
 import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -14,15 +16,18 @@ import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 import org.firstinspires.ftc.teamcode.Autonomous.Location;
 import org.firstinspires.ftc.teamcode.CommandSystem.Subsystem;
+import org.firstinspires.ftc.teamcode.Constants;
 import org.firstinspires.ftc.teamcode.PurePursuit.Rotation2d;
 import org.firstinspires.ftc.teamcode.PurePursuit.Vector2d;
 import org.firstinspires.ftc.teamcode.PurePursuit.Pose2d;
 
 
 public class Drivebase extends Subsystem {
+
     private final DcMotorEx frontLeftMotor, frontRightMotor, backLeftMotor, backRightMotor;
     GoBildaPinpointDriver odo;
 
+    NewDriveSpeeds DriveCurrent = DRIVE_FULL;
     double headingOffsetThingy;
 
     public Drivebase(HardwareMap hardwareMap) {
@@ -51,6 +56,11 @@ public class Drivebase extends Subsystem {
         odo.setOffsets(205.71207, -15.175, DistanceUnit.MM);
         odo.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
         odo.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.REVERSED, GoBildaPinpointDriver.EncoderDirection.REVERSED);
+    }
+
+    public void setstate(NewDriveSpeeds Speed)
+    {
+        DriveCurrent = Speed;
     }
 
 
@@ -99,12 +109,32 @@ public class Drivebase extends Subsystem {
                 Math.max(Math.abs(backLeftPower),
                         Math.max(Math.abs(frontRightPower), Math.abs(backRightPower))));
 
-        if (maxPower > 1.0) {
+       double SpeedLimit = 1;
+       switch(DriveCurrent)
+       {
+           case DRIVE_FULL:
+               break;
+           case DRIVE_ALMOST_FULL:
+               SpeedLimit = 0.9;
+               break;
+           case DRIVE_SEVENTY_PERCENT:
+               SpeedLimit = 0.7;
+               break;
+           case DRIVE_HALF:
+               SpeedLimit = 0.5;
+               break;
+       }
+
+       if (maxPower > 1.0) {
             frontLeftPower /= maxPower;
             backLeftPower /= maxPower;
             frontRightPower /= maxPower;
             backRightPower /= maxPower;
         }
+       frontLeftPower *= SpeedLimit;
+        backLeftPower *= SpeedLimit;
+        frontRightPower *= SpeedLimit;
+        backRightPower *= SpeedLimit;
 
         frontLeftPower = Math.abs(frontLeftPower) < 0.02 ? 0 : frontLeftPower;
         frontRightPower = Math.abs(frontRightPower) < 0.02 ? 0 : frontRightPower;
