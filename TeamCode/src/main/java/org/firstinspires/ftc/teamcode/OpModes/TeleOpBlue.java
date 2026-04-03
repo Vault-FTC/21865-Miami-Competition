@@ -50,27 +50,26 @@ public class TeleOpBlue extends LinearOpMode {
         intake = new Intake(hardwareMap);
         lights = new Lights(hardwareMap);
         drivebase = new Drivebase(hardwareMap);
-        Drivebase drive = new Drivebase(hardwareMap);
         ServoGate servoGate = new ServoGate(hardwareMap);
-        Shooter launcher = new Shooter(hardwareMap, drive, servoGate);
+        Shooter launcher = new Shooter(hardwareMap, drivebase, servoGate);
         setTargets();
         green = RevBlinkinLedDriver.BlinkinPattern.GREEN;
         red = RevBlinkinLedDriver.BlinkinPattern.RED;
-        double velocityDeg = drive.getOdo().getHeadingVelocity(UnnormalizedAngleUnit.DEGREES);
+        double velocityDeg = drivebase.getOdo().getHeadingVelocity(UnnormalizedAngleUnit.DEGREES);
 
         double position = 0.5;
 
-//        drive.setCurrentPose(0,0,-Math.PI/2);
-        drive.setCurrentPose(PoseStorage.startPose);
+//        drivebase.setCurrentPose(0,0,-Math.PI/2);
+        drivebase.setCurrentPose(PoseStorage.startPose);
 
         waitForStart();
         while (opModeIsActive()) {
-//            drive.update();
+//            drivebase.update();
             double kP = 0.02;
             double kD = 0.0015;
-            LLResult aprilTag = drive.update(limeLight);
-            double distance = drive.distanceToGoal(drive.getPosition(), goal);
-            double angleError = drive.angleToGoal(drive.getPosition(), goal);
+            LLResult aprilTag = drivebase.update(limeLight);
+            double distance = drivebase.distanceToGoal(drivebase.getPosition(), goal);
+            double angleError = drivebase.angleToGoal(drivebase.getPosition(), goal);
             boolean autoShoot = gamepad1.right_bumper;
             double joystick_y = gamepad1.left_stick_x; // Forward/backward
             double joystick_x = gamepad1.left_stick_y;  // Strafe left/right
@@ -107,14 +106,14 @@ public class TeleOpBlue extends LinearOpMode {
                 launcher.setHoodPosition(position);
             }
             if (aprilTag != null) {
-                drive.setCurrentPose(aprilTag.getBotpose_MT2().getPosition().toUnit(DistanceUnit.CM).x,
+                drivebase.setCurrentPose(aprilTag.getBotpose_MT2().getPosition().toUnit(DistanceUnit.CM).x,
                         aprilTag.getBotpose_MT2().getPosition().toUnit(DistanceUnit.CM).y);
                 telemetry.addData("BotPose", aprilTag.getBotpose_MT2().getPosition());
             }
 
 
             if (gamepad1.start) {
-                drive.resetHeading(-90);
+                drivebase.resetHeading(-90);
             }
 
             if (gamepad1.left_bumper) {
@@ -170,18 +169,18 @@ public class TeleOpBlue extends LinearOpMode {
 
             launcher.setHoodPosition(launcher.distanceToHoodPosition(distance));
             if (gamepad1.triangle) {
-                drive.driveToPosition(gatePosition, 0, telemetry);
+                drivebase.driveToPosition(gatePosition, 0, telemetry);
                 intake.setState(CaseModes.ON);
             }
             else {
-                drive.drive(joystick_y, joystick_x, joystick_rx, headingOffset);
+                drivebase.drive(joystick_y, joystick_x, joystick_rx, headingOffset);
             }
 
             telemetry.addData("Angle from goal", angleError * 180/Math.PI);
             telemetry.addData("Distance from goal", distance);
             telemetry.addData("Shooter Stuff: ", launcher.telemetryUpdate());
             telemetry.addData("LaunchPower", this.launchPower);
-            telemetry.addData("Position", drive.getPositionTelemetry());
+            telemetry.addData("Position", drivebase.getPositionTelemetry());
             telemetry.addData("Number of artifacts", intake.numberOfArtifacts());
             if (aprilTag != null) {
                 telemetry.addData("AprilTag", aprilTag.getBotpose_MT2());

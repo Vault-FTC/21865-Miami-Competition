@@ -109,29 +109,28 @@ public class Drivebase extends Subsystem {
                 Math.max(Math.abs(backLeftPower),
                         Math.max(Math.abs(frontRightPower), Math.abs(backRightPower))));
 
-       double SpeedLimit = 1;
-       switch(DriveCurrent)
-       {
-           case DRIVE_FULL:
-               break;
-           case DRIVE_ALMOST_FULL:
-               SpeedLimit = 0.9;
-               break;
-           case DRIVE_SEVENTY_PERCENT:
-               SpeedLimit = 0.7;
-               break;
-           case DRIVE_HALF:
-               SpeedLimit = 0.5;
-               break;
-       }
+        double SpeedLimit = 1;
+        switch (DriveCurrent) {
+            case DRIVE_FULL:
+                break;
+            case DRIVE_ALMOST_FULL:
+                SpeedLimit = 0.9;
+                break;
+            case DRIVE_SEVENTY_PERCENT:
+                SpeedLimit = 0.7;
+                break;
+            case DRIVE_HALF:
+                SpeedLimit = 0.5;
+                break;
+        }
 
-       if (maxPower > 1.0) {
+        if (maxPower > 1.0) {
             frontLeftPower /= maxPower;
             backLeftPower /= maxPower;
             frontRightPower /= maxPower;
             backRightPower /= maxPower;
         }
-       frontLeftPower *= SpeedLimit;
+        frontLeftPower *= SpeedLimit;
         backLeftPower *= SpeedLimit;
         frontRightPower *= SpeedLimit;
         backRightPower *= SpeedLimit;
