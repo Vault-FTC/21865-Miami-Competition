@@ -20,7 +20,6 @@ import org.firstinspires.ftc.teamcode.subsystems.ServoGate;
 import org.firstinspires.ftc.teamcode.subsystems.Shooter;
 import org.firstinspires.ftc.teamcode.subsystems.Drivebase;
 import org.firstinspires.ftc.teamcode.subsystems.CaseModes;
-import org.firstinspires.ftc.teamcode.subsystems.TestSubsystem;
 
 
 // ALL SHOOTER SPEEDS ARE IN TICKS/SECOND. DO NOT, I REPEAT DO NOT, USE DEGREES/SECOND
@@ -51,7 +50,7 @@ public class TeleOpBlue extends LinearOpMode {
         lights = new Lights(hardwareMap);
         drivebase = new Drivebase(hardwareMap);
         ServoGate servoGate = new ServoGate(hardwareMap);
-        Shooter launcher = new Shooter(hardwareMap, drivebase, servoGate);
+        Shooter launcher = new Shooter(hardwareMap, drivebase, servoGate, intake);
         setTargets();
         green = RevBlinkinLedDriver.BlinkinPattern.GREEN;
         red = RevBlinkinLedDriver.BlinkinPattern.RED;
@@ -187,6 +186,7 @@ public class TeleOpBlue extends LinearOpMode {
             }
             telemetry.update();
             intake.update();
+            //turret.update(drive.angleToGoal(drive.getPosition(), goal));
         }
     }
 }

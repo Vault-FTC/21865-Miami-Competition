@@ -21,36 +21,33 @@ public class Shooter extends Subsystem {
     private static final double MID_HOOD = 0.5; //0.2
     private static final double FAR_HOOD = 0.7; //0.5
     private final DcMotorEx shooter;
-    private ServoGate servoGate;
-    private Drivebase driveBase;
+    private final ServoGate servoGate;
     private final Servo hood;
-    private Drivebase drive;
-    private Intake intake;
-
+    private final Drivebase drivebase;
+    private final Intake intake;
     private final LUT lut = new LUT();
     double distance, speed;
-    CaseModes currentMode = CaseModes.OFF;
     double kP = 0.02;
     double kD = 0.0015;
-
+    CaseModes currentMode = CaseModes.OFF;
     Pose2D goal = Constants.BLUE_CENTER_GOAL;
-
     PIDFCoefficients pidfCoefficients = new PIDFCoefficients(250, 0, 0, 15);
 
-    public Shooter(HardwareMap hardwareMap, Drivebase driveBase, ServoGate servoGate) {
+    public Shooter(HardwareMap hardwareMap, Drivebase driveBase, ServoGate servoGate, Intake intake) {
         shooter = hardwareMap.get(DcMotorEx.class, "shooter");
         hood = hardwareMap.get(Servo.class, "hood");
         this.servoGate = servoGate;
-        this.driveBase = driveBase;
+        this.drivebase = driveBase;
+        this.intake = intake;
         shooter.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         shooter.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
     }
 
     public void update() {
-        double angleError = Drivebase.angleToGoal(drive.getPosition(), goal);
+        double angleError = Drivebase.angleToGoal(drivebase.getPosition(), goal);
         double joystick_rx = -gamepad1.right_stick_x; // Rotation
-        double velocityDeg = drive.getOdo().getHeadingVelocity(UnnormalizedAngleUnit.DEGREES);
+        double velocityDeg = drivebase.getOdo().getHeadingVelocity(UnnormalizedAngleUnit.DEGREES);
         switch(currentMode){
             case OFF:
                 shooter.setVelocity(0);
