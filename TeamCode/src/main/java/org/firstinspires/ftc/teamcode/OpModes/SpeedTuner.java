@@ -35,7 +35,7 @@ public class SpeedTuner extends LinearOpMode {
         lights = new Lights(hardwareMap);
         Drivebase drive = new Drivebase(hardwareMap);
         ServoGate servoGate = new ServoGate(hardwareMap);
-        Shooter launcher = new Shooter(hardwareMap, drive, servoGate);
+        Shooter launcher = new Shooter(hardwareMap, drive, servoGate, intake);
         setTargets();
 
         double position = 0.5;

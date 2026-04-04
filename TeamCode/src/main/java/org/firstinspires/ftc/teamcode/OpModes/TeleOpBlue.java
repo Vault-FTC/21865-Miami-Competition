@@ -172,7 +172,7 @@ public class TeleOpBlue extends LinearOpMode {
                 drivebase.driveToPosition(gatePosition, 0, telemetry);
                 intake.setState(CaseModes.ON);
                 } else if (gamepad1.share) {
-                drive.driveToPosition(parkPosition, 0, telemetry);
+                drivebase.driveToPosition(parkPosition, 0, telemetry);
             }
             else {
                 drivebase.drive(joystick_y, joystick_x, joystick_rx, headingOffset);

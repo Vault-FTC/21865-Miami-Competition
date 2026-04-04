@@ -39,7 +39,7 @@ public class BlueNearTunnel extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         drivebase = new Drivebase(hardwareMap);
-        shooter = new Shooter(hardwareMap, drivebase, servoGate);
+        shooter = new Shooter(hardwareMap, drivebase, servoGate, intake);
         intake = new Intake(hardwareMap);
         limeLight = new LimeLight(hardwareMap,20);
         servoGate = new ServoGate(hardwareMap);
