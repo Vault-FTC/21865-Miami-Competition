@@ -28,7 +28,7 @@ public class BlueNearGatePaths {
                         new Pose(20, 127),
                         new Pose(45, 95)
                 )
-        ).setLinearHeadingInterpolation(Math.toRadians(143.5), Math.toRadians(138))
+        ).setLinearHeadingInterpolation(Math.toRadians(143.5), Math.toRadians(135))
                 .build();
 
         Intake1 = follower.pathBuilder().addPath(
@@ -37,7 +37,7 @@ public class BlueNearGatePaths {
                                 new Pose(63.000, 54.000),
                                 new Pose(15.000, 63.000)
                         )
-                ).setLinearHeadingInterpolation(Math.toRadians(138), Math.toRadians(180))
+                ).setLinearHeadingInterpolation(Math.toRadians(135), Math.toRadians(180))
 
                 .build();
 
@@ -55,18 +55,18 @@ public class BlueNearGatePaths {
                         new BezierCurve(
                                 new Pose(45.000, 95.000),
                                 new Pose(70.000, 70.000),
-                                new Pose(19.500, 63.000)
+                                new Pose(18.500, 62.000)
                         )
-                ).setLinearHeadingInterpolation(Math.toRadians(138), Math.toRadians(159))
+                ).setLinearHeadingInterpolation(Math.toRadians(138), Math.toRadians(160))
 
                 .build();
         Shoot3 = follower.pathBuilder().addPath(
                         new BezierCurve(
-                                new Pose(19.500, 63.000),
+                                new Pose(18.500, 62.000),
                                 new Pose(63.000, 80.000),
                                 new Pose(45.000, 95.000)
                         )
-                ).setLinearHeadingInterpolation(Math.toRadians(159), Math.toRadians(138))
+                ).setLinearHeadingInterpolation(Math.toRadians(160), Math.toRadians(138))
 
                 .build();
 
@@ -76,17 +76,17 @@ public class BlueNearGatePaths {
                                 new Pose(63.000, 54.000),
                                 new Pose(18.500, 61.500)
                         )
-                ).setLinearHeadingInterpolation(Math.toRadians(135), Math.toRadians(155))
+                ).setLinearHeadingInterpolation(Math.toRadians(138), Math.toRadians(160))
 
                 .build();
 
         Shoot4 = follower.pathBuilder().addPath(
                         new BezierCurve(
-                                new Pose(19.500, 63.000),
+                                new Pose(18.500, 61.500),
                                 new Pose(63.000, 80.000),
                                 new Pose(45.000, 95.000)
                         )
-                ).setLinearHeadingInterpolation(Math.toRadians(159), Math.toRadians(138))
+                ).setLinearHeadingInterpolation(Math.toRadians(160), Math.toRadians(138))
 
                 .build();
 
@@ -96,17 +96,17 @@ public class BlueNearGatePaths {
                                 new Pose(63.000, 54.000),
                                 new Pose(18.500, 61.500)
                         )
-                ).setLinearHeadingInterpolation(Math.toRadians(137), Math.toRadians(155))
+                ).setLinearHeadingInterpolation(Math.toRadians(138), Math.toRadians(160))
 
                 .build();
 
         Shoot5 = follower.pathBuilder().addPath(
                         new BezierCurve(
-                                new Pose(19.500, 63.000),
+                                new Pose(18.500, 61.500),
                                 new Pose(63.000, 80.000),
                                 new Pose(45.000, 95.000)
                         )
-                ).setLinearHeadingInterpolation(Math.toRadians(159), Math.toRadians(138))
+                ).setLinearHeadingInterpolation(Math.toRadians(160), Math.toRadians(138))
 
                 .build();
 
@@ -125,7 +125,7 @@ public class BlueNearGatePaths {
                                 new Pose(23.000, 86.000),
                                 new Pose(55.000, 105.000)
                         )
-                ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(137))
+                ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(146))
 
                 .build();
 

@@ -14,10 +14,12 @@ import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.subsystems.Lights;
 
 import org.firstinspires.ftc.teamcode.subsystems.LimeLight;
+import org.firstinspires.ftc.teamcode.subsystems.NewDriveSpeeds;
 import org.firstinspires.ftc.teamcode.subsystems.PoseStorage;
 import org.firstinspires.ftc.teamcode.subsystems.ServoGate;
 import org.firstinspires.ftc.teamcode.subsystems.Shooter;
 import org.firstinspires.ftc.teamcode.subsystems.Drivebase;
+import org.firstinspires.ftc.teamcode.subsystems.CaseModes;
 
 
 // ALL SHOOTER SPEEDS ARE IN TICKS/SECOND. DO NOT, I REPEAT DO NOT, USE DEGREES/SECOND
@@ -48,27 +50,26 @@ public class TeleOpBlue extends LinearOpMode {
         intake = new Intake(hardwareMap);
         lights = new Lights(hardwareMap);
         drivebase = new Drivebase(hardwareMap);
-        Drivebase drive = new Drivebase(hardwareMap);
         ServoGate servoGate = new ServoGate(hardwareMap);
-        Shooter launcher = new Shooter(hardwareMap);
+        Shooter launcher = new Shooter(hardwareMap, drivebase, servoGate, intake);
         setTargets();
         green = RevBlinkinLedDriver.BlinkinPattern.GREEN;
         red = RevBlinkinLedDriver.BlinkinPattern.RED;
-        double velocityDeg = drive.getOdo().getHeadingVelocity(UnnormalizedAngleUnit.DEGREES);
+        double velocityDeg = drivebase.getOdo().getHeadingVelocity(UnnormalizedAngleUnit.DEGREES);
 
         double position = 0.5;
 
-//        drive.setCurrentPose(0,0,-Math.PI/2);
-        drive.setCurrentPose(PoseStorage.startPose);
+//        drivebase.setCurrentPose(0,0,-Math.PI/2);
+        drivebase.setCurrentPose(PoseStorage.startPose);
 
         waitForStart();
         while (opModeIsActive()) {
-//            drive.update();
+//            drivebase.update();
             double kP = 0.02;
             double kD = 0.0015;
-            LLResult aprilTag = drive.update(limeLight);
-            double distance = drive.distanceToGoal(drive.getPosition(), goal);
-            double angleError = drive.angleToGoal(drive.getPosition(), goal);
+            LLResult aprilTag = drivebase.update(limeLight);
+            double distance = drivebase.distanceToGoal(drivebase.getPosition(), goal);
+            double angleError = drivebase.angleToGoal(drivebase.getPosition(), goal);
             boolean autoShoot = gamepad1.right_bumper;
             double joystick_y = gamepad1.left_stick_x; // Forward/backward
             double joystick_x = gamepad1.left_stick_y;  // Strafe left/right
@@ -77,6 +78,23 @@ public class TeleOpBlue extends LinearOpMode {
             double velocityY = drivebase.getOdo().getVelY(DistanceUnit.CM);
             double headingVelocity = drivebase.getOdo().getHeadingVelocity(UnnormalizedAngleUnit.DEGREES);
             Pose2D currentPosition = drivebase.getPosition();
+
+            if(gamepad1.left_bumper && gamepad1.a)
+            {
+                drivebase.setstate(NewDriveSpeeds.DRIVE_FULL);
+            }
+            else if(gamepad1.left_bumper && gamepad1.b)
+            {
+                drivebase.setstate(NewDriveSpeeds.DRIVE_ALMOST_FULL);
+            }
+            else if(gamepad1.left_bumper && gamepad1.x)
+            {
+                drivebase.setstate(NewDriveSpeeds.DRIVE_SEVENTY_PERCENT);
+            }
+            else if(gamepad1.left_bumper && gamepad1.y)
+            {
+                drivebase.setstate(NewDriveSpeeds.DRIVE_HALF);
+            }
 
 
             if (gamepad1.dpadUpWasPressed()) {
@@ -88,40 +106,34 @@ public class TeleOpBlue extends LinearOpMode {
                 launcher.setHoodPosition(position);
             }
             if (aprilTag != null) {
-                drive.setCurrentPose(aprilTag.getBotpose_MT2().getPosition().toUnit(DistanceUnit.CM).x,
+                drivebase.setCurrentPose(aprilTag.getBotpose_MT2().getPosition().toUnit(DistanceUnit.CM).x,
                         aprilTag.getBotpose_MT2().getPosition().toUnit(DistanceUnit.CM).y);
                 telemetry.addData("BotPose", aprilTag.getBotpose_MT2().getPosition());
             }
 
 
             if (gamepad1.start) {
-                drive.resetHeading(-90);
+                drivebase.resetHeading(-90);
             }
 
             if (gamepad1.left_bumper) {
-                intake.spinIntake(1);
-
+                intake.setState(CaseModes.ON);
             } else if (gamepad1.circle) {
-                intake.spinIntake(-0.95);
+                intake.setState(CaseModes.REVERSE);
                 launcher.setShooterSpeedNear(-900);
             } else if (autoShoot) {
+                launcher.setState(CaseModes.SHOOT);
 
-                double errorDeg = angleError * (180 / Math.PI);
-                joystick_rx = joystick_rx + errorDeg * kP - velocityDeg * kD;
-                servoGate.openGate();
-                if (Math.abs(angleError * ((180/Math.PI))) < 2.5 && Math.abs(velocityDeg) < 10) {
-                    intake.spinIntake(1);
-                    gamepad1.rumble(1000);
-                }
             } else if (gamepad1.right_trigger_pressed)  {
                 double errorDeg = (angleError+0.05) * (180 / Math.PI);
                 joystick_rx = joystick_rx + errorDeg * kP - velocityDeg * kD;
                 servoGate.openGate();
                 if (Math.abs((angleError+0.05) * ((180/Math.PI))) < 1 && launcher.getShooterVelocity() >= launcher.distanceToSpeed(distance)) {
-                    intake.spinIntake(0.6);
+                    intake.setState(CaseModes.SIXTY_PERCENT_SPEED);
                     gamepad1.rumble(1000);
                 }
-            } else if (gamepad1.left_trigger_pressed){
+            }
+            else if (gamepad1.left_trigger_pressed){
                 // Shoot on the move code???? Maybe it'll workkkkk
                 double vPerpendicular = velocityX * Math.cos(angleError) - velocityY * Math.sin(angleError);
                 double leadAngle = Math.atan2(vPerpendicular, PROJECTILE_SPEED_CM);
@@ -131,51 +143,53 @@ public class TeleOpBlue extends LinearOpMode {
                 joystick_rx = joystick_rx + errorDeg * kP - velocityDeg * kD;
 
                 if (launcher.getShooterVelocity() >= launcher.distanceToSpeed(distance)) {
-                    intake.spinIntake(0.6);
+                    intake.setState(CaseModes.SIXTY_PERCENT_SPEED);
                     gamepad1.rumble(1000);
                 }
             } else if (gamepad1.square) {
                 launcher.setShooterSpeedNear(1100);
                 servoGate.openGate();
                 if (launcher.getShooterVelocity() >= 1100) {
-                    intake.spinIntake(0.95);
+                    intake.setState(CaseModes.ON);
                 }
             } else if (gamepad2.square) {
                 launcher.setShooterSpeedNear(1100);
                 servoGate.openGate();
                 if (launcher.getShooterVelocity() >= 1100) {
-                    intake.spinIntake(0.5);
+                    intake.setState(CaseModes.HALF_SPEED);
                 }
             } else if (gamepad2.triangle) {
                 launcher.setShooterSpeedNear(1100);
                 servoGate.openGate();
-            }else {
+            } else {
                 launcher.setShooterSpeedNear(launcher.distanceToSpeed(distance));
-                intake.spinIntake(0);
+                intake.setState(CaseModes.OFF);
                 servoGate.closeGate();
             }
 
             launcher.setHoodPosition(launcher.distanceToHoodPosition(distance));
             if (gamepad1.triangle) {
-                drive.driveToPosition(gatePosition, 0, telemetry);
-                intake.spinIntake(0.9);
-            } else if (gamepad1.share) {
+                drivebase.driveToPosition(gatePosition, 0, telemetry);
+                intake.setState(CaseModes.ON);
+                } else if (gamepad1.share) {
                 drive.driveToPosition(parkPosition, 0, telemetry);
             }
             else {
-                drive.drive(joystick_y, joystick_x, joystick_rx, headingOffset);
+                drivebase.drive(joystick_y, joystick_x, joystick_rx, headingOffset);
             }
 
             telemetry.addData("Angle from goal", angleError * 180/Math.PI);
             telemetry.addData("Distance from goal", distance);
             telemetry.addData("Shooter Stuff: ", launcher.telemetryUpdate());
             telemetry.addData("LaunchPower", this.launchPower);
-            telemetry.addData("Position", drive.getPositionTelemetry());
+            telemetry.addData("Position", drivebase.getPositionTelemetry());
             telemetry.addData("Number of artifacts", intake.numberOfArtifacts());
             if (aprilTag != null) {
                 telemetry.addData("AprilTag", aprilTag.getBotpose_MT2());
             }
             telemetry.update();
+            intake.update();
+            //turret.update(drive.angleToGoal(drive.getPosition(), goal));
         }
     }
 }

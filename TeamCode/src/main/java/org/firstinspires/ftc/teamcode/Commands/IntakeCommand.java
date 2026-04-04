@@ -4,8 +4,10 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.CommandSystem.Command;
+import org.firstinspires.ftc.teamcode.subsystems.CaseModes;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.subsystems.ServoGate;
+import org.firstinspires.ftc.teamcode.subsystems.Shooter;
 
 public class IntakeCommand extends Command {
     Telemetry telemetry;
@@ -31,7 +33,7 @@ public class IntakeCommand extends Command {
 
     @Override
     public void execute() {
-        intake.spinIntake(0.95);
+        intake.setState(CaseModes.ON);
         servoGate.closeGate();
         telemetry.addData("Running", "Intake Command");
     }
@@ -43,6 +45,6 @@ public class IntakeCommand extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        intake.spinIntake(0);
+        intake.setState(CaseModes.OFF);
     }
 }
