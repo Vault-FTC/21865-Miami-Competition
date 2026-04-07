@@ -9,6 +9,10 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.teamcode.CommandSystem.Subsystem;
 
 public class Intake extends Subsystem {
+    public enum CaseModes
+    {
+        OFF, REVERSE, ON, HALF_SPEED, SIXTY_PERCENT_SPEED
+    }
     private DcMotorEx intake;
     private DigitalChannel breakbeam1;
     private DigitalChannel breakbeam2;

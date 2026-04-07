@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.subsystems.LimeLight;
 public class TeleOpRed extends TeleOpBlue {
    @Override public void setTargets()
     {
-        limeLight = new LimeLight(hardwareMap, 24);
+        limelight = new LimeLight(hardwareMap, 24);
         gatePosition = new Location(57, -147, 123);
         goal = Constants.RED_CENTER_GOAL;
         headingOffset = Math.PI;

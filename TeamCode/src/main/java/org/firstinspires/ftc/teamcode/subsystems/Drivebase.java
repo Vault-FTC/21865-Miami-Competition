@@ -30,6 +30,8 @@ public class Drivebase extends Subsystem {
     NewDriveSpeeds DriveCurrent = DRIVE_FULL;
     double headingOffsetThingy;
 
+    double modify_joystick_rotate = 0.0;
+
     public Drivebase(HardwareMap hardwareMap) {
         frontLeftMotor = hardwareMap.get(DcMotorEx.class, "frontLeftMotor");
         frontRightMotor = hardwareMap.get(DcMotorEx.class, "frontRightMotor");
@@ -88,10 +90,16 @@ public class Drivebase extends Subsystem {
         return "X offset (forwards/backwards): " + odo.getPosX(DistanceUnit.CM) + " Y (left/right): " + odo.getPosY(DistanceUnit.CM) + " Heading: " + odo.getHeading(AngleUnit.DEGREES);
     }
 
+    public void updateAutoAim(double joystick_rx_modifier)
+    {
+        modify_joystick_rotate = joystick_rx_modifier;
+    }
+
     public void drive(double forward, double right, double rotate, double headingOffset) {
         headingOffsetThingy = headingOffset;
-        drive(forward, right, rotate);
+        drive(forward, right, rotate + modify_joystick_rotate);
     }
+
     public void drive(double forward, double right, double rotate) {
         double botHeading = -odo.getHeading(AngleUnit.RADIANS) + headingOffsetThingy;
 //         X is positive up, Y is positive to the right

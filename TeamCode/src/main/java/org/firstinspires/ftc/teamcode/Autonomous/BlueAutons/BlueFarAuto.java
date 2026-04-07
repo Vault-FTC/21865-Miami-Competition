@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.Autonomous.BlueAutons;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.Pose;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
@@ -17,20 +16,12 @@ import org.firstinspires.ftc.teamcode.Commands.IntakeCommand;
 import org.firstinspires.ftc.teamcode.Commands.PedroDriveToCommand;
 import org.firstinspires.ftc.teamcode.Commands.TimedShootCommand;
 import org.firstinspires.ftc.teamcode.Constants;
-import org.firstinspires.ftc.teamcode.subsystems.Drivebase;
-import org.firstinspires.ftc.teamcode.subsystems.Intake;
+import org.firstinspires.ftc.teamcode.OpModes.AbstractOpMode;
 import org.firstinspires.ftc.teamcode.subsystems.LimeLight;
 import org.firstinspires.ftc.teamcode.subsystems.PoseStorage;
-import org.firstinspires.ftc.teamcode.subsystems.ServoGate;
-import org.firstinspires.ftc.teamcode.subsystems.Shooter;
 
 @Autonomous
-public class BlueFarAuto extends LinearOpMode {
-    Drivebase drivebase;
-    Shooter shooter;
-    Intake intake;
-    LimeLight limeLight;
-    ServoGate servoGate;
+public class BlueFarAuto extends AbstractOpMode {
     CommandScheduler commandScheduler = CommandScheduler.getInstance();
     Follower follower;
     private BlueFarPaths blueFarPaths;
@@ -40,11 +31,8 @@ public class BlueFarAuto extends LinearOpMode {
     }
     @Override
     public void runOpMode() throws InterruptedException {
-        drivebase = new Drivebase(hardwareMap);
-        shooter = new Shooter(hardwareMap, drivebase, servoGate);
-        intake = new Intake(hardwareMap);
-        limeLight = new LimeLight(hardwareMap,20);
-        servoGate = new ServoGate(hardwareMap);
+        startHardware();
+        limelight = new LimeLight(hardwareMap,20);
         commandScheduler.clearRegistry();
         follower = Constants.PedroPathing.createFollower(hardwareMap);
 
@@ -60,7 +48,7 @@ public class BlueFarAuto extends LinearOpMode {
         setTargets();
         SequentialCommandGroup auto = SequentialCommandGroup.getBuilder()
                 .add(new PedroDriveToCommand(follower, blueFarPaths.Shoot1, 3, telemetry))
-                .add(new AimCommand(drivebase, limeLight, telemetry, follower, blueFarPaths.GOAL_X, blueFarPaths.GOAL_Y))
+                .add(new AimCommand(drivebase, limelight, telemetry, follower, blueFarPaths.GOAL_X, blueFarPaths.GOAL_Y))
                 .add(new TimedShootCommand(shooter, intake, 3, telemetry, 1400, servoGate, 0.7, 0.7))
                 .add(ParallelCommandGroup.getBuilder()
                         .add(new IntakeCommand(intake, 2, telemetry, servoGate))
@@ -68,7 +56,7 @@ public class BlueFarAuto extends LinearOpMode {
                         .build()
                 )
                 .add(new PedroDriveToCommand(follower, blueFarPaths.Shoot2, 2, telemetry))
-                .add(new AimCommand(drivebase, limeLight, telemetry, follower, blueFarPaths.GOAL_X, blueFarPaths.GOAL_Y))
+                .add(new AimCommand(drivebase, limelight, telemetry, follower, blueFarPaths.GOAL_X, blueFarPaths.GOAL_Y))
                 .add(new TimedShootCommand(shooter, intake, 1, telemetry, 1450, servoGate, 0.7, 0.7))
                 .add(ParallelCommandGroup.getBuilder()
                         .add(new IntakeCommand(intake, 2.5, telemetry, servoGate))
@@ -81,7 +69,7 @@ public class BlueFarAuto extends LinearOpMode {
                         .add(new PedroDriveToCommand(follower, blueFarPaths.Shoot3, 3,telemetry))
                         .build()
                 )
-                .add(new AimCommand(drivebase, limeLight, telemetry, follower, blueFarPaths.GOAL_X, blueFarPaths.GOAL_Y))
+                .add(new AimCommand(drivebase, limelight, telemetry, follower, blueFarPaths.GOAL_X, blueFarPaths.GOAL_Y))
                 .add(new TimedShootCommand(shooter, intake, 1, telemetry, 1450, servoGate, 0.7, 0.7))
                 .add(ParallelCommandGroup.getBuilder()
                         .add(new IntakeCommand(intake, 2.5, telemetry, servoGate))
@@ -93,7 +81,7 @@ public class BlueFarAuto extends LinearOpMode {
                         .add(new PedroDriveToCommand(follower, blueFarPaths.Shoot3, 3,telemetry))
                         .build()
                 )
-                .add(new AimCommand(drivebase, limeLight, telemetry, follower, blueFarPaths.GOAL_X, blueFarPaths.GOAL_Y))
+                .add(new AimCommand(drivebase, limelight, telemetry, follower, blueFarPaths.GOAL_X, blueFarPaths.GOAL_Y))
                 .add(new TimedShootCommand(shooter, intake, 1, telemetry, 1450, servoGate, 0.7, 0.7))
                 .add(ParallelCommandGroup.getBuilder()
                         .add(new IntakeCommand(intake, 2.5, telemetry, servoGate))

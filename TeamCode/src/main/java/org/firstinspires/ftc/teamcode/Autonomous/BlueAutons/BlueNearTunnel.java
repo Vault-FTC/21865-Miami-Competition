@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.Autonomous.BlueAutons;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.Pose;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
@@ -15,20 +15,12 @@ import org.firstinspires.ftc.teamcode.Commands.IntakeCommand;
 import org.firstinspires.ftc.teamcode.Commands.PedroDriveToCommand;
 import org.firstinspires.ftc.teamcode.Commands.TimedShootCommand;
 import org.firstinspires.ftc.teamcode.Constants;
-import org.firstinspires.ftc.teamcode.subsystems.Drivebase;
-import org.firstinspires.ftc.teamcode.subsystems.Intake;
+import org.firstinspires.ftc.teamcode.OpModes.AbstractOpMode;
 import org.firstinspires.ftc.teamcode.subsystems.LimeLight;
 import org.firstinspires.ftc.teamcode.subsystems.PoseStorage;
-import org.firstinspires.ftc.teamcode.subsystems.ServoGate;
-import org.firstinspires.ftc.teamcode.subsystems.Shooter;
 
 @Autonomous
-public class BlueNearTunnel extends LinearOpMode {
-    Drivebase drivebase;
-    Shooter shooter;
-    Intake intake;
-    LimeLight limeLight;
-    ServoGate servoGate;
+public class BlueNearTunnel extends AbstractOpMode {
     CommandScheduler commandScheduler = CommandScheduler.getInstance();
     Follower follower;
     private BlueNearPaths blueNearPaths;
@@ -38,11 +30,8 @@ public class BlueNearTunnel extends LinearOpMode {
     }
     @Override
     public void runOpMode() throws InterruptedException {
-        drivebase = new Drivebase(hardwareMap);
-        shooter = new Shooter(hardwareMap, drivebase, servoGate);
-        intake = new Intake(hardwareMap);
-        limeLight = new LimeLight(hardwareMap,20);
-        servoGate = new ServoGate(hardwareMap);
+        startHardware();
+        limelight = new LimeLight(hardwareMap,20);
         commandScheduler.clearRegistry();
         follower = Constants.PedroPathing.createFollower(hardwareMap);
 
