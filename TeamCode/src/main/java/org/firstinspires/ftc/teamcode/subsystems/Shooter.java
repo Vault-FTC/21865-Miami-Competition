@@ -1,9 +1,8 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.gamepad1;
-
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -15,6 +14,10 @@ import org.firstinspires.ftc.teamcode.Constants;
 import org.firstinspires.ftc.teamcode.LUT;
 
 public class Shooter extends Subsystem {
+    public enum CaseModes
+    {
+        OFF, SHOOT_NEAR, SHOOT_FAR, SHOOT_GATE_CLOSED, REVERSE
+    }
     private static final double CLOSE_DIST_CM = 140;
     private static final double MID_DIST_CM = 270;
     private static final double CLOSE_HOOD = 0.15;
@@ -32,8 +35,9 @@ public class Shooter extends Subsystem {
     CaseModes currentMode = CaseModes.OFF;
     Pose2D goal = Constants.BLUE_CENTER_GOAL;
     PIDFCoefficients pidfCoefficients = new PIDFCoefficients(250, 0, 0, 15);
+    Gamepad gamepad1;
 
-    public Shooter(HardwareMap hardwareMap, Drivebase driveBase, ServoGate servoGate, Intake intake) {
+    public Shooter(HardwareMap hardwareMap, Drivebase driveBase, ServoGate servoGate, Intake intake, Gamepad gamepad) {
         shooter = hardwareMap.get(DcMotorEx.class, "shooter");
         hood = hardwareMap.get(Servo.class, "hood");
         this.servoGate = servoGate;
@@ -42,33 +46,43 @@ public class Shooter extends Subsystem {
         shooter.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         shooter.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
+        gamepad1 = gamepad;
     }
 
     public void update() {
         double angleError = Drivebase.angleToGoal(drivebase.getPosition(), goal);
-        double joystick_rx = -gamepad1.right_stick_x; // Rotation
         double velocityDeg = drivebase.getOdo().getHeadingVelocity(UnnormalizedAngleUnit.DEGREES);
+        drivebase.updateAutoAim(0);
+        double offset_by_distance = 0.0;
+        distance = drivebase.distanceToGoal(drivebase.getPosition(), goal);
+        setHoodPosition(distanceToHoodPosition(distance));
+        setShooterSpeedNear(distanceToSpeed(distance));
         switch(currentMode){
             case OFF:
                 shooter.setVelocity(0);
                 servoGate.closeGate();
                 break;
-            case SHOOT:
-                intake.setState(CaseModes.ON);
-                double errorDeg = (angleError+0.05) * (180 / Math.PI);
-                joystick_rx = joystick_rx + errorDeg * kP - velocityDeg * kD;
+            case SHOOT_FAR:
+                offset_by_distance = 0.05;
+            case SHOOT_NEAR:
+                intake.setState(Intake.CaseModes.ON);
+                double errorDeg = (angleError+offset_by_distance) * (180 / Math.PI);
+                double new_joystick_rx = errorDeg * kP - velocityDeg * kD;
+                drivebase.updateAutoAim(new_joystick_rx);
                 servoGate.openGate();
-                if (Math.abs((angleError+0.05) * ((180/Math.PI))) < 1 && getShooterVelocity() >= distanceToSpeed(distance)) {
-                    intake.setState(CaseModes.SIXTY_PERCENT_SPEED);
+                if (Math.abs((angleError+offset_by_distance) * ((180/Math.PI))) < 1 && getShooterVelocity() >= distanceToSpeed(distance)) {
+                    intake.setState(Intake.CaseModes.SIXTY_PERCENT_SPEED);
                     gamepad1.rumble(1000);
                 }
                 break;
             case SHOOT_GATE_CLOSED:
+                intake.setState(Intake.CaseModes.OFF);
                 servoGate.closeGate();
+                break;
             case REVERSE:
                 servoGate.openGate();
-                intake.setState(CaseModes.REVERSE);
-                shooter.setPower(-0.3);
+                intake.setState(Intake.CaseModes.REVERSE);
+                shooter.setVelocity(-900);
                 break;
         }
     }
@@ -103,7 +117,7 @@ public class Shooter extends Subsystem {
         hood.setPosition(position);
     }
     public String telemetryUpdate() {
-        return "Servo Position: " + hood.getPosition()
+        return "Servo Position: " + hood.getPosition() + " \n ShooterMode: " + currentMode
                 + " \n Shooter Speed: " + getShooterVelocity() + " \n " + "Target Speed/Vel: " + distance + ":" + speed;
     }
     public double getShooterVelocity()
