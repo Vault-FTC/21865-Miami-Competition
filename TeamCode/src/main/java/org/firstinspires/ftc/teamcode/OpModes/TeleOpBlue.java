@@ -29,6 +29,7 @@ public class TeleOpBlue extends AbstractOpMode {
     double launchPower = 0;
 
     Location gatePosition = new Location(60, -163, -124);
+    Location parkPosition = new Location(130.7, 65, 90);
     Pose2D goal = Constants.BLUE_CENTER_GOAL;
     double headingOffset = 0;
 
@@ -36,7 +37,7 @@ public class TeleOpBlue extends AbstractOpMode {
     public void setTargets() {
         limelight = new LimeLight(hardwareMap, 20);
     }
-    
+
     @Override
     public void runOpMode() {
         startHardware();
@@ -141,6 +142,8 @@ public class TeleOpBlue extends AbstractOpMode {
             if (gamepad1.triangle) {
                 drivebase.driveToPosition(gatePosition, 0, telemetry);
                 intake.setState(Intake.CaseModes.ON);
+            } else if (gamepad1.share) {
+                drivebase.driveToPosition(parkPosition, 0, telemetry);
             }
             else {
                 drivebase.drive(joystick_y, joystick_x, joystick_rx, headingOffset);
