@@ -144,8 +144,7 @@ public class TeleOpBlue extends AbstractOpMode {
                 intake.setState(Intake.CaseModes.ON);
             } else if (gamepad1.share) {
                 drivebase.driveToPosition(parkPosition, 0, telemetry);
-            }
-            else {
+            } else {
                 drivebase.drive(joystick_y, joystick_x, joystick_rx, headingOffset);
             }
 
