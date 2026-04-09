@@ -83,8 +83,16 @@ public class TeleOpBlue extends AbstractOpMode {
             {
                 drivebase.setstate(NewDriveSpeeds.DRIVE_HALF);
             }
-
-
+            if (gamepad2.left_trigger_pressed)
+            {
+                Stalin.setkP(Stalin.getkP() + 0.0001);
+                if (gamepad2.left_trigger_pressed)
+                {
+                    if (gamepad2.right_trigger_pressed)
+                {
+                    Stalin.setkP(Stalin.getkP() - 0.0001);
+                    if (gamepad2.left_trigger_pressed)
+                    {
             if (gamepad1.dpadUpWasPressed()) {
                 position += 0.1;
 
@@ -160,6 +168,12 @@ public class TeleOpBlue extends AbstractOpMode {
             telemetry.update();
             intake.update();
             shooter.update();
+            double turretErr = 0;
+            if(aprilTag != null)
+            {
+                turretErr = aprilTag.getTx();
+            }
+            Stalin.update(turretErr);
             //turret.update(drive.angleToGoal(drive.getPosition(), goal));
         }
     }

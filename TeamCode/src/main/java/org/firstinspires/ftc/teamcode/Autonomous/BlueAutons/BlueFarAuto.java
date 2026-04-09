@@ -29,6 +29,7 @@ public class BlueFarAuto extends AbstractOpMode {
 
     void setTargets() {
     }
+
     @Override
     public void runOpMode() throws InterruptedException {
         startHardware();
@@ -104,6 +105,8 @@ public class BlueFarAuto extends AbstractOpMode {
             commandScheduler.run();
             telemetry.addData("Position", drivebase.getPositionTelemetry());
             PoseStorage.startPose = new Pose2D(DistanceUnit.CM, drivebase.getPosition().getX(DistanceUnit.CM), drivebase.getPosition().getY(DistanceUnit.CM), AngleUnit.DEGREES,drivebase.getPosition().getHeading(AngleUnit.DEGREES) + 90);
+            double turretErr = limelight.getTx();
+            Stalin.update(turretErr);
             drivebase.update();
             telemetry.update();
         }

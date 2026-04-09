@@ -10,7 +10,6 @@ import org.firstinspires.ftc.teamcode.CommandSystem.Subsystem;
 
 public class Turret extends Subsystem {
     private DcMotorEx turret;
-    private Drivebase drivebase;
     private double kP = 0.0001;
     private double kD = 0.0000;
     private double goalX = 0;
@@ -20,6 +19,11 @@ public class Turret extends Subsystem {
     private double power = 0;
 
     private final ElapsedTime elapsedTime = new ElapsedTime();
+
+    public Turret(HardwareMap map)
+    {
+        init(map);
+    }
 
     private void init(HardwareMap hardwareMap) {
         turret = hardwareMap.get(DcMotorEx.class, "turret");
