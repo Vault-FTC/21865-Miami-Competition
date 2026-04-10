@@ -25,7 +25,7 @@ public class Turret extends Subsystem {
         init(map);
     }
 
-    private void init(HardwareMap hardwareMap) {
+    public Turret(HardwareMap hardwareMap) {
         turret = hardwareMap.get(DcMotorEx.class, "turret");
         turret.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
@@ -39,7 +39,7 @@ public class Turret extends Subsystem {
     }
 
     public void setkD(double newKD) {
-        kP = newKD;
+        kD = newKD;
     }
 
     public double getkD() {

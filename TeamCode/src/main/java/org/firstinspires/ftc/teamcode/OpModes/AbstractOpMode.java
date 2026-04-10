@@ -18,6 +18,7 @@ public abstract class AbstractOpMode extends LinearOpMode {
     public ServoGate servoGate;
     public Shooter shooter;
     public LimeLight limelight;
+    public Turret turret;
     public Turret Stalin;
 
     public void startHardware()
