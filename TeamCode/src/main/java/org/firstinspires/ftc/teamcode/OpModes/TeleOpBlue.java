@@ -67,32 +67,26 @@ public class TeleOpBlue extends AbstractOpMode {
             double headingVelocity = drivebase.getOdo().getHeadingVelocity(UnnormalizedAngleUnit.DEGREES);
             Pose2D currentPosition = drivebase.getPosition();
 
-            if(gamepad1.left_bumper && gamepad1.a)
-            {
+            if(gamepad1.left_bumper && gamepad1.a) {
                 drivebase.setstate(NewDriveSpeeds.DRIVE_FULL);
             }
-            else if(gamepad1.left_bumper && gamepad1.b)
-            {
+            else if(gamepad1.left_bumper && gamepad1.b) {
                 drivebase.setstate(NewDriveSpeeds.DRIVE_ALMOST_FULL);
             }
-            else if(gamepad1.left_bumper && gamepad1.x)
-            {
+            else if(gamepad1.left_bumper && gamepad1.x) {
                 drivebase.setstate(NewDriveSpeeds.DRIVE_SEVENTY_PERCENT);
             }
-            else if(gamepad1.left_bumper && gamepad1.y)
-            {
+            else if(gamepad1.left_bumper && gamepad1.y) {
                 drivebase.setstate(NewDriveSpeeds.DRIVE_HALF);
             }
-            if (gamepad2.left_trigger_pressed)
-            {
-                Stalin.setkP(Stalin.getkP() + 0.0001);
-                if (gamepad2.left_trigger_pressed)
-                {
-                    if (gamepad2.right_trigger_pressed)
-                {
-                    Stalin.setkP(Stalin.getkP() - 0.0001);
-                    if (gamepad2.left_trigger_pressed)
-                    {
+//            if (gamepad2.left_trigger_pressed) {
+//                turret.setkP(turret.getkP() + 0.0001);
+//                if (gamepad2.left_trigger_pressed) {
+//                    if (gamepad2.right_trigger_pressed)
+//                {
+//                    turret.setkP(turret.getkP() - 0.0001);
+//                    if (gamepad2.left_trigger_pressed)
+//                    {
             if (gamepad1.dpadUpWasPressed()) {
                 position += 0.1;
 
@@ -173,8 +167,9 @@ public class TeleOpBlue extends AbstractOpMode {
             {
                 turretErr = aprilTag.getTx();
             }
-            Stalin.update(turretErr);
+            turret.update(turretErr);
             //turret.update(drive.angleToGoal(drive.getPosition(), goal));
+
         }
     }
 }

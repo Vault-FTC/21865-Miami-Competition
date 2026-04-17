@@ -7,6 +7,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 
+import java.util.List;
+
 public class LimeLight {
     Limelight3A limelight;
     int apriltag;
@@ -51,7 +53,13 @@ public class LimeLight {
         if(res != null) {
             if(Math.abs(res.getTx()) > 0.25)
             {
-                return res.getTx() * 0.05;
+                List<LLResultTypes.FiducialResult> allResults = res.getFiducialResults();
+                for(LLResultTypes.FiducialResult i : allResults)
+                {
+                    if (i.getFiducialId() == apriltag) {
+                        return res.getTx() * 0.05;
+                    }
+                }
             }
         }
         return 0;
