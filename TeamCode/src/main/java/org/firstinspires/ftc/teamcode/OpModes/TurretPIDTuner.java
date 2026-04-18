@@ -1,13 +1,9 @@
 package org.firstinspires.ftc.teamcode.OpModes;
 
 import com.qualcomm.hardware.limelightvision.LLResult;
-import com.qualcomm.hardware.limelightvision.LLResultTypes;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.Constants;
-import org.firstinspires.ftc.teamcode.subsystems.Drivebase;
 import org.firstinspires.ftc.teamcode.subsystems.LimeLight;
-import org.firstinspires.ftc.teamcode.subsystems.Turret;
 
 @TeleOp
 public class TurretPIDTuner extends AbstractOpMode {
@@ -28,7 +24,7 @@ public class TurretPIDTuner extends AbstractOpMode {
 
         while (opModeIsActive()) {
 //            double error = limelight.getTx();
-            double error = turret.getAngleError();
+            double error = turret.getTurretAngle();
             LLResult llResult = limelight.getResult();
             double joystick_y = gamepad1.left_stick_x; // Forward/backward
             double joystick_x = gamepad1.left_stick_y;  // Strafe left/right

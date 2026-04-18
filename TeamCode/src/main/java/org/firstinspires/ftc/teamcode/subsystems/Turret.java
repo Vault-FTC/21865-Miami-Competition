@@ -6,6 +6,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.robotcore.external.navigation.UnnormalizedAngleUnit;
 import org.firstinspires.ftc.teamcode.CommandSystem.Subsystem;
@@ -54,12 +56,20 @@ public class Turret extends Subsystem {
         elapsedTime.reset();
     }
 
-    public double getAngleError() {
-        return drivebase.angleToGoal(drivebase.getPosition(), goal);
+    public double getTurretAngle() {
+        double targetAngle = Math.atan2(goal.getY(DistanceUnit.CM) - drivebase.getPosition().getY(DistanceUnit.CM), goal.getX(DistanceUnit.CM) - drivebase.getPosition().getX(DistanceUnit.CM));
+        double turretAngle = AngleUnit.normalizeRadians(targetAngle - drivebase.getPosition().getHeading(AngleUnit.RADIANS));
+        return turretAngle;
+    }
+
+    public double angleToTicks(double angle) {
+        return angle * 0.1008; // Angle * ticks/degree of big turret ring
     }
 
     public void update(double error) {
         double angleError = Drivebase.angleToGoal(drivebase.getPosition(), goal);
+        double initAngle = 45;
+
         double velocityDeg = drivebase.getOdo().getHeadingVelocity(UnnormalizedAngleUnit.DEGREES);
         drivebase.updateAutoAim(0);
         double offset_by_distance = 0.0;
