@@ -67,23 +67,28 @@ public class TeleOpBlue extends AbstractOpMode {
             double headingVelocity = drivebase.getOdo().getHeadingVelocity(UnnormalizedAngleUnit.DEGREES);
             Pose2D currentPosition = drivebase.getPosition();
 
-            if (gamepad1.left_bumper && gamepad1.a) {
+            if(gamepad1.left_bumper && gamepad1.a) {
                 drivebase.setstate(NewDriveSpeeds.DRIVE_FULL);
-            } else if (gamepad1.left_bumper && gamepad1.b) {
+            }
+            else if(gamepad1.left_bumper && gamepad1.b) {
                 drivebase.setstate(NewDriveSpeeds.DRIVE_ALMOST_FULL);
-            } else if (gamepad1.left_bumper && gamepad1.x) {
+            }
+            else if(gamepad1.left_bumper && gamepad1.x) {
                 drivebase.setstate(NewDriveSpeeds.DRIVE_SEVENTY_PERCENT);
-            } else if (gamepad1.left_bumper && gamepad1.y) {
+            }
+            else if(gamepad1.left_bumper && gamepad1.y) {
                 drivebase.setstate(NewDriveSpeeds.DRIVE_HALF);
             }
-            if (gamepad2.left_trigger_pressed) {
-                Stalin.setkP(Stalin.getkP() + 0.0001);
-                if (gamepad2.left_trigger_pressed) {
-                    if (gamepad2.right_trigger_pressed) {
-                        Stalin.setkP(Stalin.getkP() - 0.0001);
-                        if (gamepad2.left_trigger_pressed) {
-                            if (gamepad1.dpadUpWasPressed()) {
-                                position += 0.1;
+//            if (gamepad2.left_trigger_pressed) {
+//                turret.setkP(turret.getkP() + 0.0001);
+//                if (gamepad2.left_trigger_pressed) {
+//                    if (gamepad2.right_trigger_pressed)
+//                {
+//                    turret.setkP(turret.getkP() - 0.0001);
+//                    if (gamepad2.left_trigger_pressed)
+//                    {
+            if (gamepad1.dpadUpWasPressed()) {
+                position += 0.1;
 
                             } else if (gamepad1.dpadDownWasPressed()) {
                                 position -= 0.1;
@@ -142,28 +147,26 @@ public class TeleOpBlue extends AbstractOpMode {
                                 drivebase.drive(joystick_y, joystick_x, joystick_rx, headingOffset);
                             }
 
-                            telemetry.addData("Angle from goal", angleError * 180 / Math.PI);
-                            telemetry.addData("Distance from goal", distance);
-                            telemetry.addData("Shooter Stuff: ", shooter.telemetryUpdate());
-                            telemetry.addData("LaunchPower", this.launchPower);
-                            telemetry.addData("Position", drivebase.getPositionTelemetry());
-                            telemetry.addData("Number of artifacts", intake.numberOfArtifacts());
-                            if (aprilTag != null) {
-                                telemetry.addData("AprilTag", aprilTag.getBotpose_MT2());
-                            }
-                            telemetry.update();
-                            intake.update();
-                            shooter.update();
-                            double turretErr = 0;
-                            if (aprilTag != null) {
-                                turretErr = aprilTag.getTx();
-                            }
-                            Stalin.update(turretErr);
-                            //turret.update(drive.angleToGoal(drive.getPosition(), goal));
-                        }
-                    }
-                }
+            telemetry.addData("Angle from goal", angleError * 180/Math.PI);
+            telemetry.addData("Distance from goal", distance);
+            telemetry.addData("Shooter Stuff: ", shooter.telemetryUpdate());
+            telemetry.addData("LaunchPower", this.launchPower);
+            telemetry.addData("Position", drivebase.getPositionTelemetry());
+            telemetry.addData("Number of artifacts", intake.numberOfArtifacts());
+            if (aprilTag != null) {
+                telemetry.addData("AprilTag", aprilTag.getBotpose_MT2());
             }
+            telemetry.update();
+            intake.update();
+            shooter.update();
+            double turretErr = 0;
+            if(aprilTag != null)
+            {
+                turretErr = aprilTag.getTx();
+            }
+            turret.update(turretErr);
+            //turret.update(drive.angleToGoal(drive.getPosition(), goal));
+
         }
     }
 }

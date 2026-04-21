@@ -18,7 +18,7 @@ public abstract class AbstractOpMode extends LinearOpMode {
     public ServoGate servoGate;
     public Shooter shooter;
     public LimeLight limelight;
-    public Turret Stalin;
+    public Turret turret;
 
     public void startHardware()
     {
@@ -27,7 +27,7 @@ public abstract class AbstractOpMode extends LinearOpMode {
         drivebase = new Drivebase(hardwareMap);
         servoGate = new ServoGate(hardwareMap);
         shooter = new Shooter(hardwareMap, drivebase, servoGate, intake, gamepad1);
-        Stalin = new Turret(hardwareMap);
+        turret = new Turret(hardwareMap, drivebase);
     }
 
 }

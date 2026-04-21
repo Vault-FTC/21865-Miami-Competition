@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.subsystems.ServoGate;
 
 @TeleOp
-public class PIDTuner extends OpMode {
+public class ShooterPIDTuner extends OpMode {
     Intake intake;
     ServoGate servoGate;
     public DcMotorEx shooter;
