@@ -98,7 +98,7 @@ public class SpeedTuner extends AbstractOpMode {
 
 
 
-            drivebase.drive(joystick_y, joystick_x, joystick_rx, headingOffset);
+            drivebase.drive(joystick_y, joystick_x, joystick_rx);
 
 //            telemetry.addData("Angle from goal", angleError * 180/Math.PI);
             telemetry.addData("Distance from goal", distance);

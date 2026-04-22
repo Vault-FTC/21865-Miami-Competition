@@ -52,7 +52,7 @@ public class Shooter extends Subsystem {
     public void update() {
         double angleError = Drivebase.angleToGoal(drivebase.getPosition(), goal);
         double velocityDeg = drivebase.getOdo().getHeadingVelocity(UnnormalizedAngleUnit.DEGREES);
-        drivebase.updateAutoAim(0);
+        //drivebase.updateAutoAim(0);
         double offset_by_distance = 0.0;
         distance = drivebase.distanceToGoal(drivebase.getPosition(), goal);
         setHoodPosition(distanceToHoodPosition(distance));
@@ -68,7 +68,7 @@ public class Shooter extends Subsystem {
                 intake.setState(Intake.CaseModes.ON);
                 double errorDeg = (angleError+offset_by_distance) * (180 / Math.PI);
                 double new_joystick_rx = errorDeg * kP - velocityDeg * kD;
-                drivebase.updateAutoAim(new_joystick_rx);
+                //drivebase.updateAutoAim(new_joystick_rx);
                 servoGate.openGate();
                 if (Math.abs((angleError+offset_by_distance) * ((180/Math.PI))) < 1 && getShooterVelocity() >= distanceToSpeed(distance)) {
                     intake.setState(Intake.CaseModes.SIXTY_PERCENT_SPEED);

@@ -55,11 +55,13 @@ import org.firstinspires.ftc.teamcode.subsystems.PoseStorage;
                     .add(
                             ParallelCommandGroup.getBuilder()
                             .add(new PedroDriveToCommand(follower, blueNearGatePaths.MoveToShoot1, 2, telemetry))
-                                    .add(new TimedShootCommand(shooter, intake, 0.001, telemetry, 1100, servoGate, 0.0, 0.45))
+                                    .add(new TimedShootCommand(shooter, intake, 0.5, telemetry, 1100, servoGate, 0.0, 0.45))
                                     .add(new IntakeCommand(intake, 1.0, telemetry,servoGate))
                                     .build())
+                    .add(new TimedShootCommand(shooter, intake, 1.5, telemetry, 1100, servoGate, 0.95, 0.45))
 
-                    .add(ParallelCommandGroup.getBuilder()
+
+                                    .add(ParallelCommandGroup.getBuilder()
                     .add(new PedroDriveToCommand(follower, blueNearGatePaths.SetForFirstSpike, 2, telemetry))
                             .add(new IntakeCommand(intake, 1.0, telemetry,servoGate))
                     .build())
@@ -78,8 +80,40 @@ import org.firstinspires.ftc.teamcode.subsystems.PoseStorage;
                     .build())
 
                     .add(ParallelCommandGroup.getBuilder()
-                    .add(new PedroDriveToCommand(follower, blueNearGatePaths.MoveToShoot1, 2, telemetry))
+                    .add(new PedroDriveToCommand(follower, blueNearGatePaths.CollectSpike2, 2, telemetry))
                     .build())
+
+                    .add(ParallelCommandGroup.getBuilder()
+                            .add(new PedroDriveToCommand(follower, blueNearGatePaths.MoveToShoot3, 2, telemetry))
+                            .build())
+
+                    .add(ParallelCommandGroup.getBuilder()
+                            .add(new PedroDriveToCommand(follower, blueNearGatePaths.GateCollec1, 2, telemetry))
+                            .build())
+
+                    .add(ParallelCommandGroup.getBuilder()
+                            .add(new PedroDriveToCommand(follower, blueNearGatePaths.MoveToShoot1, 2, telemetry))
+                            .build())
+
+                    .add(ParallelCommandGroup.getBuilder()
+                            .add(new PedroDriveToCommand(follower, blueNearGatePaths.MoveToShoot1, 2, telemetry))
+                            .build())
+
+                    .add(ParallelCommandGroup.getBuilder()
+                            .add(new PedroDriveToCommand(follower, blueNearGatePaths.MoveToShoot1, 2, telemetry))
+                            .build())
+
+                    .add(ParallelCommandGroup.getBuilder()
+                            .add(new PedroDriveToCommand(follower, blueNearGatePaths.MoveToShoot1, 2, telemetry))
+                            .build())
+
+                    .add(ParallelCommandGroup.getBuilder()
+                            .add(new PedroDriveToCommand(follower, blueNearGatePaths.MoveToShoot1, 2, telemetry))
+                            .build())
+
+                    .add(ParallelCommandGroup.getBuilder()
+                            .add(new PedroDriveToCommand(follower, blueNearGatePaths.MoveToShoot1, 2, telemetry))
+                            .build())
 
             .build();
             waitForStart();

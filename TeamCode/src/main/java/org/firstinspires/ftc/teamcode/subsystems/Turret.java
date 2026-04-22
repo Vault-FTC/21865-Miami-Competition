@@ -70,13 +70,13 @@ public class Turret extends Subsystem {
         double angleError = Drivebase.angleToGoal(drivebase.getPosition(), goal);
         double initAngle = 45;
 
-        double velocityDeg = drivebase.getOdo().getHeadingVelocity(UnnormalizedAngleUnit.DEGREES);
-        drivebase.updateAutoAim(0);
-        double offset_by_distance = 0.0;
-        distance = drivebase.distanceToGoal(drivebase.getPosition(), goal);
-        double errorDeg = (angleError+offset_by_distance) * (180 / Math.PI);
-        double new_joystick_rx = errorDeg * kP - velocityDeg * kD;
-        drivebase.updateAutoAim(new_joystick_rx);
+//        double velocityDeg = drivebase.getOdo().getHeadingVelocity(UnnormalizedAngleUnit.DEGREES);
+//        drivebase.updateAutoAim(0);
+//        double offset_by_distance = 0.0;
+//        distance = drivebase.distanceToGoal(drivebase.getPosition(), goal);
+//        double errorDeg = (angleError+offset_by_distance) * (180 / Math.PI);
+//        double new_joystick_rx = errorDeg * kP - velocityDeg * kD;
+//        drivebase.updateAutoAim(new_joystick_rx);
 
         double deltaTime = elapsedTime.seconds();
         elapsedTime.reset();
