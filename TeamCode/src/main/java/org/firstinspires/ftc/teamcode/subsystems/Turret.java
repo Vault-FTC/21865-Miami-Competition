@@ -82,7 +82,7 @@ public class Turret extends Subsystem {
 
         double turretPosTicks = turret.getCurrentPosition();
         double turretPosRadians = turretPosTicks * TURRET_TICKS_TO_RADIANS;
-        error = getTurretAngle() + turretPosRadians;
+        error = AngleUnit.normalizeRadians(getTurretAngle() + turretPosRadians);
 
 //        double velocityDeg = drivebase.getOdo().getHeadingVelocity(UnnormalizedAngleUnit.DEGREES);
 //        drivebase.updateAutoAim(0);
