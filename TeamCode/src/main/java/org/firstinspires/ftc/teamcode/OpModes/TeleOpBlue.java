@@ -91,65 +91,62 @@ public class TeleOpBlue extends AbstractOpMode {
             if (gamepad1.dpadUpWasPressed()) {
                 position += 0.1;
 
-            } else if (gamepad1.dpadDownWasPressed()) {
-                position -= 0.1;
-            } else {
-                shooter.setHoodPosition(position);
-            }
-            if (aprilTag != null) {
-                drivebase.setCurrentPose(aprilTag.getBotpose_MT2().getPosition().toUnit(DistanceUnit.CM).x,
-                        aprilTag.getBotpose_MT2().getPosition().toUnit(DistanceUnit.CM).y);
-                telemetry.addData("BotPose", aprilTag.getBotpose_MT2().getPosition());
-            }
+                            } else if (gamepad1.dpadDownWasPressed()) {
+                                position -= 0.1;
+                            } else {
+                                shooter.setHoodPosition(position);
+                            }
+                            if (aprilTag != null) {
+                                drivebase.setCurrentPose(aprilTag.getBotpose_MT2().getPosition().toUnit(DistanceUnit.CM).x,
+                                        aprilTag.getBotpose_MT2().getPosition().toUnit(DistanceUnit.CM).y);
+                                telemetry.addData("BotPose", aprilTag.getBotpose_MT2().getPosition());
+                            }
 
 
-            if (gamepad1.start) {
-                drivebase.resetHeading(-90);
-            }
+                            if (gamepad1.start) {
+                                drivebase.resetHeading(-90);
+                            }
 
-            if (gamepad1.left_bumper) {
-                intake.setState(Intake.CaseModes.ON);
-            } else if (gamepad1.b || gamepad1.circle) {
-                intake.setState(Intake.CaseModes.REVERSE);
-                shooter.setState(Shooter.CaseModes.REVERSE);
-            } else if (gamepad1.right_bumper) {
-                shooter.setState(Shooter.CaseModes.SHOOT_NEAR);
-            } else if (gamepad1.right_trigger_pressed)  {
-                shooter.setState(Shooter.CaseModes.SHOOT_FAR);
-            }
-            else if (gamepad1.left_trigger_pressed){
-                // Shoot on the move code???? Maybe it'll workkkkk
-                double vPerpendicular = velocityX * Math.cos(angleError) - velocityY * Math.sin(angleError);
-                double leadAngle = Math.atan2(vPerpendicular, PROJECTILE_SPEED_CM);
-                double correctedError = angleError + leadAngle;
-                double errorDeg = correctedError * (180 / Math.PI);
-                servoGate.openGate();
-                joystick_rx = joystick_rx + errorDeg * kP - velocityDeg * kD;
+                            if (gamepad1.left_bumper) {
+                                intake.setState(Intake.CaseModes.ON);
+                            } else if (gamepad1.b || gamepad1.circle) {
+                                intake.setState(Intake.CaseModes.REVERSE);
+                                shooter.setState(Shooter.CaseModes.REVERSE);
+                            } else if (gamepad1.right_bumper) {
+                                shooter.setState(Shooter.CaseModes.SHOOT_NEAR);
+                            } else if (gamepad1.right_trigger_pressed) {
+                                shooter.setState(Shooter.CaseModes.SHOOT_FAR);
+                            } else if (gamepad1.left_trigger_pressed) {
+                                // Shoot on the move code???? Maybe it'll workkkkk
+                                double vPerpendicular = velocityX * Math.cos(angleError) - velocityY * Math.sin(angleError);
+                                double leadAngle = Math.atan2(vPerpendicular, PROJECTILE_SPEED_CM);
+                                double correctedError = angleError + leadAngle;
+                                double errorDeg = correctedError * (180 / Math.PI);
+                                servoGate.openGate();
+                                joystick_rx = joystick_rx + errorDeg * kP - velocityDeg * kD;
 
-                if (shooter.getShooterVelocity() >= shooter.distanceToSpeed(distance)) {
-                    intake.setState(Intake.CaseModes.SIXTY_PERCENT_SPEED);
-                    gamepad1.rumble(1000);
-                }
-            }
-            else if (gamepad1.x || gamepad2.square || gamepad2.triangle) {
-                shooter.setShooterSpeedNear(1100);
-                servoGate.openGate();
-                if (shooter.getShooterVelocity() >= 1100) {
-                    intake.setState(Intake.CaseModes.ON);
-                }
-            }
-            else {
-                shooter.setState(Shooter.CaseModes.SHOOT_GATE_CLOSED);
-            }
+                                if (shooter.getShooterVelocity() >= shooter.distanceToSpeed(distance)) {
+                                    intake.setState(Intake.CaseModes.SIXTY_PERCENT_SPEED);
+                                    gamepad1.rumble(1000);
+                                }
+                            } else if (gamepad1.x || gamepad2.square || gamepad2.triangle) {
+                                shooter.setShooterSpeedNear(1100);
+                                servoGate.openGate();
+                                if (shooter.getShooterVelocity() >= 1100) {
+                                    intake.setState(Intake.CaseModes.ON);
+                                }
+                            } else {
+                                shooter.setState(Shooter.CaseModes.SHOOT_GATE_CLOSED);
+                            }
 
-            if (gamepad1.triangle) {
-                drivebase.driveToPosition(gatePosition, 0, telemetry);
-                intake.setState(Intake.CaseModes.ON);
-            } else if (gamepad1.share) {
-                drivebase.driveToPosition(parkPosition, 0, telemetry);
-            } else {
-                drivebase.drive(joystick_y, joystick_x, joystick_rx, headingOffset);
-            }
+                            if (gamepad1.triangle) {
+                                drivebase.driveToPosition(gatePosition, 0, telemetry);
+                                intake.setState(Intake.CaseModes.ON);
+                            } else if (gamepad1.share) {
+                                drivebase.driveToPosition(parkPosition, 0, telemetry);
+                            } else {
+                                drivebase.drive(joystick_y, joystick_x, joystick_rx, headingOffset);
+                            }
 
             telemetry.addData("Angle from goal", angleError * 180/Math.PI);
             telemetry.addData("Distance from goal", distance);
