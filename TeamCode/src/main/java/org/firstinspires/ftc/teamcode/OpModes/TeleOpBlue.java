@@ -34,6 +34,7 @@ public class TeleOpBlue extends AbstractOpMode {
     double headingOffset = 0;
 
 
+    @Override
     public void setTargets() {
         limelight = new LimeLight(hardwareMap, 20);
     }

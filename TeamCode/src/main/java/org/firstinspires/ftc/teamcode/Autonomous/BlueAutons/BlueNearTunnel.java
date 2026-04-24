@@ -26,8 +26,7 @@ public class BlueNearTunnel extends AbstractOpMode {
     private BlueNearPaths blueNearPaths;
     double time;
 
-    void setTargets() {
-    }
+
     @Override
     public void runOpMode() throws InterruptedException {
         startHardware();

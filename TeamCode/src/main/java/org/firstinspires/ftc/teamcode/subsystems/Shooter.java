@@ -14,8 +14,7 @@ import org.firstinspires.ftc.teamcode.Constants;
 import org.firstinspires.ftc.teamcode.LUT;
 
 public class Shooter extends Subsystem {
-    public enum CaseModes
-    {
+    public enum CaseModes {
         OFF, SHOOT_NEAR, SHOOT_FAR, SHOOT_GATE_CLOSED, REVERSE
     }
     private static final double CLOSE_DIST_CM = 140;

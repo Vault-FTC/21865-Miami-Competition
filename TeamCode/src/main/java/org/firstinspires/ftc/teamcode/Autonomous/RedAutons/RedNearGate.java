@@ -26,8 +26,6 @@ public class RedNearGate extends AbstractOpMode {
     private RedNearPaths redNearPaths;
     double time;
 
-    void setTargets() {
-    }
     @Override
     public void runOpMode() throws InterruptedException {
         startHardware();

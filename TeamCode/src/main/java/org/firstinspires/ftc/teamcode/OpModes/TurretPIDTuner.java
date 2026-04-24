@@ -6,19 +6,15 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.subsystems.LimeLight;
 
 @TeleOp
-public class TurretPIDTuner extends AbstractOpMode {
+public class TurretPIDTuner extends AbstractBlueOpMode {
     double[] stepSizes = {0.1, 0.01, 0.001, 0.0001, 0.00001};
     int stepIndex = 2;
     double headingOffset = 0;
 
-    public void setTargets() {
-        limelight = new LimeLight(hardwareMap, 20);
-    }
-
     @Override
     public void runOpMode() {
-        setTargets();
         startHardware();
+        setTargets();
         waitForStart();
         turret.resetTimer();
 
@@ -45,7 +41,7 @@ public class TurretPIDTuner extends AbstractOpMode {
             if (gamepad1.dpadUpWasPressed()) {
                 turret.setkD(turret.getkD() - stepSizes[stepIndex]);
             }
-            //drivebase.drive(joystick_y, joystick_x, joystick_rx, headingOffset);
+            drivebase.drive(joystick_y, joystick_x, joystick_rx);
 
 //            if (llResult == null)
 //            {
@@ -66,9 +62,9 @@ public class TurretPIDTuner extends AbstractOpMode {
             telemetry.addData("Tuning P", "%.5f (D-Pad L/R", turret.getkP());
             telemetry.addData("Tuning D", "%.5f (D-Pad U/D", turret.getkD());
             telemetry.addData("Step Size", "%.5f (B Button", stepSizes[stepIndex]);
-            telemetry.addData("Error", error);
             turret.update(error);
-
+            drivebase.update();
+            telemetry.addData("OdoPosition" , drivebase.getPositionTelemetry());
             telemetry.update();
         }
     }

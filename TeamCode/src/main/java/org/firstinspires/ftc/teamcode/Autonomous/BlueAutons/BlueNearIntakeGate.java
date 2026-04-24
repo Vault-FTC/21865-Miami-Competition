@@ -26,8 +26,6 @@ public class BlueNearIntakeGate extends AbstractOpMode {
     Follower follower;
     double time;
 
-    void setTargets() {
-    }
     @Override
     public void runOpMode() throws InterruptedException {
         startHardware();

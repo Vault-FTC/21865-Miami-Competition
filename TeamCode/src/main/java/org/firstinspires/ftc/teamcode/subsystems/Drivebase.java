@@ -58,6 +58,7 @@ public class Drivebase extends Subsystem {
         odo.setOffsets(205.71207, -15.175, DistanceUnit.MM);
         odo.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
         odo.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.REVERSED, GoBildaPinpointDriver.EncoderDirection.REVERSED);
+        odo.resetPosAndIMU();
     }
 
     public void setstate(NewDriveSpeeds Speed)

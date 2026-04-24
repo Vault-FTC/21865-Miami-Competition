@@ -28,8 +28,6 @@ public class RedNearTunnel extends AbstractOpMode {
     private RedNearPaths redNearPaths;
     double time;
 
-    void setTargets() {
-    }
     @Override
     public void runOpMode() throws InterruptedException {
         limelight = new LimeLight(hardwareMap,20);

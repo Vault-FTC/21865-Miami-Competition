@@ -27,8 +27,6 @@ public class BlueFarAuto extends AbstractOpMode {
     private BlueFarPaths blueFarPaths;
     double time;
 
-    void setTargets() {
-    }
 
     @Override
     public void runOpMode() throws InterruptedException {

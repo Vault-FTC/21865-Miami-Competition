@@ -27,8 +27,6 @@ public class RedFarAuto extends AbstractOpMode {
     private RedFarPaths redFarPaths;
     double time;
 
-    void setTargets() {
-    }
     @Override
     public void runOpMode() throws InterruptedException {
         startHardware();

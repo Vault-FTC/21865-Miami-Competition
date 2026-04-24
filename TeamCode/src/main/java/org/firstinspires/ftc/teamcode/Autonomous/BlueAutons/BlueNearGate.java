@@ -26,8 +26,6 @@ public class BlueNearGate extends AbstractOpMode {
     private BlueNearPaths blueNearPaths;
     double time;
 
-    void setTargets() {
-    }
     @Override
     public void runOpMode() throws InterruptedException {
         startHardware();

@@ -1,7 +1,9 @@
 package org.firstinspires.ftc.teamcode.OpModes;
 
+import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.subsystems.Drivebase;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.subsystems.Lights;
@@ -19,6 +21,12 @@ public abstract class AbstractOpMode extends LinearOpMode {
     public Shooter shooter;
     public LimeLight limelight;
     public Turret turret;
+    public Pose2D goal;
+
+    public void setTargets()
+    {
+
+    }
 
     public void startHardware()
     {
@@ -27,7 +35,7 @@ public abstract class AbstractOpMode extends LinearOpMode {
         drivebase = new Drivebase(hardwareMap);
         servoGate = new ServoGate(hardwareMap);
         shooter = new Shooter(hardwareMap, drivebase, servoGate, intake, gamepad1);
-        turret = new Turret(hardwareMap, drivebase);
+        turret = new Turret(hardwareMap, drivebase, telemetry);
     }
 
 }
