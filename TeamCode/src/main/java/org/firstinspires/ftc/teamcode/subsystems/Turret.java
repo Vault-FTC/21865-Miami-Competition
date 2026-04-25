@@ -70,6 +70,8 @@ public class Turret extends Subsystem {
     public double getTurretAngle() {
         double targetAngle = Math.atan2(goal.getY(DistanceUnit.CM) - drivebase.getPosition().getY(DistanceUnit.CM), goal.getX(DistanceUnit.CM) - drivebase.getPosition().getX(DistanceUnit.CM));
         double turretAngle = AngleUnit.normalizeRadians(targetAngle - drivebase.getPosition().getHeading(AngleUnit.RADIANS));
+        telemetry.addData("TurretAngle", turretAngle);
+        telemetry.addData("TargetAngle", targetAngle);
         return turretAngle;
     }
 
@@ -110,8 +112,6 @@ public class Turret extends Subsystem {
         turret.setPower(power);
         lastError = error;
         telemetry.addData("Error", error);
-        telemetry.addData("TurretPosTicks", turretPosTicks);
-        telemetry.addData("TurretRadians", turretPosRadians);
         telemetry.addData("TurretDegrees", Math.toDegrees(turretPosRadians));
     }
 

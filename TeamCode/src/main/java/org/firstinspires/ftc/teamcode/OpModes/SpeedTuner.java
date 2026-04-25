@@ -111,6 +111,7 @@ public class SpeedTuner extends AbstractOpMode {
                 telemetry.addData("AprilTag", aprilTag.getBotpose_MT2());
                 telemetry.addData("AprilTag distance from goal", Math.hypot(aprilTag.getBotpose_MT2().getPosition().x - Constants.BLUE_CENTER_GOAL.getX(DistanceUnit.CM), aprilTag.getBotpose_MT2().getPosition().y) - Constants.BLUE_CENTER_GOAL.getY(DistanceUnit.CM));
             }
+
             telemetry.update();
         }
     }

@@ -29,8 +29,6 @@ import org.firstinspires.ftc.teamcode.subsystems.PoseStorage;
         Follower follower;
         double time;
 
-        void setTargets() {
-        }
 
         @Override
         public void runOpMode() throws InterruptedException {
