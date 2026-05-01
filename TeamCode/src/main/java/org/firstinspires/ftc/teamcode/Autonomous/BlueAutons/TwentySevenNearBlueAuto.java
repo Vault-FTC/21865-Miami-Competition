@@ -47,6 +47,7 @@ public class TwentySevenNearBlueAuto extends AbstractOpMode {
                 )
         );
         setTargets();
+
         SequentialCommandGroup auto = SequentialCommandGroup.getBuilder()
                 .add(
                         ParallelCommandGroup.getBuilder()
@@ -71,7 +72,6 @@ public class TwentySevenNearBlueAuto extends AbstractOpMode {
                         .add(new TimedShootCommand(shooter, intake, 1.5, telemetry, 1100, servoGate, 0.95, 0.45))
                         .build())
                 .build();
-
 
         waitForStart();
         auto.schedule();

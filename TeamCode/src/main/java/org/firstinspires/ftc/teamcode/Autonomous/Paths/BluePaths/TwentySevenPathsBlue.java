@@ -28,7 +28,7 @@ public class TwentySevenPathsBlue {
                     .addPath(
                             new BezierLine(
                                     new Pose(53, 100),
-                                    new Pose(43, 84)
+                                    new Pose(43, 86)
                             )
                     )
                     .setLinearHeadingInterpolation(Math.toRadians(143.5), Math.toRadians(180))
@@ -37,8 +37,8 @@ public class TwentySevenPathsBlue {
             CollectFirstSpike = follower.pathBuilder()
                     .addPath(
                             new BezierLine(
-                                    new Pose(43, 84),
-                                    new Pose(10.5, 84)
+                                    new Pose(43, 86),
+                                    new Pose(15, 86)
                             )
                     )
                     .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(180))
