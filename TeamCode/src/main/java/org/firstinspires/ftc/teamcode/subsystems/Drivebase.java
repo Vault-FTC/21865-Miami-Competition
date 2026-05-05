@@ -51,7 +51,7 @@ public class Drivebase extends Subsystem {
 // Reverse one side of motors if needed (depends on robot configuration)
         frontLeftMotor.setDirection(DcMotorEx.Direction.FORWARD);
         backLeftMotor.setDirection(DcMotorEx.Direction.FORWARD);
-        frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 // Odometry constants and such
         odo = hardwareMap.get(GoBildaPinpointDriver.class,"odo");
