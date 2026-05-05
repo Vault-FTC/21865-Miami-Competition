@@ -18,9 +18,9 @@ public class Turret extends Subsystem {
     private DcMotorEx turret;
     private final Drivebase drivebase;
     double distance;
-    private double kP = 0.25;
-    private double kD = 0.0000;
-    private double goalX = 0;
+    private double kP = 19.800000;
+    private double kD = 1.600000;
+//    private double goalX = 0;
     private double lastError = 0;
     private double angleTolerance = 0.1;
     private final double MAX_POWER = 0.6;
@@ -80,11 +80,11 @@ public class Turret extends Subsystem {
     }
 
     public void update(double error) {
-        double angleError = Drivebase.angleToGoal(drivebase.getPosition(), goal);
+//        double angleError = Drivebase.angleToGoal(drivebase.getPosition(), goal);
 
         double turretPosTicks = turret.getCurrentPosition();
         double turretPosRadians = turretPosTicks * TURRET_TICKS_TO_RADIANS;
-        error = AngleUnit.normalizeRadians(getTurretAngle() + turretPosRadians);
+        double error2 = AngleUnit.normalizeRadians(getTurretAngle() + turretPosRadians);
 
 //        double velocityDeg = drivebase.getOdo().getHeadingVelocity(UnnormalizedAngleUnit.DEGREES);
 //        drivebase.updateAutoAim(0);
@@ -110,7 +110,7 @@ public class Turret extends Subsystem {
         }
 
         turret.setPower(power);
-        lastError = error;
+        lastError = error2;
         telemetry.addData("Error", error);
         telemetry.addData("TurretDegrees", Math.toDegrees(turretPosRadians));
     }

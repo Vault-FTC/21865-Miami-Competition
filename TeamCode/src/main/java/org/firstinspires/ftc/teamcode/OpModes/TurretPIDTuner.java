@@ -9,8 +9,8 @@ import org.firstinspires.ftc.teamcode.subsystems.PoseStorage;
 
 @TeleOp
 public class TurretPIDTuner extends AbstractBlueOpMode {
-    double[] stepSizes = {0.1, 0.01, 0.001, 0.0001, 0.00001, 0.000001};
-    int stepIndex = 2;
+    double[] stepSizes = {1.0, 0.1, 0.01, 0.001, 0.0001, 0.00001, 0.000001};
+    int stepIndex = 0;
     double headingOffset = 0;
 
     @Override
@@ -41,9 +41,9 @@ public class TurretPIDTuner extends AbstractBlueOpMode {
             } else if (gamepad1.dpadLeftWasPressed()) {
                 turret.setkP(turret.getkP() - stepSizes[stepIndex]);
             } else if (gamepad1.dpadDownWasPressed()) {
-                turret.setkD(turret.getkD() + stepSizes[stepIndex]);
-            } else if (gamepad1.dpadUpWasPressed()) {
                 turret.setkD(turret.getkD() - stepSizes[stepIndex]);
+            } else if (gamepad1.dpadUpWasPressed()) {
+                turret.setkD(turret.getkD() + stepSizes[stepIndex]);
             } else {
                 drivebase.drive(joystick_y, joystick_x, joystick_rx);
             }
@@ -64,9 +64,9 @@ public class TurretPIDTuner extends AbstractBlueOpMode {
 //                }
 //            }
             telemetry.addLine("-----------------------------------------------------------");
-            telemetry.addData("Tuning P", "%.5f (D-Pad L/R", turret.getkP());
-            telemetry.addData("Tuning D", "%.5f (D-Pad U/D", turret.getkD());
-            telemetry.addData("Step Size", "%.5f (B Button", stepSizes[stepIndex]);
+            telemetry.addData("Tuning P", "%.6f (D-Pad L/R", turret.getkP());
+            telemetry.addData("Tuning D", "%.6f (D-Pad U/D", turret.getkD());
+            telemetry.addData("Step Size", "%.6f (B Button", stepSizes[stepIndex]);
             turret.update(error);
             drivebase.update();
             telemetry.addData("OdoPosition" , drivebase.getPositionTelemetry());
