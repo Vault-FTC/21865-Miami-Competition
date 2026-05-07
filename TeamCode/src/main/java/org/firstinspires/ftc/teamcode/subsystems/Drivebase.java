@@ -55,7 +55,8 @@ public class Drivebase extends Subsystem {
         backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 // Odometry constants and such
         odo = hardwareMap.get(GoBildaPinpointDriver.class,"odo");
-        odo.setOffsets(205.71207, -15.175, DistanceUnit.MM);
+        // odo.setOffsets(205.71207, -15.175, DistanceUnit.MM);
+        odo.setOffsets(Constants.PedroPathing.localizerConstants.strafePodX,Constants.PedroPathing.localizerConstants.forwardPodY, DistanceUnit.CM);
         odo.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
         odo.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.REVERSED, GoBildaPinpointDriver.EncoderDirection.REVERSED);
     }

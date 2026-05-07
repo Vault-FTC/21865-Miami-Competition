@@ -94,8 +94,8 @@ public class TeleOpBlue extends AbstractOpMode {
                 shooter.setHoodPosition(position);
             }
             if (aprilTag != null) {
-                drivebase.setCurrentPose(aprilTag.getBotpose_MT2().getPosition().toUnit(DistanceUnit.CM).x,
-                        aprilTag.getBotpose_MT2().getPosition().toUnit(DistanceUnit.CM).y);
+//                drivebase.setCurrentPose(aprilTag.getBotpose_MT2().getPosition().toUnit(DistanceUnit.CM).x,
+//                        aprilTag.getBotpose_MT2().getPosition().toUnit(DistanceUnit.CM).y);
                 telemetry.addData("BotPose", aprilTag.getBotpose_MT2().getPosition());
             }
 
