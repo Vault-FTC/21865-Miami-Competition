@@ -51,11 +51,12 @@ public class Drivebase extends Subsystem {
 // Reverse one side of motors if needed (depends on robot configuration)
         frontLeftMotor.setDirection(DcMotorEx.Direction.FORWARD);
         backLeftMotor.setDirection(DcMotorEx.Direction.FORWARD);
-        frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 // Odometry constants and such
         odo = hardwareMap.get(GoBildaPinpointDriver.class,"odo");
-        odo.setOffsets(205.71207, -15.175, DistanceUnit.MM);
+        //odo.setOffsets(205.71207, -15.175, DistanceUnit.MM);
+        odo.setOffsets(145.0, -4.0, DistanceUnit.MM);
         odo.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
         odo.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.REVERSED, GoBildaPinpointDriver.EncoderDirection.REVERSED);
       //  odo.resetPosAndIMU();

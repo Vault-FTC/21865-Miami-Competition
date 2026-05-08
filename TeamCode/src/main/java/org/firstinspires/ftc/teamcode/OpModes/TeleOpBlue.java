@@ -161,12 +161,8 @@ public class TeleOpBlue extends AbstractOpMode {
             telemetry.update();
             intake.update();
             shooter.update();
-            double turretErr = 0;
-            if(aprilTag != null)
-            {
-                turretErr = aprilTag.getTx();
-            }
-            turret.update(turretErr);
+
+            turret.update(angleError);
             //turret.update(drive.angleToGoal(drive.getPosition(), goal));
 
         }
