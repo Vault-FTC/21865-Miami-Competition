@@ -17,9 +17,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 import org.firstinspires.ftc.teamcode.Autonomous.Location;
 import org.firstinspires.ftc.teamcode.CommandSystem.Subsystem;
 import org.firstinspires.ftc.teamcode.NewDriveSpeeds;
-import org.firstinspires.ftc.teamcode.PurePursuit.Rotation2d;
-import org.firstinspires.ftc.teamcode.PurePursuit.Vector2d;
-import org.firstinspires.ftc.teamcode.PurePursuit.Pose2d;
 
 
 public class Drivebase extends Subsystem {
@@ -222,16 +219,6 @@ public class Drivebase extends Subsystem {
         return Math.abs(currentY - target.Strafe) < toleranceXY &&
                 Math.abs(currentX - target.Forward) < toleranceXY &&
                 Math.abs(currentHeading-target.TurnDegrees) < toleranceAngle;
-    }
-
-    private Pose2d getCurrentPose() {
-        return new Pose2d(
-                new Vector2d(
-                        odo.getPosX(DistanceUnit.CM),
-                        odo.getPosY(DistanceUnit.CM)
-                ),
-                new Rotation2d(odo.getHeading(AngleUnit.DEGREES))
-        );
     }
 
     public void setCurrentPose(Pose2D pos)
