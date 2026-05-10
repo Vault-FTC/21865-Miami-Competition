@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
-import static org.firstinspires.ftc.teamcode.subsystems.NewDriveSpeeds.DRIVE_FULL;
+import static org.firstinspires.ftc.teamcode.NewDriveSpeeds.DRIVE_FULL;
 
 import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 import com.qualcomm.hardware.limelightvision.LLResult;
@@ -16,7 +16,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 import org.firstinspires.ftc.teamcode.Autonomous.Location;
 import org.firstinspires.ftc.teamcode.CommandSystem.Subsystem;
-import org.firstinspires.ftc.teamcode.Constants;
+import org.firstinspires.ftc.teamcode.NewDriveSpeeds;
 import org.firstinspires.ftc.teamcode.PurePursuit.Rotation2d;
 import org.firstinspires.ftc.teamcode.PurePursuit.Vector2d;
 import org.firstinspires.ftc.teamcode.PurePursuit.Pose2d;

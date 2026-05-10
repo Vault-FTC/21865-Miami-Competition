@@ -4,7 +4,7 @@ import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.teamcode.subsystems.LimeLight;
+import org.firstinspires.ftc.teamcode.OpModes.AbstractOpMods.AbstractBlueOpMode;
 import org.firstinspires.ftc.teamcode.subsystems.PoseStorage;
 
 @TeleOp
