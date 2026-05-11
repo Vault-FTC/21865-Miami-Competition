@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.subsystems;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
@@ -18,11 +19,13 @@ public class Turret extends Subsystem {
     private DcMotorEx turret;
     private final Drivebase drivebase;
     double distance;
-    private double kP = 5.000000;
-    private double kD = 0.700000;
+//    private double kP = 1.200000;
+//    private double kD = 0.200000;
+    private double kP = 1.200000;
+    private double kD = 0.200000;
 //    private double goalX = 0;
     private double lastError = 0;
-    private double angleTolerance = 0.01;
+    private double angleTolerance = 0.03;
     private final double MAX_POWER = 0.6;
     private double power = 0;
     Pose2D goal = Constants.BLUE_CENTER_GOAL;
@@ -37,7 +40,7 @@ public class Turret extends Subsystem {
         turret = hardwareMap.get(DcMotorEx.class, "turret");
         turret.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         turret.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        turret.setDirection(DcMotorEx.Direction.REVERSE);
+        turret.setDirection(DcMotorEx.Direction.FORWARD);
         this.drivebase = drivebase;
         this.telemetry = telemetry;
     }
@@ -84,7 +87,7 @@ public class Turret extends Subsystem {
 
         double turretPosTicks = turret.getCurrentPosition();
         double turretPosRadians = turretPosTicks * TURRET_TICKS_TO_RADIANS;
-        error = AngleUnit.normalizeRadians(getTurretAngle() + turretPosRadians);
+        error = AngleUnit.normalizeRadians(getTurretAngle() - turretPosRadians);
 
 //        double velocityDeg = drivebase.getOdo().getHeadingVelocity(UnnormalizedAngleUnit.DEGREES);
 //        drivebase.updateAutoAim(0);
@@ -106,13 +109,14 @@ public class Turret extends Subsystem {
         if (Math.abs(error) < angleTolerance) {
             power = 0;
         } else {
-            power = -Range.clip(pTerm + dTerm, -MAX_POWER, MAX_POWER);
+            power = Range.clip(pTerm + dTerm, -MAX_POWER, MAX_POWER);
         }
 
         turret.setPower(power);
         lastError = error;
         telemetry.addData("Error", error);
         telemetry.addData("TurretDegrees", Math.toDegrees(turretPosRadians));
+        telemetry.addData("Ticks", turretPosTicks);
     }
 
 }

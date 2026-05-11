@@ -69,16 +69,16 @@ public class TeleOpBlue extends AbstractOpMode {
             double headingVelocity = drivebase.getOdo().getHeadingVelocity(UnnormalizedAngleUnit.DEGREES);
             Pose2D currentPosition = drivebase.getPosition();
 
-            if(gamepad1.left_bumper && gamepad1.a) {
+            if(gamepad1.left_bumper && gamepad1.cross) {
                 drivebase.setstate(NewDriveSpeeds.DRIVE_FULL);
             }
-            else if(gamepad1.left_bumper && gamepad1.b) {
+            else if(gamepad1.left_bumper && gamepad1.circle) {
                 drivebase.setstate(NewDriveSpeeds.DRIVE_ALMOST_FULL);
             }
-            else if(gamepad1.left_bumper && gamepad1.x) {
+            else if(gamepad1.left_bumper && gamepad1.square) {
                 drivebase.setstate(NewDriveSpeeds.DRIVE_SEVENTY_PERCENT);
             }
-            else if(gamepad1.left_bumper && gamepad1.y) {
+            else if(gamepad1.left_bumper && gamepad1.triangle) {
                 drivebase.setstate(NewDriveSpeeds.DRIVE_HALF);
             }
 //            if (gamepad2.left_trigger_pressed) {
@@ -126,7 +126,7 @@ public class TeleOpBlue extends AbstractOpMode {
                     intake.setState(Intake.CaseModes.SIXTY_PERCENT_SPEED);
                     gamepad1.rumble(1000);
                 }
-            } else if (gamepad1.x || gamepad2.square || gamepad2.triangle) {
+            } else if (gamepad1.square || gamepad1.x || gamepad2.square || gamepad2.triangle) {
                 shooter.setShooterSpeedNear(1100);
                 servoGate.openGate();
                 if (shooter.getShooterVelocity() >= 1100) {
@@ -135,7 +135,7 @@ public class TeleOpBlue extends AbstractOpMode {
             } else {
                 shooter.setState(Shooter.CaseModes.SHOOT_GATE_CLOSED);
             }
-            if (gamepad1.triangle) {
+            if (gamepad1.triangle || gamepad1.y) {
                 drivebase.driveToPosition(gatePosition, 0, telemetry);
                 intake.setState(Intake.CaseModes.ON);
             } else if (gamepad1.share) {
