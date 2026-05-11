@@ -149,7 +149,7 @@ public class TeleOpBlue extends AbstractOpMode {
             telemetry.addData("Shooter Stuff: ", shooter.telemetryUpdate());
             telemetry.addData("LaunchPower", this.launchPower);
             telemetry.addData("Position", drivebase.getPositionTelemetry());
-            telemetry.addData("Number of artifacts", intake.numberOfArtifacts());
+//            telemetry.addData("Number of artifacts", intake.numberOfArtifacts());
             if (aprilTag != null) {
                 telemetry.addData("AprilTag", aprilTag.getBotpose_MT2());
             }
@@ -159,8 +159,7 @@ public class TeleOpBlue extends AbstractOpMode {
             telemetry.update();
             intake.update();
             shooter.update();
-
-            turret.update(angleError);
+            turret.update();
             //turret.update(drive.angleToGoal(drive.getPosition(), goal));
 
         }

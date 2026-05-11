@@ -1,8 +1,9 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
+import android.animation.RectEvaluator;
+
+import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -14,20 +15,16 @@ public class Intake extends Subsystem {
         OFF, REVERSE, ON, HALF_SPEED, SIXTY_PERCENT_SPEED
     }
     private DcMotorEx intake;
-    private DigitalChannel breakbeam1;
-    private DigitalChannel breakbeam2;
+    private RevColorSensorV3 frontColorSensor, midColorSensor, backColorSensor;
     CaseModes currentMode = CaseModes.OFF;
 
 
     //
     public Intake(HardwareMap hardwareMap) {
         intake = hardwareMap.get(DcMotorEx.class, "intake");
-        breakbeam1 = hardwareMap.get(DigitalChannel.class, "breakbeam1");
-        breakbeam2 = hardwareMap.get(DigitalChannel.class, "breakbeam2");
-
-        breakbeam1.setMode(DigitalChannel.Mode.INPUT);
-        breakbeam2.setMode(DigitalChannel.Mode.INPUT);
-
+//        frontColorSensor = hardwareMap.get(RevColorSensorV3.class, "frontColorSensor");
+//        midColorSensor = hardwareMap.get(RevColorSensorV3.class, "midColorSensor");
+//        backColorSensor = hardwareMap.get(RevColorSensorV3.class, "backColorSensor");
     }
 
     public void update()
@@ -55,14 +52,27 @@ public class Intake extends Subsystem {
         currentMode = s;
     }
 
-    public double numberOfArtifacts() {
-        if (!breakbeam1.getState() && !breakbeam2.getState()) {
-            return 2;
-        }
-        else if (!breakbeam1.getState() && breakbeam2.getState()) {
-            return 1;
-        } else {
-            return 0;
-        }
-    }
+//    public boolean isArtifact(RevColorSensorV3 revColorSensorV3) {
+//        boolean greenArtifact;
+//        boolean purpleArtifact;
+//
+//        int r = revColorSensorV3.red();
+//        int g = revColorSensorV3.green();
+//        int b = revColorSensorV3.blue();
+//
+//        if ()
+//
+//
+//    }
+
+//    public double numberOfArtifacts() {
+//        if (backColorSensor.getNormalizedColors() {
+//            return 2;
+//        }
+//        else if (!frontColorSensor.getState() && breakbeam2.getState()) {
+//            return 1;
+//        } else {
+//            return 0;
+//        }
+//    }
 }

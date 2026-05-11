@@ -27,8 +27,10 @@ public class Turret extends Subsystem {
     private double lastError = 0;
     private double angleTolerance = 0.03;
     private final double MAX_POWER = 0.6;
+    private final double MIN_TURRET_ANGLE = -270 * Math.PI/180;
+    private final double MAX_TURRET_ANGLE = 270 * Math.PI/180;
     private double power = 0;
-    Pose2D goal = Constants.BLUE_CENTER_GOAL;
+    Pose2D goal = new Pose2D(DistanceUnit.CM, 157.5, 152.4, AngleUnit.RADIANS, 0);
 
     private final double TURRET_TICKS_TO_RADIANS = Math.PI * 2.0 / 580.0;
 
@@ -71,23 +73,24 @@ public class Turret extends Subsystem {
     }
 
     public double getTurretAngle() {
-        double targetAngle = Math.atan2(goal.getX(DistanceUnit.CM) - drivebase.getPosition().getX(DistanceUnit.CM), goal.getY(DistanceUnit.CM) - drivebase.getPosition().getY(DistanceUnit.CM));
-        double turretAngle = AngleUnit.normalizeRadians(targetAngle - drivebase.getPosition().getHeading(AngleUnit.RADIANS));
+        double dx = goal.getX(DistanceUnit.CM) - drivebase.getPosition().getX(DistanceUnit.CM);
+        double dy = goal.getY(DistanceUnit.CM) - drivebase.getPosition().getY(DistanceUnit.CM);
+        double targetAngle = Math.atan2(
+                dx,
+                dy
+        );
+        double turretAngle = AngleUnit.normalizeRadians(targetAngle - (drivebase.getPosition().getHeading(AngleUnit.RADIANS)));
         telemetry.addData("TurretAngle", turretAngle);
         telemetry.addData("TargetAngle", targetAngle);
         return turretAngle;
     }
 
-    public double angleToTicks(double angle) {
-        return angle * 0.1008; // Angle * ticks/degree of big turret ring
-    }
-
-    public void update(double error) {
+    public void update() {
 //        double angleError = Drivebase.angleToGoal(drivebase.getPosition(), goal);
 
         double turretPosTicks = turret.getCurrentPosition();
-        double turretPosRadians = turretPosTicks * TURRET_TICKS_TO_RADIANS;
-        error = AngleUnit.normalizeRadians(getTurretAngle() - turretPosRadians);
+        double turretPosRadians = turretPosTicks * TURRET_TICKS_TO_RADIANS - Math.PI/2;
+        double error = AngleUnit.normalizeRadians(getTurretAngle() - turretPosRadians);
 
 //        double velocityDeg = drivebase.getOdo().getHeadingVelocity(UnnormalizedAngleUnit.DEGREES);
 //        drivebase.updateAutoAim(0);
@@ -118,5 +121,7 @@ public class Turret extends Subsystem {
         telemetry.addData("TurretDegrees", Math.toDegrees(turretPosRadians));
         telemetry.addData("Ticks", turretPosTicks);
     }
+
+
 
 }

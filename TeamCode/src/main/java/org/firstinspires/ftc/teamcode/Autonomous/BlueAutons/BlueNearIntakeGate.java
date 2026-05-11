@@ -147,7 +147,7 @@ public class BlueNearIntakeGate extends AbstractOpMode {
             drivebase.update();
             telemetry.update();
             intake.update();
-            turret.update(0);
+            turret.update();
         }
     }
 }

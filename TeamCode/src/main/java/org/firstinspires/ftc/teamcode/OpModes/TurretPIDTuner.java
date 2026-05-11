@@ -79,7 +79,7 @@ public class TurretPIDTuner extends AbstractBlueOpMode {
             telemetry.addData("Tuning P", "%.6f (D-Pad L/R", turret.getkP());
             telemetry.addData("Tuning D", "%.6f (D-Pad U/D", turret.getkD());
             telemetry.addData("Step Size", "%.6f (B Button", stepSizes[stepIndex]);
-            turret.update(error);
+            turret.update();
             drivebase.update();
             telemetry.addData("OdoPosition" , drivebase.getPositionTelemetry());
             telemetry.update();
