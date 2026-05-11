@@ -22,7 +22,7 @@ public class Turret extends Subsystem {
     private double kD = 0.700000;
 //    private double goalX = 0;
     private double lastError = 0;
-    private double angleTolerance = 0.1;
+    private double angleTolerance = 0.01;
     private final double MAX_POWER = 0.6;
     private double power = 0;
     Pose2D goal = Constants.BLUE_CENTER_GOAL;
@@ -68,7 +68,7 @@ public class Turret extends Subsystem {
     }
 
     public double getTurretAngle() {
-        double targetAngle = Math.atan2(goal.getY(DistanceUnit.CM) - drivebase.getPosition().getY(DistanceUnit.CM), goal.getX(DistanceUnit.CM) - drivebase.getPosition().getX(DistanceUnit.CM));
+        double targetAngle = Math.atan2(goal.getX(DistanceUnit.CM) - drivebase.getPosition().getX(DistanceUnit.CM), goal.getY(DistanceUnit.CM) - drivebase.getPosition().getY(DistanceUnit.CM));
         double turretAngle = AngleUnit.normalizeRadians(targetAngle - drivebase.getPosition().getHeading(AngleUnit.RADIANS));
         telemetry.addData("TurretAngle", turretAngle);
         telemetry.addData("TargetAngle", targetAngle);
