@@ -10,8 +10,11 @@ public class TwentySevenPathsBlue {
         public static PathChain MoveToShoot1;
         public static PathChain SetFirstSpike;
         public static PathChain CollectFirstSpike;
-    public PathChain MoveToShoot2;
-    public PathChain moveaway;
+    public static PathChain MoveToShoot2;
+    public static PathChain SetSecondSpike;
+    public static PathChain CollectSecondSpike;
+    public static PathChain MoveToShoot3;
+
 
         public TwentySevenPathsBlue(Follower follower) {
             MoveToShoot1 = follower.pathBuilder()
@@ -49,21 +52,50 @@ public class TwentySevenPathsBlue {
                             new BezierLine(
                                     new Pose(10.5, 84),
                                     new Pose(53, 100)
+                                    )
+                    )
+                    .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(143.5))
+                    .build();
+
+
+            SetSecondSpike = follower.pathBuilder()
+                                    .addPath(new BezierLine(
+                    new Pose(53.000, 100.000),
+                    new Pose(47.500, 60.500))
+                    )
+
+             .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(180))
+                    .build();
+
+            CollectSecondSpike = follower.pathBuilder()
+                    .addPath(
+                            new BezierLine(
+                                    new Pose(47.500, 60.500),
+                                    new Pose(8.000, 60.500)
+                            )
+                    )
+                    .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(180))
+                    .build();
+
+            MoveToShoot3 = follower.pathBuilder()
+                    .addPath(
+                            new BezierLine(
+                                    new Pose(8.000, 60.500),
+                                    new Pose(47.500, 60.500)
+                            )
+                    )
+                    .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(180))
+                    .build();
+
+            MoveToShoot3 = follower.pathBuilder()
+                    .addPath(
+                            new BezierLine(
+                                    new Pose(47.500, 60.500),
+                                    new Pose(53.000, 100.000)
                             )
                     )
                     .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(143.5))
                     .build();
 
-            moveaway = follower.pathBuilder()
-                    .addPath(
-                            new BezierLine(
-                                    new Pose(53, 100),
-                                    new Pose(50, 50)
-                            )
-                    )
-                    .setTangentHeadingInterpolation()
-                    .build();
         }
 }
-
-

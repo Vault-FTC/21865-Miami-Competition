@@ -123,6 +123,8 @@ public class BlueNearAuto extends AbstractOpMode {
             PoseStorage.startPose = new Pose2D(DistanceUnit.CM, drivebase.getPosition().getX(DistanceUnit.CM), drivebase.getPosition().getY(DistanceUnit.CM), AngleUnit.DEGREES,(drivebase.getPosition().getHeading(AngleUnit.DEGREES)) + 90);
             drivebase.update();
             telemetry.update();
+            intake.update();
+            //shooter.update();
         }
     }
 }

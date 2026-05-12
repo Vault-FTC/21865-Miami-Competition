@@ -52,25 +52,46 @@ public class TwentySevenNearBlueAuto extends AbstractOpMode {
                 .add(
                         ParallelCommandGroup.getBuilder()
                                 .add(new PedroDriveToCommand(follower, TwentySevenPathsBlue.MoveToShoot1, 2, telemetry))
-                                .add(new TimedShootCommand(shooter, intake, 2, telemetry, 1100, servoGate, 1, 0.45))
                                 .add(new IntakeCommand(intake, 2, telemetry, servoGate))
                                 .build())
-                .add(new TimedShootCommand(shooter, intake, 1.5, telemetry, 1100, servoGate, 0.95, 0.45))
+
+                .add(new TimedShootCommand(shooter, intake, 3, telemetry, 1100, servoGate, 1, 0.45))
 
                 .add(ParallelCommandGroup.getBuilder()
                         .add(new PedroDriveToCommand(follower, TwentySevenPathsBlue.SetFirstSpike, 2, telemetry))
-                        .add(new TimedShootCommand(shooter, intake, 0.5, telemetry, 1100, servoGate, 0.5, 0.45))
                         .add(new IntakeCommand(intake, 1.0, telemetry, servoGate))
                         .build())
-                .add(new TimedShootCommand(shooter, intake, 1.5, telemetry, 1100, servoGate, 0.95, 0.45))
-
 
                 .add(ParallelCommandGroup.getBuilder()
                         .add(new PedroDriveToCommand(follower, TwentySevenPathsBlue.CollectFirstSpike, 2, telemetry))
-                        .add(new TimedShootCommand(shooter, intake, 0.5, telemetry, 1100, servoGate, 0.5, 0.45))
                         .add(new IntakeCommand(intake, 1.0, telemetry, servoGate))
-                        .add(new TimedShootCommand(shooter, intake, 1.5, telemetry, 1100, servoGate, 0.95, 0.45))
                         .build())
+
+                .add(ParallelCommandGroup.getBuilder()
+                .add(new PedroDriveToCommand(follower, TwentySevenPathsBlue.MoveToShoot2, 2, telemetry))
+                .add(new IntakeCommand(intake, 2, telemetry, servoGate))
+                .build())
+
+                .add(new TimedShootCommand(shooter, intake, 2, telemetry, 1100, servoGate, 1, 0.45))
+
+                .add(ParallelCommandGroup.getBuilder()
+                        .add(new PedroDriveToCommand(follower, TwentySevenPathsBlue.SetSecondSpike, 2, telemetry))
+                        .add(new IntakeCommand(intake, 1.0, telemetry, servoGate))
+                        .build())
+
+                .add(ParallelCommandGroup.getBuilder()
+                        .add(new PedroDriveToCommand(follower, TwentySevenPathsBlue.CollectSecondSpike, 2, telemetry))
+                        .add(new IntakeCommand(intake, 1.0, telemetry, servoGate))
+                        .build())
+
+                .add(ParallelCommandGroup.getBuilder()
+                        .add(new PedroDriveToCommand(follower, TwentySevenPathsBlue.MoveToShoot3, 2, telemetry))
+                        .add(new IntakeCommand(intake, 1.0, telemetry, servoGate))
+                        .build())
+
+
+
+
                 .build();
 
         waitForStart();
@@ -83,7 +104,6 @@ public class TwentySevenNearBlueAuto extends AbstractOpMode {
             drivebase.update();
             telemetry.update();
             intake.update();
-            shooter.update();
         }
     }
 }
