@@ -60,13 +60,12 @@ public class Shooter extends Subsystem {
             case SHOOT_FAR:
                 offset_by_distance = 0.05;
             case SHOOT_NEAR:
-                intake.setState(Intake.CaseModes.ON);
                 double errorDeg = (angleError+offset_by_distance) * (180 / Math.PI);
                 double new_joystick_rx = errorDeg * kP - velocityDeg * kD;
                 drivebase.updateAutoAim(new_joystick_rx);
                 servoGate.openGate();
                 if (Math.abs((angleError+offset_by_distance) * ((180/Math.PI))) < 1 && getShooterVelocity() >= distanceToSpeed(distance)) {
-                    intake.setState(Intake.CaseModes.SIXTY_PERCENT_SPEED);
+                    intake.setState(Intake.CaseModes.ON);
                     gamepad1.rumble(1000);
                 }
                 break;
@@ -117,14 +116,13 @@ public class Shooter extends Subsystem {
         return shooter.getVelocity();
     }
 
-    double degreesToPosition(double degrees) {
-        return (0.1-0.7)/(0.63-0.42) * degrees + 66.5;
-    }
-
     double speedToTicks(double velocity) {
         double rpm = 1.995 * velocity - 611.76;
         double ticksPerSecond = (rpm * 28)/60;
         return ticksPerSecond;
+    }
+    double degreesToPosition(double degrees) {
+        return (0.1-0.7)/(0.63-0.42) * degrees + 66.5;
     }
     double newDistanceToSpeed(double distance) {
         double g = 981.0; // cm/s^2

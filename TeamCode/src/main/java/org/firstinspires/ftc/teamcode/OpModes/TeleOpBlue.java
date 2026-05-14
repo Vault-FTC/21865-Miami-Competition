@@ -27,7 +27,6 @@ public class TeleOpBlue extends AbstractOpMode {
     RevBlinkinLedDriver.BlinkinPattern green;
     RevBlinkinLedDriver.BlinkinPattern red;
     double launchPower = 0;
-
     Location gatePosition = new Location(60, -163, -124);
     Location parkPosition = new Location(130.7, 65, 90);
     Pose2D goal = Constants.BLUE_CENTER_GOAL;
@@ -35,7 +34,7 @@ public class TeleOpBlue extends AbstractOpMode {
 
 
     public void setTargets() {
-        limelight = new LimeLight(hardwareMap, 20);
+        limelight = new LimeLight(hardwareMap, 20, drivebase);
     }
 
     @Override
@@ -56,7 +55,6 @@ public class TeleOpBlue extends AbstractOpMode {
 //            drivebase.update();
             double kP = 0.02;
             double kD = 0.0015;
-            LLResult aprilTag = drivebase.update(limelight);
             double distance = drivebase.distanceToGoal(drivebase.getPosition(), goal);
             double angleError = drivebase.angleToGoal(drivebase.getPosition(), goal);
             double joystick_y = gamepad1.left_stick_x; // Forward/backward
@@ -93,12 +91,6 @@ public class TeleOpBlue extends AbstractOpMode {
             } else {
                 shooter.setHoodPosition(position);
             }
-            if (aprilTag != null) {
-//                drivebase.setCurrentPose(aprilTag.getBotpose_MT2().getPosition().toUnit(DistanceUnit.CM).x,
-//                        aprilTag.getBotpose_MT2().getPosition().toUnit(DistanceUnit.CM).y);
-                telemetry.addData("BotPose", aprilTag.getBotpose_MT2().getPosition());
-            }
-
 
             if (gamepad1.start) {
                 drivebase.resetHeading(-90);
@@ -154,9 +146,7 @@ public class TeleOpBlue extends AbstractOpMode {
             telemetry.addData("LaunchPower", this.launchPower);
             telemetry.addData("Position", drivebase.getPositionTelemetry());
             telemetry.addData("Number of artifacts", intake.numberOfArtifacts());
-            if (aprilTag != null) {
-                telemetry.addData("AprilTag", aprilTag.getBotpose_MT2());
-            }
+            limelight.update();
             telemetry.update();
             intake.update();
             shooter.update();

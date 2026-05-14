@@ -32,7 +32,6 @@ public class RedFarAuto extends AbstractOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         startHardware();
-        limelight = new LimeLight(hardwareMap,20);
         commandScheduler.clearRegistry();
         follower = Constants.PedroPathing.createFollower(hardwareMap);
 

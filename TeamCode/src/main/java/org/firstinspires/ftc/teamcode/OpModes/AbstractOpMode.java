@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.OpModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.teamcode.VisionFixQuality;
 import org.firstinspires.ftc.teamcode.subsystems.Drivebase;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.subsystems.Lights;
@@ -25,6 +26,7 @@ public abstract class AbstractOpMode extends LinearOpMode {
         drivebase = new Drivebase(hardwareMap);
         servoGate = new ServoGate(hardwareMap);
         shooter = new Shooter(hardwareMap, drivebase, servoGate, intake, gamepad1);
+        limelight = new LimeLight(hardwareMap, 24, drivebase);
     }
 
 }

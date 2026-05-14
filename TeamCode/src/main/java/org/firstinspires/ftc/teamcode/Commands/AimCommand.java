@@ -33,7 +33,7 @@ public class AimCommand extends Command
 
     @Override
     public void execute() {
-        LLResult res = limeLight.getResult();
+        LLResult res = limeLight.getLatestValidResult();
 //        if(res == null)
 //        {
 //            drivebase.drive(0,0, 0);

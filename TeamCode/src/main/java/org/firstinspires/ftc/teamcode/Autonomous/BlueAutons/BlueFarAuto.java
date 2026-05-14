@@ -32,7 +32,7 @@ public class BlueFarAuto extends AbstractOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         startHardware();
-        limelight = new LimeLight(hardwareMap,20);
+        limelight = new LimeLight(hardwareMap,20, drivebase);
         commandScheduler.clearRegistry();
         follower = Constants.PedroPathing.createFollower(hardwareMap);
 

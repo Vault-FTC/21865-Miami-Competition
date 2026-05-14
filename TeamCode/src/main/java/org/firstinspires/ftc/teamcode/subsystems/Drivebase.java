@@ -20,11 +20,11 @@ import org.firstinspires.ftc.teamcode.Constants;
 import org.firstinspires.ftc.teamcode.PurePursuit.Rotation2d;
 import org.firstinspires.ftc.teamcode.PurePursuit.Vector2d;
 import org.firstinspires.ftc.teamcode.PurePursuit.Pose2d;
+import org.firstinspires.ftc.teamcode.VisionFixQuality;
 
 
 public class Drivebase extends Subsystem {
-
-    private final DcMotorEx frontLeftMotor, frontRightMotor, backLeftMotor, backRightMotor;
+        private final DcMotorEx frontLeftMotor, frontRightMotor, backLeftMotor, backRightMotor;
     GoBildaPinpointDriver odo;
 
     NewDriveSpeeds DriveCurrent = DRIVE_FULL;
@@ -249,20 +249,33 @@ public class Drivebase extends Subsystem {
         odo.update(); // updates the odometry internally
     }
 
-    public LLResult update(LimeLight limeLight) {
-        odo.update();
-        limeLight.limelight.updateRobotOrientation(odo.getHeading(AngleUnit.DEGREES));
-        LLResult april = limeLight.getResult();
-        if (april == null) {
-            return null;
-        }
-        Pose3D pose = april.getBotpose_MT2();
-//        if (pose == null) {
+//    public LLResult update(LimeLight limeLight, VisionFixQuality visionFixQuality) {
+//        odo.update();
+//        limeLight.limelight.updateRobotOrientation(odo.getHeading(AngleUnit.DEGREES));
+//        LLResult result = limeLight.getLatestValidResult();
+//
+//        if (visionFixQuality.isGoodFix(result, odo.getPosition()) {
+//            Pose3D visionPose = result.getBotpose_MT2();
+//            Pose2D newPose = new Pose2D(
+//                    DistanceUnit.CM,
+//                    visionPose.getPosition().x,
+//                    visionPose.getPosition().y,
+//                    AngleUnit.RADIANS,
+//                    visionPose.getOrientation().getYaw(AngleUnit.RADIANS)
+//            );
+//            setCurrentPose(newPose);
+//        }
+//
+//        if (result == null) {
 //            return null;
 //        }
-        //setCurrentPose(pose.getPosition().x, pose.getPosition().y, pose.getOrientation().getYaw(AngleUnit.RADIANS));
-        return april;
-    }
+//        Pose3D pose = result.getBotpose_MT2();
+////        if (pose == null) {
+////            return null;
+////        }
+//        //setCurrentPose(pose.getPosition().x, pose.getPosition().y, pose.getOrientation().getYaw(AngleUnit.RADIANS));
+//        return result;
+//    }
 
     public static double distanceToGoal(Pose2D robot, Pose2D goal) {
         double dx = robot.getX(DistanceUnit.CM) - goal.getX(DistanceUnit.CM);

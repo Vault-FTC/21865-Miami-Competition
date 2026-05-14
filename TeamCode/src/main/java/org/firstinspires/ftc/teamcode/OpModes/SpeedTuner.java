@@ -17,7 +17,7 @@ public class SpeedTuner extends AbstractOpMode {
     double headingOffset = 0;
 
     public void setTargets() {
-        limelight = new LimeLight(hardwareMap, 20);
+        limelight = new LimeLight(hardwareMap, 20, drivebase);
     }
 
     @Override
@@ -32,7 +32,6 @@ public class SpeedTuner extends AbstractOpMode {
 
         waitForStart();
         while (opModeIsActive()) {
-            LLResult aprilTag = drivebase.update(limelight);
             double distance = drivebase.distanceToGoal(drivebase.getPosition(), goal);
             double angleError = drivebase.angleToGoal(drivebase.getPosition(), goal);
             boolean autoShoot = gamepad1.right_bumper;
@@ -107,10 +106,11 @@ public class SpeedTuner extends AbstractOpMode {
             telemetry.addData("LaunchPower", this.launchPower);
             telemetry.addData("Hood Position", position);
             telemetry.addData("Position", drivebase.getPositionTelemetry());
-            if (aprilTag != null) {
-                telemetry.addData("AprilTag", aprilTag.getBotpose_MT2());
-                telemetry.addData("AprilTag distance from goal", Math.hypot(aprilTag.getBotpose_MT2().getPosition().x - Constants.BLUE_CENTER_GOAL.getX(DistanceUnit.CM), aprilTag.getBotpose_MT2().getPosition().y) - Constants.BLUE_CENTER_GOAL.getY(DistanceUnit.CM));
-            }
+//            if (aprilTag != null) {
+//                telemetry.addData("AprilTag", aprilTag.getBotpose_MT2());
+//                telemetry.addData("AprilTag distance from goal", Math.hypot(aprilTag.getBotpose_MT2().getPosition().x - Constants.BLUE_CENTER_GOAL.getX(DistanceUnit.CM), aprilTag.getBotpose_MT2().getPosition().y) - Constants.BLUE_CENTER_GOAL.getY(DistanceUnit.CM));
+//            }
+            limelight.update();
             intake.update();
             telemetry.update();
         }
