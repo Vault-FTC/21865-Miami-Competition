@@ -18,11 +18,6 @@ public class Shooter extends Subsystem {
     {
         OFF, SHOOT_NEAR, SHOOT_FAR, SHOOT_GATE_CLOSED, REVERSE
     }
-    private static final double CLOSE_DIST_CM = 140;
-    private static final double MID_DIST_CM = 270;
-    private static final double CLOSE_HOOD = 0.15;
-    private static final double MID_HOOD = 0.5; //0.2
-    private static final double FAR_HOOD = 0.7; //0.5
     private final DcMotorEx shooter;
     private final ServoGate servoGate;
     private final Servo hood;
@@ -97,13 +92,11 @@ public class Shooter extends Subsystem {
     }
     public double distanceToHoodPosition(double distanceCm)
     {
-        if (distanceCm <= CLOSE_DIST_CM) {
-            return CLOSE_HOOD;
-        } else if (distanceCm <= MID_DIST_CM) {
-            return MID_HOOD;
-        } else {
-            return FAR_HOOD;
-        }
+        double pos = 0.00423077*distanceCm - 0.443846;
+        // clamp to servo limits
+        if (pos < 0.1) return 0.1;
+        if (pos > 0.7) return 0.7;
+        return pos;
     }
     public void setShooterSpeedNear(double speed){
         pidfCoefficients = new PIDFCoefficients(250, 0, 0, 15);
@@ -120,13 +113,47 @@ public class Shooter extends Subsystem {
         return "Servo Position: " + hood.getPosition() + " \n ShooterMode: " + currentMode
                 + " \n Shooter Speed: " + getShooterVelocity() + " \n " + "Target Speed/Vel: " + distance + ":" + speed;
     }
-    public double getShooterVelocity()
-    {
+    public double getShooterVelocity() {
         return shooter.getVelocity();
     }
 
     double degreesToPosition(double degrees) {
-        return 0.15 + (degrees - 15) / (75 - 15) * (0.70 - 0.15);
+        return (0.1-0.7)/(0.63-0.42) * degrees + 66.5;
     }
 
+    double speedToTicks(double velocity) {
+        double rpm = 1.995 * velocity - 611.76;
+        double ticksPerSecond = (rpm * 28)/60;
+        return ticksPerSecond;
+    }
+    double newDistanceToSpeed(double distance) {
+        double g = 981.0; // cm/s^2
+        double x = distance;
+        double y = ShooterConstants.SCORE_HEIGHT;
+        double phi = ShooterConstants.SCORE_ANGLE;
+        double theta = Math.atan((2*y/x) - Math.tan(phi));
+
+        double denominator = 2 * Math.pow(Math.cos(theta), 2) * (x * Math.tan(theta) - y);
+        if (denominator <=0 ) {
+            return 800;
+        } else {
+            double v = Math.sqrt((g*x*x) / denominator);
+            return speedToTicks(v);
+        }
+    }
+
+    double calculatedVelocity(double distance) {
+        double g = 981.0; // cm/s^2
+        double x = distance;
+        double y = ShooterConstants.SCORE_HEIGHT;
+        double phi = ShooterConstants.SCORE_ANGLE;
+        double theta = Math.atan(2*y/x) - Math.tan(phi);
+
+        double denominator = Math.pow(Math.cos(theta), 2) * (Math.tan(theta) - Math.tan(phi));
+        if (denominator <=0 ) {
+            return -1;
+        }
+        double v = Math.sqrt((g*x) / denominator);
+        return v;
+    }
 }
