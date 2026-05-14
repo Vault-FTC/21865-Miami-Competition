@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.CommandSystem.Subsystem;
 
 public class Intake extends Subsystem {
@@ -14,20 +15,12 @@ public class Intake extends Subsystem {
         OFF, REVERSE, ON, HALF_SPEED, SIXTY_PERCENT_SPEED
     }
     private DcMotorEx intake;
-    private DigitalChannel breakbeam1;
-    private DigitalChannel breakbeam2;
     CaseModes currentMode = CaseModes.OFF;
 
 
     //
     public Intake(HardwareMap hardwareMap) {
         intake = hardwareMap.get(DcMotorEx.class, "intake");
-        breakbeam1 = hardwareMap.get(DigitalChannel.class, "breakbeam1");
-        breakbeam2 = hardwareMap.get(DigitalChannel.class, "breakbeam2");
-
-        breakbeam1.setMode(DigitalChannel.Mode.INPUT);
-        breakbeam2.setMode(DigitalChannel.Mode.INPUT);
-
     }
 
     public void update()
@@ -55,14 +48,10 @@ public class Intake extends Subsystem {
         currentMode = s;
     }
 
-    public double numberOfArtifacts() {
-        if (!breakbeam1.getState() && !breakbeam2.getState()) {
-            return 2;
-        }
-        else if (!breakbeam1.getState() && breakbeam2.getState()) {
-            return 1;
-        } else {
-            return 0;
-        }
+    public boolean hasThreeArtifacts() {
+        return true; //placeholder
+    }
+    public double currentDraw() {
+        return intake.getCurrent(CurrentUnit.AMPS);
     }
 }

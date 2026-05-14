@@ -93,7 +93,7 @@ public class TeleOpBlue extends AbstractOpMode {
             }
 
             if (gamepad1.start) {
-                drivebase.resetHeading(-90);
+                drivebase.resetHeading();
             }
 
             if (gamepad1.left_bumper) {
@@ -145,7 +145,8 @@ public class TeleOpBlue extends AbstractOpMode {
             telemetry.addData("Shooter Stuff: ", shooter.telemetryUpdate());
             telemetry.addData("LaunchPower", this.launchPower);
             telemetry.addData("Position", drivebase.getPositionTelemetry());
-            telemetry.addData("Number of artifacts", intake.numberOfArtifacts());
+            telemetry.addData("Has Three Artifacts", intake.hasThreeArtifacts());
+            telemetry.addData("Intake Current Draw", intake.currentDraw());
             limelight.update();
             telemetry.update();
             intake.update();

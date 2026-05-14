@@ -63,7 +63,7 @@ public class SpeedTuner extends AbstractOpMode {
 
 
             if (gamepad1.start) {
-                drivebase.resetHeading(-90);
+                drivebase.resetHeading();
             }
             if (gamepad1.square) {
                 servoGate.openGate();

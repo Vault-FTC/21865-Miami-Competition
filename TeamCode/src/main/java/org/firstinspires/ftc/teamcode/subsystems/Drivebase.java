@@ -73,8 +73,8 @@ public class Drivebase extends Subsystem {
         backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
     }
-    public void resetHeading(double heading) {
-        odo.resetPosAndIMU();
+    public void resetHeading() {
+        odo.recalibrateIMU();
     }
     public Pose2D getPosition() {
         return odo.getPosition();
