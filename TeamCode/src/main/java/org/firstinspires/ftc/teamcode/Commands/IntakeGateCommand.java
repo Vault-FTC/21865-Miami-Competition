@@ -41,7 +41,9 @@ public class IntakeGateCommand extends Command {
         if (intake.currentDraw() >= 2.3 && intake.currentDraw() <= 2.8) {
             return true;
         }
-        return timer.milliseconds() - startTime >= durationMs;
+        else {
+            return timer.milliseconds() - startTime >= durationMs;
+        }
     }
 
     @Override
