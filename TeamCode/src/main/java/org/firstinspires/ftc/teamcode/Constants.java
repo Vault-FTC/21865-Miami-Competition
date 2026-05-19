@@ -23,8 +23,8 @@ public class Constants {
     public static final double CLOSE_SHOOT_SPEED = 1100;
     public static final Pose2D BLUE_LAUNCH = new Pose2D(DistanceUnit.CM, -110, 10, AngleUnit.RADIANS, 0);
     public static final Pose2D RED_LAUNCH = new Pose2D(DistanceUnit.CM, -110, 10, AngleUnit.RADIANS, 0);
-    public static final Pose2D BLUE_CENTER_GOAL = new Pose2D(DistanceUnit.CM, -150, -157.5, AngleUnit.RADIANS, 0); // x, y -152.4, -152.4,
-    public static final Pose2D RED_CENTER_GOAL = new Pose2D(DistanceUnit.CM, -152.4, 152.4, AngleUnit.RADIANS, 0);
+    public static final Pose2D BLUE_CENTER_GOAL = new Pose2D(DistanceUnit.CM, 6,   135, AngleUnit.RADIANS, 0);
+    public static final Pose2D RED_CENTER_GOAL  = new Pose2D(DistanceUnit.CM, 138, 135, AngleUnit.RADIANS, 0);
 
 
 

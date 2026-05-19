@@ -10,6 +10,7 @@ import org.firstinspires.ftc.teamcode.Autonomous.Paths.NearGatePaths;
 import org.firstinspires.ftc.teamcode.CommandSystem.CommandScheduler;
 import org.firstinspires.ftc.teamcode.CommandSystem.ParallelCommandGroup;
 import org.firstinspires.ftc.teamcode.CommandSystem.SequentialCommandGroup;
+import org.firstinspires.ftc.teamcode.Commands.DriveToCommandDynamicAim;
 import org.firstinspires.ftc.teamcode.Commands.IntakeCommand;
 import org.firstinspires.ftc.teamcode.Commands.PedroDriveToCommand;
 import org.firstinspires.ftc.teamcode.Commands.TimedShootCommand;
@@ -34,7 +35,7 @@ public abstract class NearGate extends AbstractOpMode {
         SequentialCommandGroup auto = SequentialCommandGroup.getBuilder()
                 .add(ParallelCommandGroup.getBuilder()
                         .add(new IntakeCommand(intake, 1.0, telemetry,servoGate))
-                        .add(new PedroDriveToCommand(follower, nearGatePaths.Shoot1, 2, telemetry))
+                        .add(new DriveToCommandDynamicAim(follower, nearGatePaths::buildShoot1, 2, telemetry))
                         .build()
                 )
                 .add(new TimedShootCommand(shooter, intake, 2.75, telemetry, 1100, servoGate, 0.7, 0.45))
@@ -52,7 +53,7 @@ public abstract class NearGate extends AbstractOpMode {
                 //.add(new BrakeCommand(drivebase, 0.3, telemetry))
                 .add(ParallelCommandGroup.getBuilder()
                         .add(new IntakeCommand(intake, 1.0, telemetry, servoGate))
-                        .add(new PedroDriveToCommand(follower, nearGatePaths.Shoot2Gate, 2, telemetry))
+                        .add(new DriveToCommandDynamicAim(follower, nearGatePaths::buildShoot2Gate, 2, telemetry))
                         .build()
                 )
                 //.add(new BrakeCommand(drivebase, 0.3, telemetry))
@@ -72,7 +73,7 @@ public abstract class NearGate extends AbstractOpMode {
                 //.add(new BrakeCommand(drivebase, 0.3, telemetry))
                 .add(ParallelCommandGroup.getBuilder()
                         .add(new IntakeCommand(intake, 1.0, telemetry, servoGate))
-                        .add(new PedroDriveToCommand(follower, nearGatePaths.Shoot3Gate, 2, telemetry))
+                        .add(new DriveToCommandDynamicAim(follower, nearGatePaths::buildShoot3Gate, 2, telemetry))
                         .build()
                 )
                 //.add(new BrakeCommand(drivebase, 0.3, telemetry))
@@ -86,7 +87,7 @@ public abstract class NearGate extends AbstractOpMode {
                 //.add(new BrakeCommand(drivebase, 0.3, telemetry))
                 .add(ParallelCommandGroup.getBuilder()
                         .add(new IntakeCommand(intake, 1.0, telemetry, servoGate))
-                        .add(new PedroDriveToCommand(follower, nearGatePaths.Shoot4, 2, telemetry))
+                        .add(new DriveToCommandDynamicAim(follower, nearGatePaths::buildShoot4, 2, telemetry))
                         .build()
                 )
                 //.add(new BrakeCommand(drivebase, 0.3, telemetry))

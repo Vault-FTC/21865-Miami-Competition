@@ -7,6 +7,7 @@ import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
 
 import org.firstinspires.ftc.teamcode.Autonomous.Alliance;
+import org.firstinspires.ftc.teamcode.Autonomous.ShootPathBuilder;
 
 /**
  * Far-side autonomous paths defined in Blue alliance space.
@@ -32,9 +33,11 @@ public class FarPaths {
     public PathChain Park;
 
     private Pose startingPose;
+    private final ShootPathBuilder shootBuilder;
 
     public FarPaths(Follower follower, Alliance alliance) {
         GOAL_X = alliance == Alliance.RED ? 144.0 : 0.0;
+        shootBuilder = new ShootPathBuilder(follower, alliance, GOAL_X, GOAL_Y);
         startingPose = new Pose(START_X, START_Y, Math.toRadians(START_HEADING));
 
         Shoot1 = follower.pathBuilder().addPath(
@@ -109,5 +112,18 @@ public class FarPaths {
 
     public Pose getStartingPose() {
         return startingPose;
+    }
+
+    public ShootPathBuilder.Result buildShoot1() {
+        return shootBuilder.build(new Pose(54, 6), new Pose(57, 12));
+    }
+    public ShootPathBuilder.Result buildShoot2() {
+        return shootBuilder.build(new Pose(20, 33), new Pose(57, 12));
+    }
+    public ShootPathBuilder.Result buildShoot3() {
+        return shootBuilder.build(new Pose(10, 10), new Pose(57, 11.951));
+    }
+    public ShootPathBuilder.Result buildShoot4() {
+        return shootBuilder.build(new Pose(10, 23.627), new Pose(57, 11.951));
     }
 }

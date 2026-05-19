@@ -7,6 +7,7 @@ import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
 
 import org.firstinspires.ftc.teamcode.Autonomous.Alliance;
+import org.firstinspires.ftc.teamcode.Autonomous.ShootPathBuilder;
 
 /**
  * 6-shot spike/gate near-side paths defined in Blue alliance space.
@@ -18,6 +19,8 @@ public class NearGateTwoPaths {
     private static final double START_X       = 20;
     private static final double START_Y       = 127;
     private static final double START_HEADING = 143.5;
+    private static final double GOAL_X        = 12;
+    private static final double GOAL_Y        = 135;
 
     public PathChain Shoot1;
     public PathChain SpikeIntake1;
@@ -32,8 +35,10 @@ public class NearGateTwoPaths {
     public PathChain Shoot6;
 
     private Pose startingPose;
+    private final ShootPathBuilder shootBuilder;
 
     public NearGateTwoPaths(Follower follower, Alliance alliance) {
+        shootBuilder = new ShootPathBuilder(follower, alliance, GOAL_X, GOAL_Y);
         startingPose = new Pose(START_X, START_Y, Math.toRadians(START_HEADING));
 
         Shoot1 = follower.pathBuilder().addPath(
@@ -139,5 +144,24 @@ public class NearGateTwoPaths {
 
     public Pose getStartingPose() {
         return startingPose;
+    }
+
+    public ShootPathBuilder.Result buildShoot1() {
+        return shootBuilder.build(new Pose(19.081, 124.005), new Pose(48.126, 94.965));
+    }
+    public ShootPathBuilder.Result buildShoot2() {
+        return shootBuilder.build(new Pose(5.949, 59.220), new Pose(30.284, 52.943), new Pose(45, 95));
+    }
+    public ShootPathBuilder.Result buildShoot3() {
+        return shootBuilder.build(new Pose(18.5, 62), new Pose(45, 95));
+    }
+    public ShootPathBuilder.Result buildShoot4() {
+        return shootBuilder.build(new Pose(18.5, 62), new Pose(63, 80), new Pose(45, 95));
+    }
+    public ShootPathBuilder.Result buildShoot5() {
+        return shootBuilder.build(new Pose(15, 35), new Pose(48.972, 57.951), new Pose(45, 95));
+    }
+    public ShootPathBuilder.Result buildShoot6() {
+        return shootBuilder.build(new Pose(13.515, 83.696), new Pose(56.847, 104.725));
     }
 }

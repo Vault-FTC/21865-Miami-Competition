@@ -7,13 +7,14 @@ import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
 
 import org.firstinspires.ftc.teamcode.Autonomous.Alliance;
+import org.firstinspires.ftc.teamcode.Autonomous.ShootPathBuilder;
 
 public class NearGatePaths {
     private static final double START_X       = 20;
     private static final double START_Y       = 127;
     private static final double START_HEADING = 143.5;
-    public double GOAL_X = 12;
-    public double GOAL_Y = 135;
+    private static final double GOAL_X        = 12;
+    private static final double GOAL_Y        = 135;
     public PathChain Shoot1;
     public PathChain Intake1;
     public PathChain Gate1V2;
@@ -27,8 +28,10 @@ public class NearGatePaths {
     public PathChain Shoot4;
     public PathChain Park;
     private Pose startingPose;
+    private final ShootPathBuilder shootBuilder;
 
     public NearGatePaths(Follower follower, Alliance alliance) {
+        shootBuilder = new ShootPathBuilder(follower, alliance, GOAL_X, GOAL_Y);
         startingPose = new Pose(START_X, START_Y, Math.toRadians(START_HEADING));
 
         Shoot1 = follower.pathBuilder().addPath(
@@ -157,5 +160,18 @@ public class NearGatePaths {
     }
     public Pose getStartingPose() {
         return startingPose;
+    }
+
+    public ShootPathBuilder.Result buildShoot1() {
+        return shootBuilder.build(new Pose(20, 127), new Pose(45, 95));
+    }
+    public ShootPathBuilder.Result buildShoot2Gate() {
+        return shootBuilder.build(new Pose(9, 78), new Pose(45, 95));
+    }
+    public ShootPathBuilder.Result buildShoot3Gate() {
+        return shootBuilder.build(new Pose(9, 78), new Pose(45, 95));
+    }
+    public ShootPathBuilder.Result buildShoot4() {
+        return shootBuilder.build(new Pose(25, 36), new Pose(45, 95));
     }
 }

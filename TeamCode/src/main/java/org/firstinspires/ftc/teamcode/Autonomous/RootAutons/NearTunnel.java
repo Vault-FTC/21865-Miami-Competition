@@ -10,6 +10,7 @@ import org.firstinspires.ftc.teamcode.Autonomous.Paths.NearPaths;
 import org.firstinspires.ftc.teamcode.CommandSystem.CommandScheduler;
 import org.firstinspires.ftc.teamcode.CommandSystem.ParallelCommandGroup;
 import org.firstinspires.ftc.teamcode.CommandSystem.SequentialCommandGroup;
+import org.firstinspires.ftc.teamcode.Commands.DriveToCommandDynamicAim;
 import org.firstinspires.ftc.teamcode.Commands.IntakeCommand;
 import org.firstinspires.ftc.teamcode.Commands.PedroDriveToCommand;
 import org.firstinspires.ftc.teamcode.Commands.TimedShootCommand;
@@ -34,7 +35,7 @@ public abstract class NearTunnel extends AbstractOpMode {
         SequentialCommandGroup auto = SequentialCommandGroup.getBuilder()
                 .add(ParallelCommandGroup.getBuilder()
                         .add(new IntakeCommand(intake, 1.0, telemetry, servoGate))
-                        .add(new PedroDriveToCommand(follower, paths.Shoot1, 2, telemetry))
+                        .add(new DriveToCommandDynamicAim(follower, paths::buildShoot1, 2, telemetry))
                         .build()
                 )
                 .add(new TimedShootCommand(shooter, intake, 2.75, telemetry, 1100, servoGate, 0.95, 0.45))
@@ -50,7 +51,7 @@ public abstract class NearTunnel extends AbstractOpMode {
                 )
                 .add(ParallelCommandGroup.getBuilder()
                         .add(new IntakeCommand(intake, 1.0, telemetry, servoGate))
-                        .add(new PedroDriveToCommand(follower, paths.Shoot2, 2, telemetry))
+                        .add(new DriveToCommandDynamicAim(follower, paths::buildShoot2, 2, telemetry))
                         .build()
                 )
                 .add(new TimedShootCommand(shooter, intake, 0.75, telemetry, 1100, servoGate, 0.95, 0.45))
@@ -61,7 +62,7 @@ public abstract class NearTunnel extends AbstractOpMode {
                 )
                 .add(ParallelCommandGroup.getBuilder()
                         .add(new IntakeCommand(intake, 1.0, telemetry, servoGate))
-                        .add(new PedroDriveToCommand(follower, paths.Shoot3, 2, telemetry))
+                        .add(new DriveToCommandDynamicAim(follower, paths::buildShoot3, 2, telemetry))
                         .build()
                 )
                 .add(new TimedShootCommand(shooter, intake, 0.75, telemetry, 1100, servoGate, 0.95, 0.45))
@@ -72,7 +73,7 @@ public abstract class NearTunnel extends AbstractOpMode {
                 )
                 .add(ParallelCommandGroup.getBuilder()
                         .add(new IntakeCommand(intake, 1.0, telemetry, servoGate))
-                        .add(new PedroDriveToCommand(follower, paths.GateShoot4, 2, telemetry))
+                        .add(new DriveToCommandDynamicAim(follower, paths::buildGateShoot4, 2, telemetry))
                         .build()
                 )
                 .add(new TimedShootCommand(shooter, intake, 0.75, telemetry, 1100, servoGate, 0.95, 0.45))
@@ -83,7 +84,7 @@ public abstract class NearTunnel extends AbstractOpMode {
                 )
                 .add(ParallelCommandGroup.getBuilder()
                         .add(new IntakeCommand(intake, 1.0, telemetry, servoGate))
-                        .add(new PedroDriveToCommand(follower, paths.GateShoot4, 2, telemetry))
+                        .add(new DriveToCommandDynamicAim(follower, paths::buildGateShoot4, 2, telemetry))
                         .build()
                 )
                 .add(new TimedShootCommand(shooter, intake, 0.75, telemetry, 1100, servoGate, 0.95, 0.45))

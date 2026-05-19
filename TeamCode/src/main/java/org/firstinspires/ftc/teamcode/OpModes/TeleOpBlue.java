@@ -52,7 +52,7 @@ public class TeleOpBlue extends AbstractOpMode {
 
         waitForStart();
         while (opModeIsActive()) {
-//            drivebase.update();
+            drivebase.update();
             double kP = 0.02;
             double kD = 0.0015;
             double distance = drivebase.distanceToGoal(drivebase.getPosition(), goal);

@@ -7,6 +7,7 @@ import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
 
 import org.firstinspires.ftc.teamcode.Autonomous.Alliance;
+import org.firstinspires.ftc.teamcode.Autonomous.ShootPathBuilder;
 
 /**
  * 6-shot intake-gate near-side paths defined in Blue alliance space.
@@ -18,6 +19,8 @@ public class NearIntakeGatePaths {
     private static final double START_X       = 20;
     private static final double START_Y       = 127;
     private static final double START_HEADING = 143.5;
+    private static final double GOAL_X        = 0;
+    private static final double GOAL_Y        = 135;
 
     public PathChain Shoot1;
     public PathChain Intake1;
@@ -33,8 +36,10 @@ public class NearIntakeGatePaths {
     public PathChain Park;
 
     private Pose startingPose;
+    private final ShootPathBuilder shootBuilder;
 
     public NearIntakeGatePaths(Follower follower, Alliance alliance) {
+        shootBuilder = new ShootPathBuilder(follower, alliance, GOAL_X, GOAL_Y);
         startingPose = new Pose(START_X, START_Y, Math.toRadians(START_HEADING));
 
         Shoot1 = follower.pathBuilder().addPath(
@@ -149,5 +154,24 @@ public class NearIntakeGatePaths {
 
     public Pose getStartingPose() {
         return startingPose;
+    }
+
+    public ShootPathBuilder.Result buildShoot1() {
+        return shootBuilder.build(new Pose(20, 127), new Pose(45, 95));
+    }
+    public ShootPathBuilder.Result buildShoot2() {
+        return shootBuilder.build(new Pose(15, 63), new Pose(45, 70), new Pose(45, 95));
+    }
+    public ShootPathBuilder.Result buildShoot3() {
+        return shootBuilder.build(new Pose(18.5, 62), new Pose(63, 80), new Pose(45, 95));
+    }
+    public ShootPathBuilder.Result buildShoot4() {
+        return shootBuilder.build(new Pose(18.5, 61.5), new Pose(63, 80), new Pose(45, 95));
+    }
+    public ShootPathBuilder.Result buildShoot5() {
+        return shootBuilder.build(new Pose(18.5, 61.5), new Pose(63, 80), new Pose(45, 95));
+    }
+    public ShootPathBuilder.Result buildShoot6() {
+        return shootBuilder.build(new Pose(23, 86), new Pose(55, 105));
     }
 }

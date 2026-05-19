@@ -7,6 +7,7 @@ import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
 
 import org.firstinspires.ftc.teamcode.Autonomous.Alliance;
+import org.firstinspires.ftc.teamcode.Autonomous.ShootPathBuilder;
 
 /**
  * Near-side autonomous paths defined in Blue alliance space.
@@ -17,10 +18,10 @@ public class NearPaths {
 
     private static final double START_X       = 20;
     private static final double START_Y       = 127;
+    private static final double GOAL_X = 12;
+    private static final double GOAL_Y = 135;
     private static final double START_HEADING = 143.5;
-
-    public static final double GOAL_Y = 135;
-    public static final double GOAL_X = 12;
+    private final ShootPathBuilder shootBuilder;
 
     public PathChain Shoot1;
     public PathChain Intake1;
@@ -42,6 +43,7 @@ public class NearPaths {
     private Pose startingPose;
 
     public NearPaths(Follower follower, Alliance alliance) {
+        shootBuilder = new ShootPathBuilder(follower, alliance, GOAL_X, GOAL_Y);
         startingPose = new Pose(START_X, START_Y, Math.toRadians(START_HEADING));
 
         Shoot1 = follower.pathBuilder().addPath(
@@ -189,5 +191,21 @@ public class NearPaths {
 
     public Pose getStartingPose() {
         return startingPose;
+    }
+
+    public ShootPathBuilder.Result buildShoot1() {
+        return shootBuilder.build(new Pose(20, 127), new Pose(45, 95));
+    }
+    public ShootPathBuilder.Result buildShoot2() {
+        return shootBuilder.build(new Pose(9, 78), new Pose(45, 95));
+    }
+    public ShootPathBuilder.Result buildShoot3() {
+        return shootBuilder.build(new Pose(15, 60), new Pose(23, 60), new Pose(45, 95));
+    }
+    public ShootPathBuilder.Result buildShoot4() {
+        return shootBuilder.build(new Pose(25, 36), new Pose(45, 95));
+    }
+    public ShootPathBuilder.Result buildGateShoot4() {
+        return shootBuilder.build(new Pose(8, 62), new Pose(45, 34), new Pose(45, 95));
     }
 }

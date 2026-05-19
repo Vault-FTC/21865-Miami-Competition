@@ -10,13 +10,12 @@ import org.firstinspires.ftc.teamcode.Autonomous.Paths.FarPaths;
 import org.firstinspires.ftc.teamcode.CommandSystem.CommandScheduler;
 import org.firstinspires.ftc.teamcode.CommandSystem.ParallelCommandGroup;
 import org.firstinspires.ftc.teamcode.CommandSystem.SequentialCommandGroup;
-import org.firstinspires.ftc.teamcode.Commands.AimCommand;
+import org.firstinspires.ftc.teamcode.Commands.DriveToCommandDynamicAim;
 import org.firstinspires.ftc.teamcode.Commands.IntakeCommand;
 import org.firstinspires.ftc.teamcode.Commands.PedroDriveToCommand;
 import org.firstinspires.ftc.teamcode.Commands.TimedShootCommand;
 import org.firstinspires.ftc.teamcode.Constants;
 import org.firstinspires.ftc.teamcode.OpModes.AbstractOpMode;
-import org.firstinspires.ftc.teamcode.subsystems.LimeLight;
 import org.firstinspires.ftc.teamcode.subsystems.PoseStorage;
 
 public abstract class FarAuto extends AbstractOpMode {
@@ -26,7 +25,6 @@ public abstract class FarAuto extends AbstractOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         startHardware();
-        limelight = new LimeLight(hardwareMap, 20, drivebase);
         CommandScheduler commandScheduler = CommandScheduler.getInstance();
         commandScheduler.clearRegistry();
 
@@ -35,16 +33,14 @@ public abstract class FarAuto extends AbstractOpMode {
         follower.setStartingPose(paths.getStartingPose());
 
         SequentialCommandGroup auto = SequentialCommandGroup.getBuilder()
-                .add(new PedroDriveToCommand(follower, paths.Shoot1, 3, telemetry))
-                .add(new AimCommand(drivebase, limelight, telemetry, follower, paths.GOAL_X, paths.GOAL_Y))
+                .add(new DriveToCommandDynamicAim(follower, paths::buildShoot1, 3, telemetry))
                 .add(new TimedShootCommand(shooter, intake, 3, telemetry, 1400, servoGate, 0.7, 0.7))
                 .add(ParallelCommandGroup.getBuilder()
                         .add(new IntakeCommand(intake, 2, telemetry, servoGate))
                         .add(new PedroDriveToCommand(follower, paths.Intake1, 3, telemetry))
                         .build()
                 )
-                .add(new PedroDriveToCommand(follower, paths.Shoot2, 2, telemetry))
-                .add(new AimCommand(drivebase, limelight, telemetry, follower, paths.GOAL_X, paths.GOAL_Y))
+                .add(new DriveToCommandDynamicAim(follower, paths::buildShoot2, 2, telemetry))
                 .add(new TimedShootCommand(shooter, intake, 1, telemetry, 1450, servoGate, 0.7, 0.7))
                 .add(ParallelCommandGroup.getBuilder()
                         .add(new IntakeCommand(intake, 2.5, telemetry, servoGate))
@@ -53,10 +49,9 @@ public abstract class FarAuto extends AbstractOpMode {
                 )
                 .add(ParallelCommandGroup.getBuilder()
                         .add(new IntakeCommand(intake, 1, telemetry, servoGate))
-                        .add(new PedroDriveToCommand(follower, paths.Shoot3, 3, telemetry))
+                        .add(new DriveToCommandDynamicAim(follower, paths::buildShoot3, 3, telemetry))
                         .build()
                 )
-                .add(new AimCommand(drivebase, limelight, telemetry, follower, paths.GOAL_X, paths.GOAL_Y))
                 .add(new TimedShootCommand(shooter, intake, 1, telemetry, 1450, servoGate, 0.7, 0.7))
                 .add(ParallelCommandGroup.getBuilder()
                         .add(new IntakeCommand(intake, 2.5, telemetry, servoGate))
@@ -65,10 +60,9 @@ public abstract class FarAuto extends AbstractOpMode {
                 )
                 .add(ParallelCommandGroup.getBuilder()
                         .add(new IntakeCommand(intake, 1, telemetry, servoGate))
-                        .add(new PedroDriveToCommand(follower, paths.Shoot3, 3, telemetry))
+                        .add(new DriveToCommandDynamicAim(follower, paths::buildShoot3, 3, telemetry))
                         .build()
                 )
-                .add(new AimCommand(drivebase, limelight, telemetry, follower, paths.GOAL_X, paths.GOAL_Y))
                 .add(new TimedShootCommand(shooter, intake, 1, telemetry, 1450, servoGate, 0.7, 0.7))
                 .add(ParallelCommandGroup.getBuilder()
                         .add(new IntakeCommand(intake, 2.5, telemetry, servoGate))

@@ -11,6 +11,7 @@ import org.firstinspires.ftc.teamcode.CommandSystem.CommandScheduler;
 import org.firstinspires.ftc.teamcode.CommandSystem.ParallelCommandGroup;
 import org.firstinspires.ftc.teamcode.CommandSystem.SequentialCommandGroup;
 import org.firstinspires.ftc.teamcode.Commands.BrakeCommand;
+import org.firstinspires.ftc.teamcode.Commands.DriveToCommandDynamicAim;
 import org.firstinspires.ftc.teamcode.Commands.IntakeCommand;
 import org.firstinspires.ftc.teamcode.Commands.PedroDriveToCommand;
 import org.firstinspires.ftc.teamcode.Commands.TimedShootCommand;
@@ -35,7 +36,7 @@ public abstract class NearGateTwo extends AbstractOpMode {
         SequentialCommandGroup auto = SequentialCommandGroup.getBuilder()
                 .add(ParallelCommandGroup.getBuilder()
                         .add(new IntakeCommand(intake, 1.0, telemetry, servoGate))
-                        .add(new PedroDriveToCommand(follower, paths.Shoot1, 2, telemetry))
+                        .add(new DriveToCommandDynamicAim(follower, paths::buildShoot1, 2, telemetry))
                         .add(new TimedShootCommand(shooter, intake, 0.001, telemetry, 1100, servoGate, 0.0, 0.45))
                         .build()
                 )
@@ -47,7 +48,7 @@ public abstract class NearGateTwo extends AbstractOpMode {
                 )
                 .add(ParallelCommandGroup.getBuilder()
                         .add(new IntakeCommand(intake, 0.75, telemetry, servoGate))
-                        .add(new PedroDriveToCommand(follower, paths.Shoot2, 2, telemetry))
+                        .add(new DriveToCommandDynamicAim(follower, paths::buildShoot2, 2, telemetry))
                         .build()
                 )
                 .add(new TimedShootCommand(shooter, intake, 0.6, telemetry, 1100, servoGate, 0.95, 0.45))
@@ -63,7 +64,7 @@ public abstract class NearGateTwo extends AbstractOpMode {
                 )
                 .add(ParallelCommandGroup.getBuilder()
                         .add(new IntakeCommand(intake, 0.75, telemetry, servoGate))
-                        .add(new PedroDriveToCommand(follower, paths.Shoot3, 2, telemetry))
+                        .add(new DriveToCommandDynamicAim(follower, paths::buildShoot3, 2, telemetry))
                         .build()
                 )
                 .add(new TimedShootCommand(shooter, intake, 0.6, telemetry, 1100, servoGate, 0.95, 0.45))
@@ -79,7 +80,7 @@ public abstract class NearGateTwo extends AbstractOpMode {
                 )
                 .add(ParallelCommandGroup.getBuilder()
                         .add(new IntakeCommand(intake, 0.75, telemetry, servoGate))
-                        .add(new PedroDriveToCommand(follower, paths.Shoot4, 2, telemetry))
+                        .add(new DriveToCommandDynamicAim(follower, paths::buildShoot4, 2, telemetry))
                         .build()
                 )
                 .add(new TimedShootCommand(shooter, intake, 0.6, telemetry, 1100, servoGate, 0.95, 0.45))
@@ -95,7 +96,7 @@ public abstract class NearGateTwo extends AbstractOpMode {
                 )
                 .add(ParallelCommandGroup.getBuilder()
                         .add(new IntakeCommand(intake, 0.75, telemetry, servoGate))
-                        .add(new PedroDriveToCommand(follower, paths.Shoot5, 2, telemetry))
+                        .add(new DriveToCommandDynamicAim(follower, paths::buildShoot5, 2, telemetry))
                         .build()
                 )
                 .add(new TimedShootCommand(shooter, intake, 0.6, telemetry, 1100, servoGate, 0.95, 0.45))
@@ -106,7 +107,7 @@ public abstract class NearGateTwo extends AbstractOpMode {
                 )
                 .add(ParallelCommandGroup.getBuilder()
                         .add(new IntakeCommand(intake, 1.0, telemetry, servoGate))
-                        .add(new PedroDriveToCommand(follower, paths.Shoot6, 2, telemetry))
+                        .add(new DriveToCommandDynamicAim(follower, paths::buildShoot6, 2, telemetry))
                         .build()
                 )
                 .add(new TimedShootCommand(shooter, intake, 0.7, telemetry, 1100, servoGate, 0.95, 0.45))
