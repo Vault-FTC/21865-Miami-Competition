@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.Autonomous.BlueAutons;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.Autonomous.Alliance;
-import org.firstinspires.ftc.teamcode.Autonomous.FarAuto;
+import org.firstinspires.ftc.teamcode.Autonomous.RootAutons.FarAuto;
 
 @Autonomous(name = "Blue Far Auto")
 public class BlueFarAuto extends FarAuto {

@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.Autonomous.BlueAutons;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.Autonomous.Alliance;
-import org.firstinspires.ftc.teamcode.Autonomous.NearIntakeGate;
+import org.firstinspires.ftc.teamcode.Autonomous.RootAutons.NearIntakeGate;
 
 @Autonomous(name = "Blue Near Intake Gate")
 public class BlueNearIntakeGate extends NearIntakeGate {

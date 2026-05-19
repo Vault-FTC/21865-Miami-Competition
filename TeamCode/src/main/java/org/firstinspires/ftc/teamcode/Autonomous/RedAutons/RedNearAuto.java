@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.Autonomous.RedAutons;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.Autonomous.Alliance;
-import org.firstinspires.ftc.teamcode.Autonomous.NearAuto;
+import org.firstinspires.ftc.teamcode.Autonomous.RootAutons.NearAuto;
 
 @Autonomous(name = "Red Near Auto")
 public class RedNearAuto extends NearAuto {

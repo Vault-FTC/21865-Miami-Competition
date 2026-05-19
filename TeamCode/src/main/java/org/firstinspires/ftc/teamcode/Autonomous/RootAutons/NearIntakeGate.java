@@ -1,14 +1,16 @@
-package org.firstinspires.ftc.teamcode.Autonomous;
+package org.firstinspires.ftc.teamcode.Autonomous.RootAutons;
 
 import com.pedropathing.follower.Follower;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
-import org.firstinspires.ftc.teamcode.Autonomous.Paths.NearPaths;
+import org.firstinspires.ftc.teamcode.Autonomous.Alliance;
+import org.firstinspires.ftc.teamcode.Autonomous.Paths.NearIntakeGatePaths;
 import org.firstinspires.ftc.teamcode.CommandSystem.CommandScheduler;
 import org.firstinspires.ftc.teamcode.CommandSystem.ParallelCommandGroup;
 import org.firstinspires.ftc.teamcode.CommandSystem.SequentialCommandGroup;
+import org.firstinspires.ftc.teamcode.Commands.BrakeCommand;
 import org.firstinspires.ftc.teamcode.Commands.IntakeCommand;
 import org.firstinspires.ftc.teamcode.Commands.PedroDriveToCommand;
 import org.firstinspires.ftc.teamcode.Commands.TimedShootCommand;
@@ -16,7 +18,7 @@ import org.firstinspires.ftc.teamcode.Constants;
 import org.firstinspires.ftc.teamcode.OpModes.AbstractOpMode;
 import org.firstinspires.ftc.teamcode.subsystems.PoseStorage;
 
-public abstract class NearTunnel extends AbstractOpMode {
+public abstract class NearIntakeGate extends AbstractOpMode {
 
     protected abstract Alliance getAlliance();
 
@@ -27,66 +29,87 @@ public abstract class NearTunnel extends AbstractOpMode {
         commandScheduler.clearRegistry();
 
         Follower follower = Constants.PedroPathing.createFollower(hardwareMap);
-        NearPaths paths = new NearPaths(follower, getAlliance());
+        NearIntakeGatePaths paths = new NearIntakeGatePaths(follower, getAlliance());
         follower.setStartingPose(paths.getStartingPose());
 
         SequentialCommandGroup auto = SequentialCommandGroup.getBuilder()
                 .add(ParallelCommandGroup.getBuilder()
                         .add(new IntakeCommand(intake, 1.0, telemetry, servoGate))
                         .add(new PedroDriveToCommand(follower, paths.Shoot1, 2, telemetry))
+                        .add(new TimedShootCommand(shooter, intake, 0.001, telemetry, 1100, servoGate, 0.0, 0.45))
                         .build()
                 )
-                .add(new TimedShootCommand(shooter, intake, 2.75, telemetry, 1100, servoGate, 0.95, 0.45))
+                .add(new TimedShootCommand(shooter, intake, 1.1, telemetry, 1100, servoGate, 0.95, 0.45))
                 .add(ParallelCommandGroup.getBuilder()
-                        .add(new IntakeCommand(intake, 1.75, telemetry, servoGate))
+                        .add(new IntakeCommand(intake, 1.5, telemetry, servoGate))
                         .add(new PedroDriveToCommand(follower, paths.Intake1, 2, telemetry))
                         .build()
                 )
                 .add(ParallelCommandGroup.getBuilder()
-                        .add(new IntakeCommand(intake, 1.0, telemetry, servoGate))
-                        .add(new PedroDriveToCommand(follower, paths.Gate1, 2, telemetry))
-                        .build()
-                )
-                .add(ParallelCommandGroup.getBuilder()
-                        .add(new IntakeCommand(intake, 1.0, telemetry, servoGate))
+                        .add(new IntakeCommand(intake, 0.75, telemetry, servoGate))
                         .add(new PedroDriveToCommand(follower, paths.Shoot2, 2, telemetry))
                         .build()
                 )
-                .add(new TimedShootCommand(shooter, intake, 0.75, telemetry, 1100, servoGate, 0.95, 0.45))
+                .add(new TimedShootCommand(shooter, intake, 0.6, telemetry, 1100, servoGate, 0.95, 0.45))
                 .add(ParallelCommandGroup.getBuilder()
-                        .add(new IntakeCommand(intake, 2.0, telemetry, servoGate))
+                        .add(new IntakeCommand(intake, 1.0, telemetry, servoGate))
                         .add(new PedroDriveToCommand(follower, paths.Intake2, 2, telemetry))
                         .build()
                 )
                 .add(ParallelCommandGroup.getBuilder()
-                        .add(new IntakeCommand(intake, 1.0, telemetry, servoGate))
+                        .add(new BrakeCommand(drivebase, 1.0, telemetry))
+                        .add(new IntakeCommand(intake, 2.0, telemetry, servoGate))
+                        .build()
+                )
+                .add(ParallelCommandGroup.getBuilder()
+                        .add(new IntakeCommand(intake, 0.75, telemetry, servoGate))
                         .add(new PedroDriveToCommand(follower, paths.Shoot3, 2, telemetry))
                         .build()
                 )
-                .add(new TimedShootCommand(shooter, intake, 0.75, telemetry, 1100, servoGate, 0.95, 0.45))
+                .add(new TimedShootCommand(shooter, intake, 0.6, telemetry, 1100, servoGate, 0.95, 0.45))
                 .add(ParallelCommandGroup.getBuilder()
-                        .add(new IntakeCommand(intake, 3.25, telemetry, servoGate))
-                        .add(new PedroDriveToCommand(follower, paths.GateIntake3, 2, telemetry))
+                        .add(new IntakeCommand(intake, 1.0, telemetry, servoGate))
+                        .add(new PedroDriveToCommand(follower, paths.Intake3, 2, telemetry))
+                        .build()
+                )
+                .add(ParallelCommandGroup.getBuilder()
+                        .add(new BrakeCommand(drivebase, 1.0, telemetry))
+                        .add(new IntakeCommand(intake, 2.0, telemetry, servoGate))
+                        .build()
+                )
+                .add(ParallelCommandGroup.getBuilder()
+                        .add(new IntakeCommand(intake, 0.75, telemetry, servoGate))
+                        .add(new PedroDriveToCommand(follower, paths.Shoot4, 2, telemetry))
+                        .build()
+                )
+                .add(new TimedShootCommand(shooter, intake, 0.6, telemetry, 1100, servoGate, 0.95, 0.45))
+                .add(ParallelCommandGroup.getBuilder()
+                        .add(new IntakeCommand(intake, 1.0, telemetry, servoGate))
+                        .add(new PedroDriveToCommand(follower, paths.Intake4, 2, telemetry))
+                        .build()
+                )
+                .add(ParallelCommandGroup.getBuilder()
+                        .add(new BrakeCommand(drivebase, 1.0, telemetry))
+                        .add(new IntakeCommand(intake, 2.0, telemetry, servoGate))
+                        .build()
+                )
+                .add(ParallelCommandGroup.getBuilder()
+                        .add(new IntakeCommand(intake, 0.75, telemetry, servoGate))
+                        .add(new PedroDriveToCommand(follower, paths.Shoot5, 2, telemetry))
+                        .build()
+                )
+                .add(new TimedShootCommand(shooter, intake, 0.6, telemetry, 1100, servoGate, 0.95, 0.45))
+                .add(ParallelCommandGroup.getBuilder()
+                        .add(new IntakeCommand(intake, 1.5, telemetry, servoGate))
+                        .add(new PedroDriveToCommand(follower, paths.Intake5, 2, telemetry))
                         .build()
                 )
                 .add(ParallelCommandGroup.getBuilder()
                         .add(new IntakeCommand(intake, 1.0, telemetry, servoGate))
-                        .add(new PedroDriveToCommand(follower, paths.GateShoot4, 2, telemetry))
+                        .add(new PedroDriveToCommand(follower, paths.Shoot6, 2, telemetry))
                         .build()
                 )
-                .add(new TimedShootCommand(shooter, intake, 0.75, telemetry, 1100, servoGate, 0.95, 0.45))
-                .add(ParallelCommandGroup.getBuilder()
-                        .add(new IntakeCommand(intake, 3.25, telemetry, servoGate))
-                        .add(new PedroDriveToCommand(follower, paths.GateIntake3, 2, telemetry))
-                        .build()
-                )
-                .add(ParallelCommandGroup.getBuilder()
-                        .add(new IntakeCommand(intake, 1.0, telemetry, servoGate))
-                        .add(new PedroDriveToCommand(follower, paths.GateShoot4, 2, telemetry))
-                        .build()
-                )
-                .add(new TimedShootCommand(shooter, intake, 0.75, telemetry, 1100, servoGate, 0.95, 0.45))
-                .add(new PedroDriveToCommand(follower, paths.Park, 2, telemetry))
+                .add(new TimedShootCommand(shooter, intake, 0.7, telemetry, 1100, servoGate, 0.95, 0.45))
                 .build();
 
         waitForStart();
@@ -101,9 +124,9 @@ public abstract class NearTunnel extends AbstractOpMode {
                     AngleUnit.DEGREES,
                     drivebase.getPosition().getHeading(AngleUnit.DEGREES) + 90
             );
-            intake.update();
             drivebase.update();
             telemetry.update();
+            intake.update();
         }
     }
 }

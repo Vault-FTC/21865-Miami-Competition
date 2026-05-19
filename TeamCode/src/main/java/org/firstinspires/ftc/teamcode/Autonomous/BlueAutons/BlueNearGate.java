@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.Autonomous.BlueAutons;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.Autonomous.Alliance;
-import org.firstinspires.ftc.teamcode.Autonomous.NearGate;
+import org.firstinspires.ftc.teamcode.Autonomous.RootAutons.NearGate;
 
 @Autonomous(name = "Blue Near Gate")
 public class BlueNearGate extends NearGate {
