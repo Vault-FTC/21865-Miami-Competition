@@ -27,7 +27,7 @@ public class LUT {
         addSpeed(140, 1041.312);
         addSpeed(150, 1059.01);
         addSpeed(160, 1076.808);
-        addSpeed(170, 1094.706);
+        addSpeed(170, 1094.706); // TAKE 1
         addSpeed(180, 1112.704);
         addSpeed(190, 1130.802);
         addSpeed(200, 1149);

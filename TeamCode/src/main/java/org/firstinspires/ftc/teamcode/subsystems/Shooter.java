@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.robotcore.external.navigation.UnnormalizedAngleUnit;
 import org.firstinspires.ftc.teamcode.CommandSystem.Subsystem;
@@ -16,7 +17,7 @@ import org.firstinspires.ftc.teamcode.LUT;
 public class Shooter extends Subsystem {
     public enum CaseModes
     {
-        OFF, SHOOT_NEAR, SHOOT_FAR, SHOOT_GATE_CLOSED, REVERSE
+        OFF, SHOOT_NEAR, SHOOT_FAR, SHOOT_GATE_CLOSED, REVERSE, SHOOT_ON_MOVE
     }
     private final DcMotorEx shooter;
     private final ServoGate servoGate;
@@ -69,6 +70,38 @@ public class Shooter extends Subsystem {
                     gamepad1.rumble(1000);
                 }
                 break;
+            case SHOOT_ON_MOVE: {
+                // Compute lead angle from robot translational velocity in the field frame.
+                double velX = drivebase.getOdo().getVelX(DistanceUnit.CM);
+                double velY = drivebase.getOdo().getVelY(DistanceUnit.CM);
+                double robotX = drivebase.getPosition().getX(DistanceUnit.CM);
+                double robotY = drivebase.getPosition().getY(DistanceUnit.CM);
+                double goalAngle = Math.atan2(
+                        goal.getY(DistanceUnit.CM) - robotY,
+                        goal.getX(DistanceUnit.CM) - robotX);
+                // Signed velocity component perpendicular to the robot->goal vector.
+                // Positive means the robot is drifting "left" of the aim line; we lead the same way.
+                double vPerp = -velX * Math.sin(goalAngle) + velY * Math.cos(goalAngle);
+                // TEMP: radial compensation disabled for tuning lead angle in isolation.
+                // Re-enable by uncommenting the vRadial / targetFlywheel block below and
+                // replacing distanceToSpeed(distance) in the readiness check with targetFlywheel.
+                // double vRadial = velX * Math.cos(goalAngle) + velY * Math.sin(goalAngle);
+                double leadAngle = Math.atan2(-vPerp, ShooterConstants.projectileSpeed(distance));
+                double sotmError = angleError + leadAngle;
+                double sotm_joystick_rx = sotmError * kP - velocityDeg * kD;
+                drivebase.updateAutoAim(sotm_joystick_rx);
+                // double targetFlywheel = distanceToSpeed(distance)
+                //         - vRadial * ShooterConstants.FLYWHEEL_TICKS_PER_CM_S;
+                // setShooterSpeedNear(targetFlywheel);
+                servoGate.openGate();
+                // Looser angle tolerance than SHOOT_NEAR since we're firing while moving.
+                if (Math.abs(Math.toDegrees(sotmError)) < 2.5
+                        && getShooterVelocity() >= distanceToSpeed(distance)) {
+                    intake.setState(Intake.CaseModes.SIXTY_PERCENT_SPEED);
+                    gamepad1.rumble(1000);
+                }
+                break;
+            }
             case SHOOT_GATE_CLOSED:
                 intake.setState(Intake.CaseModes.OFF);
                 servoGate.closeGate();

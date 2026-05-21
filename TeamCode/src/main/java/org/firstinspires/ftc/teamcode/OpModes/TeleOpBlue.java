@@ -83,6 +83,10 @@ public class TeleOpBlue extends AbstractOpMode {
             } else if (gamepad1.right_trigger_pressed)  {
                 shooter.setState(Shooter.CaseModes.SHOOT_FAR);
             }
+            else if (gamepad1.dpad_left) {
+                // Shoot on the move: lead-angle compensated aim, distance-based speed/hood.
+                shooter.setState(Shooter.CaseModes.SHOOT_ON_MOVE);
+            }
             else if (gamepad1.square || gamepad2.square || gamepad2.triangle) {
                 shooter.setShooterSpeedNear(1100);
                 servoGate.openGate();

@@ -14,8 +14,8 @@ public class VisionFixQuality {
     public static final double MIN_TARGET_AREA = 0.5; // % of frame
     public static final double MAX_TARGET_AREA = 25.0; // too close = distortion
     public static final int MIN_TAGS_FOR_MT2 = 2; // Multi-tag preferred
-    public final double MAX_POSE_JUMP = 0.5; // meters - reject outliers
-    public final double MAX_HEADING_JUMP = 0.5; // meters - reject outliers
+    public final double MAX_POSE_JUMP = 50.0; // cm - reject outliers
+    public final double MAX_HEADING_JUMP = 0.5; // radians - reject outliers
     public final double MAX_LATENCY_MS = 100; // Stale data threshold
 
     public boolean isGoodFix(LLResult result, Pose2D currentPose) {
@@ -31,8 +31,9 @@ public class VisionFixQuality {
         Pose3D botPose = result.getBotpose_MT2();
         if (botPose == null) return false;
 
-        double dx = botPose.getPosition().x - currentPose.getX(DistanceUnit.CM);
-        double dy = botPose.getPosition().y - currentPose.getY(DistanceUnit.CM);
+        // getBotpose_MT2() position is in metres; convert to cm to match the Pinpoint.
+        double dx = botPose.getPosition().x * 100.0 - currentPose.getX(DistanceUnit.CM);
+        double dy = botPose.getPosition().y * 100.0 - currentPose.getY(DistanceUnit.CM);
         double jump = Math.hypot(dx, dy);
 
         if (jump > MAX_POSE_JUMP) return false;

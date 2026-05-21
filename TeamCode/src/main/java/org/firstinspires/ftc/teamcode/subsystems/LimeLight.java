@@ -48,13 +48,15 @@ public class LimeLight {
 
         if (!visionFixQuality.isGoodFix(result, odo.getPosition())) return;
 
-        if (visionFixQuality.isGoodFix(result, odo.getPosition())) {
-            Pose3D visionPose = result.getBotpose_MT2();
-            double newX = odo.getPosX(DistanceUnit.CM) * (1-VISION_WEIGHT) + visionPose.getPosition().x * VISION_WEIGHT;
-            double newY = odo.getPosY(DistanceUnit.CM) * (1-VISION_WEIGHT) + visionPose.getPosition().y * VISION_WEIGHT;
-            double newH = odo.getHeading(AngleUnit.RADIANS) * (1-VISION_WEIGHT) + visionPose.getOrientation().getYaw(AngleUnit.RADIANS);
-            drivebase.setCurrentPose(new Pose2D(DistanceUnit.CM, newX, newY, AngleUnit.RADIANS, newH));
-        }
+        Pose3D visionPose = result.getBotpose_MT2();
+        // getBotpose_MT2() position is in metres; convert to cm to match the Pinpoint.
+        double visionX = visionPose.getPosition().x * 100.0;
+        double visionY = visionPose.getPosition().y * 100.0;
+        double newX = odo.getPosX(DistanceUnit.CM) * (1 - VISION_WEIGHT) + visionX * VISION_WEIGHT;
+        double newY = odo.getPosY(DistanceUnit.CM) * (1 - VISION_WEIGHT) + visionY * VISION_WEIGHT;
+        double newH = odo.getHeading(AngleUnit.RADIANS) * (1 - VISION_WEIGHT)
+                    + visionPose.getOrientation().getYaw(AngleUnit.RADIANS) * VISION_WEIGHT;
+        drivebase.setCurrentPose(new Pose2D(DistanceUnit.CM, newX, newY, AngleUnit.RADIANS, newH));
     }
 
     public Pose3D getBotPose() {
