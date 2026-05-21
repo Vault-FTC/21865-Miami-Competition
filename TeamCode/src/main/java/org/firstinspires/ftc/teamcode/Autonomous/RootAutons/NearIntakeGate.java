@@ -10,6 +10,7 @@ import org.firstinspires.ftc.teamcode.CommandSystem.SequentialCommandGroup;
 import org.firstinspires.ftc.teamcode.Commands.BrakeCommand;
 import org.firstinspires.ftc.teamcode.Commands.DriveToCommandDynamicAim;
 import org.firstinspires.ftc.teamcode.Commands.IntakeCommand;
+import org.firstinspires.ftc.teamcode.Commands.IntakeGateCommand;
 import org.firstinspires.ftc.teamcode.Commands.PedroDriveToCommand;
 import org.firstinspires.ftc.teamcode.Commands.TimedShootCommand;
 import org.firstinspires.ftc.teamcode.Constants;
@@ -56,7 +57,7 @@ public abstract class NearIntakeGate extends AbstractOpMode {
                 )
                 .add(ParallelCommandGroup.getBuilder()
                         .add(new BrakeCommand(drivebase, 1.0, telemetry))
-                        .add(new IntakeCommand(intake, 2.0, telemetry, servoGate))
+                        .add(new IntakeGateCommand(intake, 2.0, telemetry, servoGate))
                         .build()
                 )
                 .add(ParallelCommandGroup.getBuilder()
@@ -72,7 +73,7 @@ public abstract class NearIntakeGate extends AbstractOpMode {
                 )
                 .add(ParallelCommandGroup.getBuilder()
                         .add(new BrakeCommand(drivebase, 1.0, telemetry))
-                        .add(new IntakeCommand(intake, 2.0, telemetry, servoGate))
+                        .add(new IntakeGateCommand(intake, 2.0, telemetry, servoGate))
                         .build()
                 )
                 .add(ParallelCommandGroup.getBuilder()
@@ -88,7 +89,7 @@ public abstract class NearIntakeGate extends AbstractOpMode {
                 )
                 .add(ParallelCommandGroup.getBuilder()
                         .add(new BrakeCommand(drivebase, 1.0, telemetry))
-                        .add(new IntakeCommand(intake, 2.0, telemetry, servoGate))
+                        .add(new IntakeGateCommand(intake, 2.0, telemetry, servoGate))
                         .build()
                 )
                 .add(ParallelCommandGroup.getBuilder()
@@ -115,6 +116,7 @@ public abstract class NearIntakeGate extends AbstractOpMode {
         while (opModeIsActive()) {
             commandScheduler.run();
             telemetry.addData("Position", drivebase.getPositionTelemetry());
+            telemetry.addData("IntakePowerDraw:", intake.currentDraw());
             PoseStorage.startPose = follower.getPose();
             drivebase.update();
             telemetry.update();

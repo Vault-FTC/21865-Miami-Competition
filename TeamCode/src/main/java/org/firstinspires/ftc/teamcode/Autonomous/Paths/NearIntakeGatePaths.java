@@ -17,7 +17,7 @@ import org.firstinspires.ftc.teamcode.Autonomous.ShootPathBuilder;
 public class NearIntakeGatePaths {
 
     private static final double START_X       = 20;
-    private static final double START_Y       = 123;
+    private static final double START_Y       = 127;
     private static final double START_HEADING = 143.5;
     private static final double GOAL_X        = 0;
     private static final double GOAL_Y        = 135;
