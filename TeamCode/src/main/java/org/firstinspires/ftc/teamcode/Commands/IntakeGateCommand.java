@@ -13,6 +13,8 @@ public class IntakeGateCommand extends Command {
     private final ServoGate servoGate;
     private final double durationMs;
     private double startTime;
+    private double powerSpikeStartTime = -1;
+    private static final double DEBOUNCE_MS = 250;
 
     public IntakeGateCommand(Intake intake, double durationSeconds, Telemetry telemetry, ServoGate servoGate) {
         this.intake = intake;
@@ -38,12 +40,18 @@ public class IntakeGateCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        if (intake.currentDraw() >= 2.3 && intake.currentDraw() <= 2.8) {
-            return true;
+        double current = intake.currentDraw();
+        if (current >= 2.0 && current <= 2.8) {
+            if (powerSpikeStartTime < 0) {
+                powerSpikeStartTime = timer.milliseconds();
+            }
+            if (timer.milliseconds() - powerSpikeStartTime >= DEBOUNCE_MS) {
+                return true;
+            }
+        } else {
+            powerSpikeStartTime = -1;
         }
-        else {
-            return timer.milliseconds() - startTime >= durationMs;
-        }
+        return timer.milliseconds() - startTime >= durationMs;
     }
 
     @Override
