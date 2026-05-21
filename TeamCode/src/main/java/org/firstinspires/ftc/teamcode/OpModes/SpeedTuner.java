@@ -1,9 +1,9 @@
 package org.firstinspires.ftc.teamcode.OpModes;
 
-import com.qualcomm.hardware.limelightvision.LLResult;
+import com.pedropathing.follower.Follower;
+import com.pedropathing.geometry.Pose;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.Constants;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
@@ -24,11 +24,13 @@ public class SpeedTuner extends AbstractOpMode {
     public void runOpMode() {
         startHardware();
         setTargets();
-
         double position = 0.5;
         double shooterSpeed = 0;
-
-        drivebase.setCurrentPose(PoseStorage.startPose);
+        drivebase.setCurrentPose(
+                (PoseStorage.startPose.getX()) * -2.54,
+                (PoseStorage.startPose.getY()) * 2.54,
+                PoseStorage.startPose.getHeading() + Math.PI / 2
+        );
 
         waitForStart();
         while (opModeIsActive()) {
@@ -76,7 +78,7 @@ public class SpeedTuner extends AbstractOpMode {
                 shooter.setShooterSpeedNear(-900);
             } else if (autoShoot) {
 //              joystick_rx = joystick_rx - aprilTag.getTargetXDegrees() * 0.02;
-                joystick_rx = joystick_rx + angleError * ((180/Math.PI) * 0.02);
+                joystick_rx = joystick_rx + angleError * 0.5;
 //                servoGate.openGate();
 //                gamepad1.rumble(1000);
 //                if (distance < 240) {

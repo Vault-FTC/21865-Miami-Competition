@@ -13,7 +13,7 @@ public class TeleOpRed extends TeleOpBlue {
         limelight = new LimeLight(hardwareMap, 24, drivebase);
         gatePosition = new Location(57, -147, 123);
         goal = Constants.RED_CENTER_GOAL;
-        headingOffset = Math.PI;
+        headingOffset = Math.PI/2;
         parkPosition = new Location(411, -22.6,-90 );
     }
 }

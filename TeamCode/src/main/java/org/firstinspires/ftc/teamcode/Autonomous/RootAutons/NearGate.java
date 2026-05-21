@@ -2,9 +2,6 @@ package org.firstinspires.ftc.teamcode.Autonomous.RootAutons;
 
 import com.pedropathing.follower.Follower;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.Autonomous.Alliance;
 import org.firstinspires.ftc.teamcode.Autonomous.Paths.NearGatePaths;
 import org.firstinspires.ftc.teamcode.CommandSystem.CommandScheduler;
@@ -101,7 +98,7 @@ public abstract class NearGate extends AbstractOpMode {
         while(opModeIsActive()) {
             commandScheduler.run();
             telemetry.addData("Position", drivebase.getPositionTelemetry());
-            PoseStorage.startPose = new Pose2D(DistanceUnit.CM, drivebase.getPosition().getX(DistanceUnit.CM), drivebase.getPosition().getY(DistanceUnit.CM), AngleUnit.DEGREES,(drivebase.getPosition().getHeading(AngleUnit.DEGREES)) + 90);
+            PoseStorage.startPose = follower.getPose();
             intake.update();
             drivebase.update();
             telemetry.update();

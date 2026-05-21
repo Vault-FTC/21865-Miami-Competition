@@ -56,7 +56,10 @@ public class Drivebase extends Subsystem {
         // odo.setOffsets(205.71207, -15.175, DistanceUnit.MM);
         odo.setOffsets(Constants.PedroPathing.localizerConstants.strafePodX,Constants.PedroPathing.localizerConstants.forwardPodY, DistanceUnit.CM);
         odo.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
-        odo.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.REVERSED, GoBildaPinpointDriver.EncoderDirection.REVERSED);
+        odo.setEncoderDirections(
+                GoBildaPinpointDriver.EncoderDirection.REVERSED,
+                GoBildaPinpointDriver.EncoderDirection.REVERSED
+        );
     }
 
     public void setstate(NewDriveSpeeds Speed)
@@ -74,6 +77,7 @@ public class Drivebase extends Subsystem {
     public void resetHeading() {
         odo.recalibrateIMU();
     }
+
     public Pose2D getPosition() {
         return odo.getPosition();
     }
@@ -273,7 +277,7 @@ public class Drivebase extends Subsystem {
     public static double angleToGoal(Pose2D robot, Pose2D goal) {
         double dx = goal.getX(DistanceUnit.CM) - robot.getX(DistanceUnit.CM);
         double dy = goal.getY(DistanceUnit.CM) - robot.getY(DistanceUnit.CM);
-        double goalHeading = Math.atan2(dy, dx); // radians
+        double goalHeading = Math.atan2(dy, dx); // radians, Pedro convention
         double robotHeading = robot.getHeading(AngleUnit.RADIANS);
         double error = goalHeading - robotHeading;
 

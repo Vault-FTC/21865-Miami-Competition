@@ -1,22 +1,17 @@
 package org.firstinspires.ftc.teamcode.OpModes;
 
-import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
-import org.firstinspires.ftc.robotcore.external.navigation.UnnormalizedAngleUnit;
 import org.firstinspires.ftc.teamcode.Autonomous.Location;
 import org.firstinspires.ftc.teamcode.Constants;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
-import org.firstinspires.ftc.teamcode.subsystems.Lights;
 
 import org.firstinspires.ftc.teamcode.subsystems.LimeLight;
 import org.firstinspires.ftc.teamcode.subsystems.NewDriveSpeeds;
 import org.firstinspires.ftc.teamcode.subsystems.PoseStorage;
-import org.firstinspires.ftc.teamcode.subsystems.ServoGate;
 import org.firstinspires.ftc.teamcode.subsystems.Shooter;
 
 
@@ -27,10 +22,10 @@ public class TeleOpBlue extends AbstractOpMode {
     RevBlinkinLedDriver.BlinkinPattern green;
     RevBlinkinLedDriver.BlinkinPattern red;
     double launchPower = 0;
-    Location gatePosition = new Location(60, -163, -124);
+    Location gatePosition = new Location(7 * 2.54, 60 * 2.54, -124);
     Location parkPosition = new Location(130.7, 65, 90);
     Pose2D goal = Constants.BLUE_CENTER_GOAL;
-    double headingOffset = 0;
+    double headingOffset = -Math.PI/2;
 
 
     public void setTargets() {
@@ -43,27 +38,19 @@ public class TeleOpBlue extends AbstractOpMode {
         setTargets();
         green = RevBlinkinLedDriver.BlinkinPattern.GREEN;
         red = RevBlinkinLedDriver.BlinkinPattern.RED;
-        double velocityDeg = drivebase.getOdo().getHeadingVelocity(UnnormalizedAngleUnit.DEGREES);
-
-        double position = 0.5;
-
-//        drivebase.setCurrentPose(0,0,-Math.PI/2);
-        drivebase.setCurrentPose(PoseStorage.startPose);
+        drivebase.setCurrentPose(
+                (PoseStorage.startPose.getX()) * 2.54,
+                (PoseStorage.startPose.getY()) * 2.54,
+                PoseStorage.startPose.getHeading()
+        );
 
         waitForStart();
         while (opModeIsActive()) {
-            drivebase.update();
-            double kP = 0.02;
-            double kD = 0.0015;
             double distance = drivebase.distanceToGoal(drivebase.getPosition(), goal);
             double angleError = drivebase.angleToGoal(drivebase.getPosition(), goal);
             double joystick_y = gamepad1.left_stick_x; // Forward/backward
             double joystick_x = gamepad1.left_stick_y;  // Strafe left/right
             double joystick_rx = -gamepad1.right_stick_x; // Rotation
-            double velocityX = drivebase.getOdo().getVelX(DistanceUnit.CM);
-            double velocityY = drivebase.getOdo().getVelY(DistanceUnit.CM);
-            double headingVelocity = drivebase.getOdo().getHeadingVelocity(UnnormalizedAngleUnit.DEGREES);
-            Pose2D currentPosition = drivebase.getPosition();
 
             if(gamepad1.left_bumper && gamepad1.a)
             {
@@ -82,16 +69,6 @@ public class TeleOpBlue extends AbstractOpMode {
                 drivebase.setstate(NewDriveSpeeds.DRIVE_HALF);
             }
 
-
-            if (gamepad1.dpadUpWasPressed()) {
-                position += 0.1;
-
-            } else if (gamepad1.dpadDownWasPressed()) {
-                position -= 0.1;
-            } else {
-                shooter.setHoodPosition(position);
-            }
-
             if (gamepad1.start) {
                 drivebase.resetHeading();
             }
@@ -106,21 +83,7 @@ public class TeleOpBlue extends AbstractOpMode {
             } else if (gamepad1.right_trigger_pressed)  {
                 shooter.setState(Shooter.CaseModes.SHOOT_FAR);
             }
-            else if (gamepad1.left_trigger_pressed){
-                // Shoot on the move code???? Maybe it'll workkkkk
-                double vPerpendicular = velocityX * Math.cos(angleError) - velocityY * Math.sin(angleError);
-                double leadAngle = Math.atan2(vPerpendicular, PROJECTILE_SPEED_CM);
-                double correctedError = angleError + leadAngle;
-                double errorDeg = correctedError * (180 / Math.PI);
-                servoGate.openGate();
-                joystick_rx = joystick_rx + errorDeg * kP - velocityDeg * kD;
-
-                if (shooter.getShooterVelocity() >= shooter.distanceToSpeed(distance)) {
-                    intake.setState(Intake.CaseModes.SIXTY_PERCENT_SPEED);
-                    gamepad1.rumble(1000);
-                }
-            }
-            else if (gamepad1.x || gamepad2.square || gamepad2.triangle) {
+            else if (gamepad1.square || gamepad2.square || gamepad2.triangle) {
                 shooter.setShooterSpeedNear(1100);
                 servoGate.openGate();
                 if (shooter.getShooterVelocity() >= 1100) {
@@ -141,6 +104,9 @@ public class TeleOpBlue extends AbstractOpMode {
             }
 
             telemetry.addData("Angle from goal", angleError * 180/Math.PI);
+            telemetry.addData("Goal dir (deg)", Math.toDegrees(Math.atan2(
+                    goal.getY(DistanceUnit.CM) - drivebase.getPosition().getY(DistanceUnit.CM),
+                    goal.getX(DistanceUnit.CM) - drivebase.getPosition().getX(DistanceUnit.CM))));
             telemetry.addData("Distance from goal", distance);
             telemetry.addData("Shooter Stuff: ", shooter.telemetryUpdate());
             telemetry.addData("LaunchPower", this.launchPower);
@@ -151,7 +117,7 @@ public class TeleOpBlue extends AbstractOpMode {
             telemetry.update();
             intake.update();
             shooter.update();
-            //turret.update(drive.angleToGoal(drive.getPosition(), goal));
+            drivebase.update();
         }
     }
 }

@@ -17,7 +17,7 @@ import org.firstinspires.ftc.teamcode.Autonomous.ShootPathBuilder;
 public class NearIntakeGatePaths {
 
     private static final double START_X       = 20;
-    private static final double START_Y       = 127;
+    private static final double START_Y       = 123;
     private static final double START_HEADING = 143.5;
     private static final double GOAL_X        = 0;
     private static final double GOAL_Y        = 135;
@@ -69,13 +69,13 @@ public class NearIntakeGatePaths {
                 new BezierCurve(
                         new Pose(45, 95),
                         new Pose(70, 70),
-                        new Pose(18.5, 62)
+                        new Pose(18.5, 64)
                 )
         ).setLinearHeadingInterpolation(Math.toRadians(138), Math.toRadians(160)).build();
 
         Shoot3 = follower.pathBuilder().addPath(
                 new BezierCurve(
-                        new Pose(18.5, 62),
+                        new Pose(18.5, 64),
                         new Pose(63, 80),
                         new Pose(45, 95)
                 )
@@ -85,13 +85,13 @@ public class NearIntakeGatePaths {
                 new BezierCurve(
                         new Pose(45, 95),
                         new Pose(63, 54),
-                        new Pose(18.5, 61.5)
+                        new Pose(18.5, 63)
                 )
         ).setLinearHeadingInterpolation(Math.toRadians(138), Math.toRadians(160)).build();
 
         Shoot4 = follower.pathBuilder().addPath(
                 new BezierCurve(
-                        new Pose(18.5, 61.5),
+                        new Pose(18.5, 63),
                         new Pose(63, 80),
                         new Pose(45, 95)
                 )
@@ -101,13 +101,13 @@ public class NearIntakeGatePaths {
                 new BezierCurve(
                         new Pose(45, 95),
                         new Pose(63, 54),
-                        new Pose(18.5, 61.5)
+                        new Pose(18.5, 63)
                 )
         ).setLinearHeadingInterpolation(Math.toRadians(138), Math.toRadians(160)).build();
 
         Shoot5 = follower.pathBuilder().addPath(
                 new BezierCurve(
-                        new Pose(18.5, 61.5),
+                        new Pose(18.5, 63),
                         new Pose(63, 80),
                         new Pose(45, 95)
                 )
@@ -163,13 +163,13 @@ public class NearIntakeGatePaths {
         return shootBuilder.build(new Pose(15, 63), new Pose(45, 70), new Pose(45, 95));
     }
     public ShootPathBuilder.Result buildShoot3() {
-        return shootBuilder.build(new Pose(18.5, 62), new Pose(63, 80), new Pose(45, 95));
+        return shootBuilder.build(new Pose(18.5, 64), new Pose(63, 80), new Pose(45, 95));
     }
     public ShootPathBuilder.Result buildShoot4() {
-        return shootBuilder.build(new Pose(18.5, 61.5), new Pose(63, 80), new Pose(45, 95));
+        return shootBuilder.build(new Pose(18.5, 63), new Pose(63, 80), new Pose(45, 95));
     }
     public ShootPathBuilder.Result buildShoot5() {
-        return shootBuilder.build(new Pose(18.5, 61.5), new Pose(63, 80), new Pose(45, 95));
+        return shootBuilder.build(new Pose(18.5, 63), new Pose(63, 80), new Pose(45, 95));
     }
     public ShootPathBuilder.Result buildShoot6() {
         return shootBuilder.build(new Pose(23, 86), new Pose(55, 105));

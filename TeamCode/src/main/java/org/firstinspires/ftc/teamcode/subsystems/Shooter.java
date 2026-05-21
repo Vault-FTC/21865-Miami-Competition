@@ -25,7 +25,7 @@ public class Shooter extends Subsystem {
     private final Intake intake;
     private final LUT lut = new LUT();
     double distance, speed;
-    double kP = 0.02;
+    double kP = 1;
     double kD = 0.0015;
     CaseModes currentMode = CaseModes.OFF;
     Pose2D goal = Constants.BLUE_CENTER_GOAL;
@@ -60,11 +60,11 @@ public class Shooter extends Subsystem {
             case SHOOT_FAR:
                 offset_by_distance = 0.05;
             case SHOOT_NEAR:
-                double errorDeg = (angleError+offset_by_distance) * (180 / Math.PI);
-                double new_joystick_rx = errorDeg * kP - velocityDeg * kD;
+                double correctedError = angleError + offset_by_distance;
+                double new_joystick_rx = correctedError * kP - velocityDeg * kD;
                 drivebase.updateAutoAim(new_joystick_rx);
                 servoGate.openGate();
-                if (Math.abs((angleError+offset_by_distance) * ((180/Math.PI))) < 1 && getShooterVelocity() >= distanceToSpeed(distance)) {
+                if (Math.abs(Math.toDegrees(correctedError)) < 1 && getShooterVelocity() >= distanceToSpeed(distance)) {
                     intake.setState(Intake.CaseModes.ON);
                     gamepad1.rumble(1000);
                 }
@@ -91,7 +91,7 @@ public class Shooter extends Subsystem {
     }
     public double distanceToHoodPosition(double distanceCm)
     {
-        double pos = 0.00423077*distanceCm - 0.443846;
+        double pos = 0.003*distanceCm - 0.1; //double pos = 0.00423077*distanceCm - 0.443846;
         // clamp to servo limits
         if (pos < 0.1) return 0.1;
         if (pos > 0.7) return 0.7;
