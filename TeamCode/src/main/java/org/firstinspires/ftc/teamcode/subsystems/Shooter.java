@@ -17,7 +17,7 @@ import org.firstinspires.ftc.teamcode.LUT;
 public class Shooter extends Subsystem {
     public enum CaseModes
     {
-        OFF, SHOOT_NEAR, SHOOT_FAR, SHOOT_GATE_CLOSED, REVERSE, SHOOT_ON_MOVE
+        OFF, SHOOT_NEAR, SHOOT_FAR, SHOOT_GATE_CLOSED, REVERSE, SHOOT_ON_MOVE, SHOOT_NO_AIM, SHOOT_LIMELIGHT_AIM
     }
     private final DcMotorEx shooter;
     private final ServoGate servoGate;
@@ -25,8 +25,9 @@ public class Shooter extends Subsystem {
     private final Drivebase drivebase;
     private final Intake intake;
     private final LUT lut = new LUT();
+    private LimeLight limelight = null;
     double distance, speed;
-    double kP = 1;
+    double kP = 1.3;
     double kD = 0.0015;
     CaseModes currentMode = CaseModes.OFF;
     Pose2D goal = Constants.BLUE_CENTER_GOAL;
@@ -106,6 +107,28 @@ public class Shooter extends Subsystem {
                 intake.setState(Intake.CaseModes.OFF);
                 servoGate.closeGate();
                 break;
+            case SHOOT_NO_AIM:
+                servoGate.openGate();
+                if (getShooterVelocity() >= 1100) {
+                    intake.setState(Intake.CaseModes.ON);
+                }
+                break;
+            case SHOOT_LIMELIGHT_AIM:
+                // Backup aim using Limelight tx (horizontal offset to target) instead of odometry.
+                // tx > 0 means target is right of crosshair → rotate right to center it.
+                servoGate.openGate();
+                if (limelight != null) {
+                    double tx = limelight.getTx();
+                    double txRad = Math.toRadians(tx);
+                    double llRx = txRad * kP - velocityDeg * kD;
+                    drivebase.updateAutoAim(llRx);
+                    // Fire once the target is centred (±2°) and the flywheel is up to speed.
+                    if (Math.abs(tx) < 2.0 && getShooterVelocity() >= distanceToSpeed(distance)) {
+                        intake.setState(Intake.CaseModes.ON);
+                        gamepad1.rumble(1000);
+                    }
+                }
+                break;
             case REVERSE:
                 servoGate.openGate();
                 intake.setState(Intake.CaseModes.REVERSE);
@@ -116,6 +139,11 @@ public class Shooter extends Subsystem {
 
     public void setState(CaseModes s) {
         currentMode = s;
+    }
+
+    /** Call this after both Shooter and LimeLight are constructed (e.g. in startHardware). */
+    public void setLimelight(LimeLight ll) {
+        limelight = ll;
     }
     public double distanceToSpeed(double distanceCm) {
         speed = lut.getSpeed(distanceCm);

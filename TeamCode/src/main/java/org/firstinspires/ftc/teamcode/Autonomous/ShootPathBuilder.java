@@ -7,8 +7,6 @@ import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathBuilder;
 import com.pedropathing.paths.PathChain;
 
-import org.firstinspires.ftc.teamcode.Autonomous.Paths.PathMirror;
-
 public class ShootPathBuilder {
 
     public static class Result {

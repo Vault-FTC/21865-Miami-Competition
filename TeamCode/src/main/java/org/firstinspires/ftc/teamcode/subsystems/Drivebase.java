@@ -56,12 +56,15 @@ public class Drivebase extends Subsystem {
         // odo.setOffsets(205.71207, -15.175, DistanceUnit.MM);
         odo.setOffsets(Constants.PedroPathing.localizerConstants.strafePodX,Constants.PedroPathing.localizerConstants.forwardPodY, DistanceUnit.CM);
         odo.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
+        // Must match PedroPathing localizerConstants:
+        //   forwardEncoderDirection = FORWARD  (second param)
+        //   strafeEncoderDirection  = REVERSED (first param)
         odo.setEncoderDirections(
-                GoBildaPinpointDriver.EncoderDirection.REVERSED,
-                GoBildaPinpointDriver.EncoderDirection.REVERSED
+                GoBildaPinpointDriver.EncoderDirection.REVERSED,   // strafe pod
+                GoBildaPinpointDriver.EncoderDirection.REVERSED     // forward pod
         );
     }
-
+// -94 to
     public void setstate(NewDriveSpeeds Speed)
     {
         DriveCurrent = Speed;
@@ -97,6 +100,9 @@ public class Drivebase extends Subsystem {
     {
         modify_joystick_rotate = joystick_rx_modifier;
     }
+
+
+
 
     public void drive(double forward, double right, double rotate, double headingOffset) {
         headingOffsetThingy = headingOffset;

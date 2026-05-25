@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.Autonomous.RootAutons;
 
 import com.pedropathing.follower.Follower;
 
-import org.firstinspires.ftc.teamcode.Autonomous.Alliance;
 import org.firstinspires.ftc.teamcode.Autonomous.Paths.NearGateTwoPaths;
 import org.firstinspires.ftc.teamcode.CommandSystem.CommandScheduler;
 import org.firstinspires.ftc.teamcode.CommandSystem.ParallelCommandGroup;
@@ -18,7 +17,7 @@ import org.firstinspires.ftc.teamcode.subsystems.PoseStorage;
 
 public abstract class NearGateTwo extends AbstractOpMode {
 
-    protected abstract Alliance getAlliance();
+    protected abstract NearGateTwoPaths createPaths(Follower follower);
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -27,8 +26,13 @@ public abstract class NearGateTwo extends AbstractOpMode {
         commandScheduler.clearRegistry();
 
         Follower follower = Constants.PedroPathing.createFollower(hardwareMap);
-        NearGateTwoPaths paths = new NearGateTwoPaths(follower, getAlliance());
+        NearGateTwoPaths paths = createPaths(follower);
         follower.setStartingPose(paths.getStartingPose());
+        drivebase.setCurrentPose(
+                paths.getStartingPose().getX() * 2.54,
+                paths.getStartingPose().getY() * 2.54,
+                paths.getStartingPose().getHeading()
+        );
 
         SequentialCommandGroup auto = SequentialCommandGroup.getBuilder()
                 .add(ParallelCommandGroup.getBuilder()
@@ -37,7 +41,7 @@ public abstract class NearGateTwo extends AbstractOpMode {
                         .add(new TimedShootCommand(shooter, intake, 0.001, telemetry, 1100, servoGate, 0.0, 0.45))
                         .build()
                 )
-                .add(new TimedShootCommand(shooter, intake, 1.1, telemetry, 1100, servoGate, 0.95, 0.45))
+                .add(new TimedShootCommand(shooter, intake, 0.80, telemetry, 1100, servoGate, 0.95, 0.45))
                 .add(ParallelCommandGroup.getBuilder()
                         .add(new IntakeCommand(intake, 1.5, telemetry, servoGate))
                         .add(new PedroDriveToCommand(follower, paths.SpikeIntake1, 2, telemetry))
@@ -83,12 +87,7 @@ public abstract class NearGateTwo extends AbstractOpMode {
                 .add(new TimedShootCommand(shooter, intake, 0.6, telemetry, 1100, servoGate, 0.95, 0.45))
                 .add(ParallelCommandGroup.getBuilder()
                         .add(new IntakeCommand(intake, 1.0, telemetry, servoGate))
-                        .add(new PedroDriveToCommand(follower, paths.SpikeIntake2, 2, telemetry))
-                        .build()
-                )
-                .add(ParallelCommandGroup.getBuilder()
-                        .add(new BrakeCommand(drivebase, 1.0, telemetry))
-                        .add(new IntakeCommand(intake, 2.0, telemetry, servoGate))
+                        .add(new PedroDriveToCommand(follower, paths.SpikeIntake2, 1.5, telemetry))
                         .build()
                 )
                 .add(ParallelCommandGroup.getBuilder()

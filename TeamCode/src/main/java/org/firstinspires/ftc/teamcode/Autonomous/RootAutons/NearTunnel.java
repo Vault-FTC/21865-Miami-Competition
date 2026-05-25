@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.Autonomous.RootAutons;
 
 import com.pedropathing.follower.Follower;
 
-import org.firstinspires.ftc.teamcode.Autonomous.Alliance;
 import org.firstinspires.ftc.teamcode.Autonomous.Paths.NearPaths;
 import org.firstinspires.ftc.teamcode.CommandSystem.CommandScheduler;
 import org.firstinspires.ftc.teamcode.CommandSystem.ParallelCommandGroup;
@@ -17,7 +16,7 @@ import org.firstinspires.ftc.teamcode.subsystems.PoseStorage;
 
 public abstract class NearTunnel extends AbstractOpMode {
 
-    protected abstract Alliance getAlliance();
+    protected abstract NearPaths createPaths(Follower follower);
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -26,8 +25,13 @@ public abstract class NearTunnel extends AbstractOpMode {
         commandScheduler.clearRegistry();
 
         Follower follower = Constants.PedroPathing.createFollower(hardwareMap);
-        NearPaths paths = new NearPaths(follower, getAlliance());
+        NearPaths paths = createPaths(follower);
         follower.setStartingPose(paths.getStartingPose());
+        drivebase.setCurrentPose(
+                paths.getStartingPose().getX() * 2.54,
+                paths.getStartingPose().getY() * 2.54,
+                paths.getStartingPose().getHeading()
+        );
 
         SequentialCommandGroup auto = SequentialCommandGroup.getBuilder()
                 .add(ParallelCommandGroup.getBuilder()

@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.Autonomous.RootAutons;
 
 import com.pedropathing.follower.Follower;
 
-import org.firstinspires.ftc.teamcode.Autonomous.Alliance;
 import org.firstinspires.ftc.teamcode.Autonomous.Paths.NearGatePaths;
 import org.firstinspires.ftc.teamcode.CommandSystem.CommandScheduler;
 import org.firstinspires.ftc.teamcode.CommandSystem.ParallelCommandGroup;
@@ -17,7 +16,7 @@ import org.firstinspires.ftc.teamcode.subsystems.PoseStorage;
 
 public abstract class NearGate extends AbstractOpMode {
 
-    protected abstract Alliance getAlliance();
+    protected abstract NearGatePaths createPaths(Follower follower);
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -26,9 +25,14 @@ public abstract class NearGate extends AbstractOpMode {
         commandScheduler.clearRegistry();
 
         Follower follower = Constants.PedroPathing.createFollower(hardwareMap);
-        NearGatePaths nearGatePaths = new NearGatePaths(follower, getAlliance());
+        NearGatePaths nearGatePaths = createPaths(follower);
 
         follower.setStartingPose(nearGatePaths.getStartingPose());
+        drivebase.setCurrentPose(
+                nearGatePaths.getStartingPose().getX() * 2.54,
+                nearGatePaths.getStartingPose().getY() * 2.54,
+                nearGatePaths.getStartingPose().getHeading()
+        );
         SequentialCommandGroup auto = SequentialCommandGroup.getBuilder()
                 .add(ParallelCommandGroup.getBuilder()
                         .add(new IntakeCommand(intake, 1.0, telemetry,servoGate))

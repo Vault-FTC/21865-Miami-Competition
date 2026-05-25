@@ -27,6 +27,7 @@ public abstract class AbstractOpMode extends LinearOpMode {
         servoGate = new ServoGate(hardwareMap);
         shooter = new Shooter(hardwareMap, drivebase, servoGate, intake, gamepad1);
         limelight = new LimeLight(hardwareMap, 24, drivebase);
+        shooter.setLimelight(limelight);
     }
 
 }
