@@ -30,6 +30,9 @@ public class Shooter extends Subsystem {
     double kP = 1.3;
     double kD = 0.0015;
     CaseModes currentMode = CaseModes.OFF;
+
+    /** Manual aim trim set by the operator via gamepad2.  Positive = aim further right. */
+    private double aimTrimDeg = 0.0;
     Pose2D goal = Constants.BLUE_CENTER_GOAL;
     PIDFCoefficients pidfCoefficients = new PIDFCoefficients(250, 0, 0, 15);
     Gamepad gamepad1;
@@ -66,7 +69,7 @@ public class Shooter extends Subsystem {
             case SHOOT_FAR:
                 offset_by_distance = 0.05;
             case SHOOT_NEAR:
-                double correctedError = angleError + offset_by_distance;
+                double correctedError = angleError + offset_by_distance + Math.toRadians(aimTrimDeg);
                 double new_joystick_rx = correctedError * kP - velocityDeg * kD;
                 drivebase.updateAutoAim(new_joystick_rx);
                 servoGate.openGate();
@@ -92,7 +95,7 @@ public class Shooter extends Subsystem {
                 // replacing distanceToSpeed(distance) in the readiness check with targetFlywheel.
                 // double vRadial = velX * Math.cos(goalAngle) + velY * Math.sin(goalAngle);
                 double leadAngle = Math.atan2(-vPerp, ShooterConstants.projectileSpeed(distance));
-                double sotmError = angleError + leadAngle;
+                double sotmError = angleError + leadAngle + Math.toRadians(aimTrimDeg);
                 double sotm_joystick_rx = sotmError * kP - velocityDeg * kD;
                 drivebase.updateAutoAim(sotm_joystick_rx);
                 // double targetFlywheel = distanceToSpeed(distance)
@@ -122,7 +125,7 @@ public class Shooter extends Subsystem {
                 // tx > 0 means target is right of crosshair → rotate right to center it.
                 servoGate.openGate();
                 if (limelight != null) {
-                    double tx = limelight.getTx();
+                    double tx = limelight.getTx() + aimTrimDeg; // trim is also in degrees
                     double txRad = Math.toRadians(tx);
                     double llRx = txRad * kP - velocityDeg * kD;
                     drivebase.updateAutoAim(llRx);
@@ -148,6 +151,25 @@ public class Shooter extends Subsystem {
     /** Call this after both Shooter and LimeLight are constructed (e.g. in startHardware). */
     public void setLimelight(LimeLight ll) {
         limelight = ll;
+    }
+
+    /**
+     * Nudges the aim trim by {@code deltaDeg} degrees.
+     * Positive = aim further right, negative = aim further left.
+     * Call each loop while the operator holds the trim button.
+     */
+    public void adjustAimTrim(double deltaDeg) {
+        aimTrimDeg += deltaDeg;
+    }
+
+    /** Resets the aim trim to zero (operator pressed the reset button). */
+    public void resetAimTrim() {
+        aimTrimDeg = 0.0;
+    }
+
+    /** Returns the current aim trim in degrees (for telemetry). */
+    public double getAimTrimDeg() {
+        return aimTrimDeg;
     }
     public double distanceToSpeed(double distanceCm) {
         speed = lut.getSpeed(distanceCm);
@@ -182,7 +204,8 @@ public class Shooter extends Subsystem {
     }
     public String telemetryUpdate() {
         return "Servo Position: " + hood.getPosition() + " \n ShooterMode: " + currentMode
-                + " \n Shooter Speed: " + getShooterVelocity() + " \n " + "Target Speed/Vel: " + distance + ":" + speed;
+                + " \n Shooter Speed: " + getShooterVelocity() + " \n " + "Target Speed/Vel: " + distance + ":" + speed
+                + String.format(" \n Aim trim: %.1f°  (g2 LB/RB to adjust, Start to reset)", aimTrimDeg);
     }
     public double getShooterVelocity() {
         return shooter.getVelocity();

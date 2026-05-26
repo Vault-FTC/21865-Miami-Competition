@@ -27,6 +27,9 @@ public class TeleOpBlue extends AbstractOpMode {
     Pose2D goal = Constants.BLUE_CENTER_GOAL;
     double headingOffset = -Math.PI/2;
 
+    /** Degrees of aim trim added per button press. */
+    private static final double AIM_TRIM_STEP_DEG = 1.0;
+
     public void setTargets() {
         limelight = new LimeLight(hardwareMap, 20, drivebase);
     }
@@ -76,6 +79,18 @@ public class TeleOpBlue extends AbstractOpMode {
             if (gamepad1.startWasPressed()) {
                 drivebase.resetHeading();
             }
+
+            // ── Gamepad 2: manual aim trim ──────────────────────────────────────
+            // Press LB → aim 1° left,  Press RB → aim 1° right,  Start → reset to 0.
+            if (gamepad2.left_bumperWasPressed()) {
+                shooter.adjustAimTrim(-AIM_TRIM_STEP_DEG);
+            } else if (gamepad2.right_bumperWasPressed()) {
+                shooter.adjustAimTrim(AIM_TRIM_STEP_DEG);
+            }
+            if (gamepad2.startWasPressed()) {
+                shooter.resetAimTrim();
+            }
+            // ───────────────────────────────────────────────────────────────────
             if (gamepad1.left_bumper) {
                 intake.setState(Intake.CaseModes.ON);
             } else if (gamepad1.b || gamepad1.circle) {
