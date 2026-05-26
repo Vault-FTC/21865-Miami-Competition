@@ -10,8 +10,14 @@ import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.Constants;
+import org.firstinspires.ftc.teamcode.subsystems.Intake;
+import org.firstinspires.ftc.teamcode.subsystems.ServoGate;
 
 /**
  * DELETE THIS FILE when tuning is done.
@@ -61,6 +67,12 @@ public class TuneNearIntakeGateRed extends OpMode {
     public static double PARK_X = 109,   PARK_Y = 90;
     public static double PARK_H = 270;
 
+    // Shooter / intake tuning
+    public static double SHOOTER_SPEED    = 1100;  // ticks/s
+    public static double HOOD_POSITION    = 0.45;
+    public static double SHOOT_DURATION_1 = 2.75;  // first shot seconds
+    public static double SHOOT_DURATION   = 0.75;  // subsequent shots seconds
+
     // ── Internal ───────────────────────────────────────────────────────────────
     private static final Style SHOOT  = new Style("shoot",  "#FF4444", 1.2f);
     private static final Style INTAKE = new Style("intake", "#44DD44", 1.2f);
@@ -71,11 +83,36 @@ public class TuneNearIntakeGateRed extends OpMode {
     private PathChain[] paths;
     private int pathIndex = -1;
 
+    private enum Phase { DRIVING, SHOOTING, DONE }
+    private Phase  phase      = Phase.DONE;
+    private double shootEndTime;
+    private int    shootCount;
+    private Intake     intake;
+    private ServoGate  servoGate;
+    private DcMotorEx  shooterMotor;
+    private Servo      hood;
+
+    private enum PathType { SHOOT, INTAKE, NEUTRAL }
+    private static final PathType[] PATH_TYPES = {
+        PathType.SHOOT, PathType.INTAKE, PathType.SHOOT, PathType.INTAKE,
+        PathType.SHOOT, PathType.INTAKE, PathType.SHOOT, PathType.INTAKE,
+        PathType.SHOOT, PathType.INTAKE, PathType.SHOOT
+    };
+
     @Override
     public void init() {
         follower = Constants.PedroPathing.createFollower(hardwareMap);
         Drawing.init();
         PanelsConfigurables.INSTANCE.refreshClass(this);
+        intake       = new Intake(hardwareMap);
+        servoGate    = new ServoGate(hardwareMap);
+        shooterMotor = hardwareMap.get(DcMotorEx.class, "shooter");
+        shooterMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        shooterMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        shooterMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER,
+                new PIDFCoefficients(250, 0, 0, 15));
+        hood = hardwareMap.get(Servo.class, "hood");
+        servoGate.closeGate();
     }
 
     @Override
@@ -89,24 +126,87 @@ public class TuneNearIntakeGateRed extends OpMode {
         pathIndex = 0;
         follower.setStartingPose(new Pose(START_X, START_Y, Math.toRadians(START_H)));
         follower.followPath(paths[0], true);
+        phase = Phase.DRIVING; shootCount = 0;
     }
 
     @Override
     public void loop() {
         follower.update();
 
-        if (pathIndex >= 0 && !follower.isBusy()) {
-            pathIndex++;
-            if (pathIndex < paths.length) {
-                follower.followPath(paths[pathIndex], true);
-            } else {
-                pathIndex = -1;
+        if (phase == Phase.SHOOTING) {
+            shooterMotor.setVelocity(SHOOTER_SPEED);
+            hood.setPosition(HOOD_POSITION);
+            servoGate.openGate();
+            intake.setState(Intake.CaseModes.ON);
+            intake.update();
+            if (getRuntime() >= shootEndTime) {
+                servoGate.closeGate();
+                shooterMotor.setVelocity(0);
+                intake.setState(Intake.CaseModes.OFF);
+                intake.update();
+                phase = Phase.DRIVING;
+                advancePath();
             }
+
+        } else if (phase == Phase.DRIVING && pathIndex >= 0) {
+            PathType type = PATH_TYPES[pathIndex];
+            if (type == PathType.SHOOT) {
+                shooterMotor.setVelocity(SHOOTER_SPEED);
+                hood.setPosition(HOOD_POSITION);
+                intake.setState(Intake.CaseModes.OFF);
+            } else if (type == PathType.INTAKE) {
+                shooterMotor.setVelocity(0);
+                intake.setState(Intake.CaseModes.ON);
+            } else {
+                shooterMotor.setVelocity(0);
+                intake.setState(Intake.CaseModes.OFF);
+            }
+            intake.update();
+
+            if (!follower.isBusy()) {
+                if (type == PathType.SHOOT) {
+                    double dur = (shootCount == 0) ? SHOOT_DURATION_1 : SHOOT_DURATION;
+                    shootEndTime = getRuntime() + dur;
+                    shootCount++;
+                    phase = Phase.SHOOTING;
+                } else {
+                    servoGate.closeGate();
+                    intake.setState(Intake.CaseModes.OFF);
+                    intake.update();
+                    advancePath();
+                }
+            }
+
+        } else {
+            // DONE
+            shooterMotor.setVelocity(0);
+            servoGate.closeGate();
+            intake.setState(Intake.CaseModes.OFF);
+            intake.update();
         }
 
         Drawing.drawDebug(follower);
-        telemetry.addData("Status", pathIndex < 0 ? "Done — Stop/Init to re-run" : "Path " + (pathIndex + 1) + " / " + paths.length);
+        telemetry.addData("Status",   pathIndex < 0 ? "Done — Stop/Init to re-run" : "Path " + (pathIndex + 1) + " / " + paths.length);
+        telemetry.addData("Phase",    phase);
+        telemetry.addData("Flywheel", (int) shooterMotor.getVelocity() + " / " + (int) SHOOTER_SPEED + " tps");
         telemetry.update();
+    }
+
+    private void advancePath() {
+        pathIndex++;
+        if (pathIndex < paths.length) {
+            follower.followPath(paths[pathIndex], true);
+        } else {
+            pathIndex = -1;
+            phase      = Phase.DONE;
+        }
+    }
+
+    @Override
+    public void stop() {
+        if (shooterMotor != null) shooterMotor.setVelocity(0);
+        if (servoGate    != null) servoGate.closeGate();
+        if (intake       != null) { intake.setState(Intake.CaseModes.OFF); intake.update(); }
     }
 
     /** Builds all PathChains from current static field values. */

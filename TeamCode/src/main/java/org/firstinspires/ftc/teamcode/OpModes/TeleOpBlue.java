@@ -83,9 +83,13 @@ public class TeleOpBlue extends AbstractOpMode {
             // ── Gamepad 2: manual aim trim ──────────────────────────────────────
             // Press LB → aim 1° left,  Press RB → aim 1° right,  Start → reset to 0.
             if (gamepad2.leftBumperWasPressed()) {
-                shooter.adjustAimTrim(-AIM_TRIM_STEP_DEG);
-            } else if (gamepad2.rightBumperWasPressed()) {
                 shooter.adjustAimTrim(AIM_TRIM_STEP_DEG);
+            } else if (gamepad2.rightBumperWasPressed()) {
+                shooter.adjustAimTrim(-AIM_TRIM_STEP_DEG);
+            } else if (gamepad2.leftTriggerWasPressed()) {
+                shooter.adjustAimTrim(5);
+            } else if (gamepad2.rightBumperWasPressed()) {
+                shooter.adjustAimTrim(-5);
             }
             if (gamepad2.startWasPressed()) {
                 shooter.resetAimTrim();
