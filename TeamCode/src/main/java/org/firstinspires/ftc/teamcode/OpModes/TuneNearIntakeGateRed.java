@@ -42,22 +42,22 @@ public class TuneNearIntakeGateRed extends OpMode {
     public static double SH2_H1 = 42;
 
     // Intake2 (Red space)
-    public static double IN2_CX = 74,    IN2_CY = 70;
-    public static double IN2_X1 = 125.5, IN2_Y1 = 64;
+    public static double IN2_CX = 74,  IN2_CY = 70;
+    public static double IN2_X1 = 135, IN2_Y1 = 64.5;
     public static double IN2_H1 = 20;
 
     // Shoot3/4/5 (Red space)
-    public static double SH345_CX = 81,  SH345_CY = 80;
-    public static double SH345_H0 = 20,  SH345_H1 = 42;
+    public static double SH345_CX = 81, SH345_CY = 80;
+    public static double SH345_H0 = 20, SH345_H1 = 42;
 
     // Intake3/4 (Red space)
-    public static double IN34_CX = 81,   IN34_CY = 54;
-    public static double IN34_X1 = 125.5, IN34_Y1 = 63;
-    public static double IN34_H0 = 42,   IN34_H1 = 20;
+    public static double IN34_CX = 81,  IN34_CY = 54;
+    public static double IN34_X1 = 135, IN34_Y1 = 64.5;
+    public static double IN34_H0 = 42,  IN34_H1 = 20;
 
     // Intake5 (Red space)
-    public static double IN5_CX = 76,    IN5_CY = 83;
-    public static double IN5_X1 = 121,   IN5_Y1 = 86;
+    public static double IN5_CX = 76,  IN5_CY = 83;
+    public static double IN5_X1 = 126, IN5_Y1 = 86;
 
     // Shoot6 (Red space)
     public static double SH6_X1 = 89,    SH6_Y1 = 105;

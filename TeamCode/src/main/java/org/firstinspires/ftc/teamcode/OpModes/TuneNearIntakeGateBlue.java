@@ -42,7 +42,7 @@ public class TuneNearIntakeGateBlue extends OpMode {
 
     // Intake2
     public static double IN2_CX = 70,   IN2_CY = 70;
-    public static double IN2_X1 = 18.5, IN2_Y1 = 64;
+    public static double IN2_X1 = 14,   IN2_Y1 = 63.5;
     public static double IN2_H1 = 160;
 
     // Shoot3/4/5
@@ -50,9 +50,9 @@ public class TuneNearIntakeGateBlue extends OpMode {
     public static double SH345_H0 = 160, SH345_H1 = 138;
 
     // Intake3/4
-    public static double IN34_CX = 63,   IN34_CY = 54;
-    public static double IN34_X1 = 18.5, IN34_Y1 = 63;
-    public static double IN34_H0 = 138,  IN34_H1 = 160;
+    public static double IN34_CX = 63,  IN34_CY = 54;
+    public static double IN34_X1 = 14,  IN34_Y1 = 62.5;
+    public static double IN34_H0 = 138, IN34_H1 = 160;
 
     // Intake5
     public static double IN5_CX = 68,   IN5_CY = 83;

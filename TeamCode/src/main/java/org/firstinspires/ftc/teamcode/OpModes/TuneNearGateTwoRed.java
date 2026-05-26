@@ -42,32 +42,32 @@ public class TuneNearGateTwoRed extends OpMode {
     public static double SP1_X1 = 138.051, SP1_Y1 = 59.220;
 
     // Shoot2 (Red space)
-    public static double SH2_CX = 113.716, SH2_CY = 52.943;
+    public static double SH2_CX = 50,      SH2_CY = 35;
     public static double SHOOT_X = 99,     SHOOT_Y = 95;
 
     // GateIntake1 (Red space)
-    public static double GI1_CX = 74,    GI1_CY = 70;
-    public static double GI1_X1 = 126.5, GI1_Y1 = 62;
+    public static double GI1_CX = 60,    GI1_CY = 40;
+    public static double GI1_X1 = 138.5, GI1_Y1 = 65;
 
     // GateIntake2 (Red space)
-    public static double GI2_CX = 81, GI2_CY = 54;
+    public static double GI2_CX = 60, GI2_CY = 40;
 
     // Shoot4 (Red space)
-    public static double SH4_CX = 81, SH4_CY = 80;
+    public static double SH4_CX = 74, SH4_CY = 63;
 
     // SpikeIntake2 (Red space)
-    public static double SP2_CX = 90.714, SP2_CY = 27.325;
-    public static double SP2_X1 = 129,    SP2_Y1 = 35;
+    public static double SP2_CX = 90,  SP2_CY = 27;
+    public static double SP2_X1 = 145, SP2_Y1 = 20;
 
     // Shoot5 (Red space)
     public static double SH5_CX = 95.028, SH5_CY = 57.951;
 
     // SpikeIntake3 (Red space)
     public static double SP3_CX = 105.707, SP3_CY = 81.262;
-    public static double SP3_X1 = 130.485, SP3_Y1 = 83.696;
+    public static double SP3_X1 = 130,     SP3_Y1 = 92;
 
     // Shoot6 (Red space)
-    public static double SH6_X1 = 87.153, SH6_Y1 = 104.725;
+    public static double SH6_X1 = 110, SH6_Y1 = 104.725;
     public static double SH6_H1 = 30;
 
     // Shooter / intake tuning
@@ -228,19 +228,19 @@ public class TuneNearGateTwoRed extends OpMode {
 
         PathChain gateIntake1 = follower.pathBuilder().addPath(
                 new BezierCurve(new Pose(SHOOT_X, SHOOT_Y), new Pose(GI1_CX, GI1_CY), new Pose(GI1_X1, GI1_Y1))
-        ).setLinearHeadingInterpolation(Math.toRadians(SH1_H1), Math.toRadians(20)).build();
+        ).setLinearHeadingInterpolation(Math.toRadians(SH1_H1), Math.toRadians(25)).build();
 
         PathChain shoot3 = follower.pathBuilder().addPath(
-                new BezierLine(new Pose(GI1_X1, GI1_Y1), new Pose(SHOOT_X, SHOOT_Y))
-        ).setLinearHeadingInterpolation(Math.toRadians(20), Math.toRadians(SH1_H1)).build();
+                new BezierCurve(new Pose(GI1_X1, GI1_Y1), new Pose(87, 52.943), new Pose(SHOOT_X, SHOOT_Y))
+        ).setLinearHeadingInterpolation(Math.toRadians(25), Math.toRadians(SH1_H1)).build();
 
         PathChain gateIntake2 = follower.pathBuilder().addPath(
                 new BezierCurve(new Pose(SHOOT_X, SHOOT_Y), new Pose(GI2_CX, GI2_CY), new Pose(GI1_X1, GI1_Y1))
-        ).setLinearHeadingInterpolation(Math.toRadians(SH1_H1), Math.toRadians(20)).build();
+        ).setLinearHeadingInterpolation(Math.toRadians(SH1_H1), Math.toRadians(25)).build();
 
         PathChain shoot4 = follower.pathBuilder().addPath(
                 new BezierCurve(new Pose(GI1_X1, GI1_Y1), new Pose(SH4_CX, SH4_CY), new Pose(SHOOT_X, SHOOT_Y))
-        ).setLinearHeadingInterpolation(Math.toRadians(20), Math.toRadians(SH1_H1)).build();
+        ).setLinearHeadingInterpolation(Math.toRadians(25), Math.toRadians(SH1_H1)).build();
 
         PathChain spikeIntake2 = follower.pathBuilder().addPath(
                 new BezierCurve(new Pose(SHOOT_X, SHOOT_Y), new Pose(SP2_CX, SP2_CY), new Pose(SP2_X1, SP2_Y1))

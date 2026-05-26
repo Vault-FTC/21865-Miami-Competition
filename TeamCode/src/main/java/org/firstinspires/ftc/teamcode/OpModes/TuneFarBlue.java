@@ -29,7 +29,7 @@ public class TuneFarBlue extends OpMode {
 
     // ── Paste final values back into FarPathsBlue.java ───────────────────────
 
-    public static double START_X = 54,  START_Y = 8.5,   START_H = 90;
+    public static double START_X = 54,  START_Y = 6,     START_H = 90;
 
     // Shoot1 (line: START → end)
     public static double SH1_X1 = 57,  SH1_Y1 = 12;
@@ -37,22 +37,22 @@ public class TuneFarBlue extends OpMode {
 
     // Intake1 (curve: SH1 end → handle → end)
     public static double IN1_CX = 61.280, IN1_CY = 33;
-    public static double IN1_X1 = 20,     IN1_Y1 = 33;
+    public static double IN1_X1 = 26,     IN1_Y1 = 33;
 
     // Shoot2 (line: IN1 end → SH1 end)
     public static double SH2_H1 = 129;
 
     // Intake2 (line: SH1 end → end)
-    public static double IN2_X1 = 10,  IN2_Y1 = 5;
+    public static double IN2_X1 = 23,  IN2_Y1 = 5;
 
     // Shoot3
-    public static double SH3_X0 = 10,    SH3_Y0 = 10;
+    public static double SH3_X0 = 23,    SH3_Y0 = 5;
     public static double SH3_X1 = 57,    SH3_Y1 = 11.951;
     public static double SH3_H1 = 129;
 
     // Intake3
     public static double IN3_X0 = 57,    IN3_Y0 = 11.971;
-    public static double IN3_X1 = 3,     IN3_Y1 = 13.627;
+    public static double IN3_X1 = 23,    IN3_Y1 = 13.627;
 
     // Shoot4
     public static double SH4_X0 = 10,    SH4_Y0 = 23.627;
@@ -233,7 +233,7 @@ public class TuneFarBlue extends OpMode {
         ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(SH3_H1)).build();
 
         PathChain park = follower.pathBuilder().addPath(
-                new BezierLine(new Pose(SH3_X1, SH3_Y1), new Pose(PARK_X, PARK_Y))
+                new BezierLine(new Pose(IN3_X1, IN3_Y1), new Pose(PARK_X, PARK_Y))
         ).setLinearHeadingInterpolation(Math.toRadians(SH3_H1), Math.toRadians(PARK_H)).build();
 
         return new PathChain[]{ shoot1, intake1, shoot2, intake2, shoot3, intake3, shoot4, park };

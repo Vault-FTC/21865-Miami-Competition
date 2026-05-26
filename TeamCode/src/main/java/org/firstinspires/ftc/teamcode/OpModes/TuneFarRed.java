@@ -38,22 +38,22 @@ public class TuneFarRed extends OpMode {
 
     // Intake1 (Red space)
     public static double IN1_CX = 82.720, IN1_CY = 33;
-    public static double IN1_X1 = 124,    IN1_Y1 = 33;
+    public static double IN1_X1 = 124,    IN1_Y1 = 50;
 
     // Shoot2 (Red space)
     public static double SH2_H1 = 51;
 
     // Intake2 (Red space)
-    public static double IN2_X1 = 134,  IN2_Y1 = 5;
+    public static double IN2_X1 = 132,  IN2_Y1 = 24;
 
     // Shoot3 (Red space)
-    public static double SH3_X0 = 134,    SH3_Y0 = 10;
-    public static double SH3_X1 = 87,     SH3_Y1 = 11.951;
+    public static double SH3_X0 = 132,    SH3_Y0 = 24;
+    public static double SH3_X1 = 87,     SH3_Y1 = 20;
     public static double SH3_H1 = 51;
 
     // Intake3 (Red space)
     public static double IN3_X0 = 87,     IN3_Y0 = 11.971;
-    public static double IN3_X1 = 141,    IN3_Y1 = 13.627;
+    public static double IN3_X1 = 132,    IN3_Y1 = 30;
 
     // Shoot4 (Red space)
     public static double SH4_X0 = 134,    SH4_Y0 = 23.627;
@@ -234,7 +234,7 @@ public class TuneFarRed extends OpMode {
         ).setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(SH3_H1)).build();
 
         PathChain park = follower.pathBuilder().addPath(
-                new BezierLine(new Pose(SH3_X1, SH3_Y1), new Pose(PARK_X, PARK_Y))
+                new BezierLine(new Pose(IN3_X1, IN3_Y1), new Pose(PARK_X, PARK_Y))
         ).setLinearHeadingInterpolation(Math.toRadians(SH3_H1), Math.toRadians(PARK_H)).build();
 
         return new PathChain[]{ shoot1, intake1, shoot2, intake2, shoot3, intake3, shoot4, park };

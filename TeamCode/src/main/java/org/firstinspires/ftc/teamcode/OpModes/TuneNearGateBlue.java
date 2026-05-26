@@ -32,19 +32,19 @@ public class TuneNearGateBlue extends OpMode {
     public static double START_X = 20,   START_Y = 127,  START_H = 140;
 
     public static double SHOOT_X = 45,   SHOOT_Y = 95;
-    public static double INTAKE1_X = 17, INTAKE1_Y = 84;
-    public static double GATE_X = 9,     GATE_Y = 78;
+    public static double INTAKE1_X = 23, INTAKE1_Y = 84;
+    public static double GATE_X = 5,     GATE_Y = 74;
     public static double INTAKE2_X = 15, INTAKE2_Y = 60;
     public static double INTAKE3_X = 25, INTAKE3_Y = 36;
     public static double PARK_X = 35,    PARK_Y = 90;
 
     // Gate1V2
-    public static double G1V2_X0 = 15, G1V2_Y0 = 86;
+    public static double G1V2_X0 = 23, G1V2_Y0 = 84;
     public static double G1V2_CX = 39, G1V2_CY = 85;
-    public static double G1V2_X1 = 12, G1V2_Y1 = 74;
+    public static double G1V2_X1 = 5,  G1V2_Y1 = 74;
 
-    // Shoot2Gate start
-    public static double SH2G_X0 = 12, SH2G_Y0 = 78;
+    // Shoot2Gate start (equals gate position after Gate1V2)
+    public static double SH2G_X0 = 5,  SH2G_Y0 = 74;
 
     // Bezier handles
     public static double INT1_CX = 68,  INT1_CY = 78;
@@ -219,7 +219,7 @@ public class TuneNearGateBlue extends OpMode {
         ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(90)).build();
 
         PathChain shoot2gate = follower.pathBuilder().addPath(
-                new BezierLine(new Pose(SH2G_X0, SH2G_Y0), new Pose(SHOOT_X, SHOOT_Y))
+                new BezierCurve(new Pose(SH2G_X0, SH2G_Y0), new Pose(INT2_CX, INT2_CY), new Pose(SHOOT_X, SHOOT_Y))
         ).setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(H_SHOOT2G_END)).build();
 
         PathChain intake2 = follower.pathBuilder().addPath(
@@ -231,7 +231,7 @@ public class TuneNearGateBlue extends OpMode {
         ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(90)).build();
 
         PathChain shoot3gate = follower.pathBuilder().addPath(
-                new BezierLine(new Pose(GATE_X, GATE_Y), new Pose(SHOOT_X, SHOOT_Y))
+                new BezierCurve(new Pose(GATE_X, GATE_Y), new Pose(INT2_CX, INT2_CY), new Pose(SHOOT_X, SHOOT_Y))
         ).setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(H_SHOOT3G_END)).build();
 
         PathChain intake3 = follower.pathBuilder().addPath(

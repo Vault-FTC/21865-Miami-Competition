@@ -55,7 +55,7 @@ public class NearGatePathsRed extends NearGatePaths {
         ).setLinearHeadingInterpolation(Math.toRadians(45), Math.toRadians(0)).build();
 
         Shoot4 = follower.pathBuilder().addPath(
-                new BezierLine(new Pose(119, 36), new Pose(99, 95))
+                new BezierLine(new Pose(124, 38), new Pose(99, 95))
         ).setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(43)).build();
 
         Park = follower.pathBuilder().addPath(

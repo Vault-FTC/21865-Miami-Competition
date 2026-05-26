@@ -34,18 +34,18 @@ public class TuneNearGateRed extends OpMode {
 
     public static double SHOOT_X = 99,    SHOOT_Y = 95;
     public static double INTAKE1_X = 127, INTAKE1_Y = 84;
-    public static double GATE_X = 135,    GATE_Y = 78;
+    public static double GATE_X = 132,    GATE_Y = 74;
     public static double INTAKE2_X = 129, INTAKE2_Y = 60;
-    public static double INTAKE3_X = 119, INTAKE3_Y = 36;
+    public static double INTAKE3_X = 124, INTAKE3_Y = 38;
     public static double PARK_X = 109,    PARK_Y = 90;
 
     // Gate1V2 (Red space)
-    public static double G1V2_X0 = 129, G1V2_Y0 = 86;
+    public static double G1V2_X0 = 127, G1V2_Y0 = 84;
     public static double G1V2_CX = 105, G1V2_CY = 85;
     public static double G1V2_X1 = 132, G1V2_Y1 = 74;
 
-    // Shoot2Gate start (Red space)
-    public static double SH2G_X0 = 132, SH2G_Y0 = 78;
+    // Shoot2Gate start (Red space) — equals gate position after Gate1V2
+    public static double SH2G_X0 = 132, SH2G_Y0 = 74;
 
     // Bezier handles (Red space)
     public static double INT1_CX = 76,   INT1_CY = 78;

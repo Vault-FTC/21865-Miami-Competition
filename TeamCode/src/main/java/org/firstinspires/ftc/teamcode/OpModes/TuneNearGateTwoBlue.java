@@ -38,7 +38,7 @@ public class TuneNearGateTwoBlue extends OpMode {
 
     // SpikeIntake1
     public static double SP1_CX = 56.515, SP1_CY = 56.865;
-    public static double SP1_X1 = 5.949,  SP1_Y1 = 59.220;
+    public static double SP1_X1 = 10,     SP1_Y1 = 59.220;
 
     // Shoot2
     public static double SH2_CX = 30.284, SH2_CY = 52.943;
@@ -46,10 +46,10 @@ public class TuneNearGateTwoBlue extends OpMode {
 
     // GateIntake1
     public static double GI1_CX = 70,   GI1_CY = 70;
-    public static double GI1_X1 = 17.5, GI1_Y1 = 62;
+    public static double GI1_X1 = 12,   GI1_Y1 = 63;
 
     // GateIntake2
-    public static double GI2_CX = 63, GI2_CY = 54;
+    public static double GI2_CX = 70, GI2_CY = 70;
 
     // Shoot4
     public static double SH4_CX = 63, SH4_CY = 80;
@@ -63,7 +63,7 @@ public class TuneNearGateTwoBlue extends OpMode {
 
     // SpikeIntake3
     public static double SP3_CX = 38.293, SP3_CY = 81.262;
-    public static double SP3_X1 = 13.515, SP3_Y1 = 83.696;
+    public static double SP3_X1 = 24,     SP3_Y1 = 85;
 
     // Shoot6
     public static double SH6_X1 = 56.847, SH6_Y1 = 104.725;
