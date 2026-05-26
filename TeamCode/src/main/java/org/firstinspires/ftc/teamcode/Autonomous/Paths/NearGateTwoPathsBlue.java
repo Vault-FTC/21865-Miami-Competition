@@ -27,7 +27,7 @@ public class NearGateTwoPathsBlue extends NearGateTwoPaths {
         ).setLinearHeadingInterpolation(Math.toRadians(143.5), Math.toRadians(180)).build();
 
         Shoot2 = follower.pathBuilder().addPath(
-                new BezierCurve(new Pose(5.949, 59.220), new Pose(30.284, 52.943), new Pose(45, 95))
+                new BezierCurve(new Pose(10, 59.220), new Pose(30.284, 52.943), new Pose(45, 95))
         ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(143.5)).build();
 
         GateIntake1 = follower.pathBuilder().addPath(
@@ -35,15 +35,15 @@ public class NearGateTwoPathsBlue extends NearGateTwoPaths {
         ).setLinearHeadingInterpolation(Math.toRadians(143.5), Math.toRadians(160)).build();
 
         Shoot3 = follower.pathBuilder().addPath(
-                new BezierLine(new Pose(17.5, 62), new Pose(45, 95))
+                new BezierLine(new Pose(12, 63), new Pose(45, 95))
         ).setLinearHeadingInterpolation(Math.toRadians(160), Math.toRadians(143.5)).build();
 
         GateIntake2 = follower.pathBuilder().addPath(
-                new BezierCurve(new Pose(45, 95), new Pose(63, 54), new Pose(12, 63))
+                new BezierCurve(new Pose(45, 95), new Pose(70, 70), new Pose(12, 63)) //(new Pose(45, 95), new Pose(63, 54), new Pose(12, 63))
         ).setLinearHeadingInterpolation(Math.toRadians(143.5), Math.toRadians(160)).build();
 
         Shoot4 = follower.pathBuilder().addPath(
-                new BezierCurve(new Pose(17.5, 62), new Pose(63, 80), new Pose(45, 95))
+                new BezierCurve(new Pose(12, 63), new Pose(63, 80), new Pose(45, 95))
         ).setLinearHeadingInterpolation(Math.toRadians(160), Math.toRadians(143.5)).build();
 
         SpikeIntake2 = follower.pathBuilder().addPath(
@@ -55,18 +55,18 @@ public class NearGateTwoPathsBlue extends NearGateTwoPaths {
         ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(143.5)).build();
 
         SpikeIntake3 = follower.pathBuilder().addPath(
-                new BezierCurve(new Pose(45, 95), new Pose(38.293, 81.262), new Pose(24, 83.696))
+                new BezierCurve(new Pose(45, 95), new Pose(38.293, 81.262), new Pose(24, 85))
         ).setLinearHeadingInterpolation(Math.toRadians(143.5), Math.toRadians(180)).build();
 
         Shoot6 = follower.pathBuilder().addPath(
-                new BezierLine(new Pose(13.515, 83.696), new Pose(56.847, 104.725))
+                new BezierLine(new Pose(24, 85), new Pose(56.847, 104.725))
         ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(150)).build();
     }
 
     @Override public ShootPathBuilder.Result buildShoot1() { return shootBuilder.build(new Pose(19.081, 124.005), new Pose(48.126, 94.965)); }
-    @Override public ShootPathBuilder.Result buildShoot2() { return shootBuilder.build(new Pose(5.949, 59.220), new Pose(30.284, 52.943), new Pose(45, 95)); }
-    @Override public ShootPathBuilder.Result buildShoot3() { return shootBuilder.build(new Pose(18.5, 62), new Pose(45, 95)); }
-    @Override public ShootPathBuilder.Result buildShoot4() { return shootBuilder.build(new Pose(18.5, 62), new Pose(63, 80), new Pose(45, 95)); }
+    @Override public ShootPathBuilder.Result buildShoot2() { return shootBuilder.build(new Pose(10, 59.220), new Pose(30.284, 52.943), new Pose(45, 95)); }
+    @Override public ShootPathBuilder.Result buildShoot3() { return shootBuilder.build(new Pose(12, 63), new Pose(45, 95)); }
+    @Override public ShootPathBuilder.Result buildShoot4() { return shootBuilder.build(new Pose(12, 63), new Pose(63, 80), new Pose(45, 95)); }
     @Override public ShootPathBuilder.Result buildShoot5() { return shootBuilder.build(new Pose(15, 35), new Pose(48.972, 57.951), new Pose(45, 95)); }
-    @Override public ShootPathBuilder.Result buildShoot6() { return shootBuilder.build(new Pose(13.515, 83.696), new Pose(56.847, 104.725)); }
+    @Override public ShootPathBuilder.Result buildShoot6() { return shootBuilder.build(new Pose(24, 85), new Pose(56.847, 104.725)); }
 }

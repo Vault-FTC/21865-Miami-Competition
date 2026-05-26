@@ -35,7 +35,7 @@ public class NearIntakeGatePathsRed extends NearIntakeGatePaths {
         ).setLinearHeadingInterpolation(Math.toRadians(42), Math.toRadians(20)).build();
 
         Shoot3 = follower.pathBuilder().addPath(
-                new BezierCurve(new Pose(125.5, 64), new Pose(81, 80), new Pose(99, 95))
+                new BezierCurve(new Pose(135, 64.5), new Pose(81, 80), new Pose(99, 95))
         ).setLinearHeadingInterpolation(Math.toRadians(20), Math.toRadians(42)).build();
 
         Intake3 = follower.pathBuilder().addPath(
@@ -43,7 +43,7 @@ public class NearIntakeGatePathsRed extends NearIntakeGatePaths {
         ).setLinearHeadingInterpolation(Math.toRadians(42), Math.toRadians(20)).build();
 
         Shoot4 = follower.pathBuilder().addPath(
-                new BezierCurve(new Pose(125.5, 63), new Pose(81, 80), new Pose(99, 95))
+                new BezierCurve(new Pose(135, 64.5), new Pose(81, 80), new Pose(99, 95))
         ).setLinearHeadingInterpolation(Math.toRadians(20), Math.toRadians(42)).build();
 
         Intake4 = follower.pathBuilder().addPath(
@@ -51,7 +51,7 @@ public class NearIntakeGatePathsRed extends NearIntakeGatePaths {
         ).setLinearHeadingInterpolation(Math.toRadians(42), Math.toRadians(20)).build();
 
         Shoot5 = follower.pathBuilder().addPath(
-                new BezierCurve(new Pose(125.5, 63), new Pose(81, 80), new Pose(99, 95))
+                new BezierCurve(new Pose(135, 64.5), new Pose(81, 80), new Pose(99, 95))
         ).setLinearHeadingInterpolation(Math.toRadians(20), Math.toRadians(42)).build();
 
         Intake5 = follower.pathBuilder().addPath(
@@ -59,7 +59,7 @@ public class NearIntakeGatePathsRed extends NearIntakeGatePaths {
         ).setLinearHeadingInterpolation(Math.toRadians(42), Math.toRadians(0)).build();
 
         Shoot6 = follower.pathBuilder().addPath(
-                new BezierLine(new Pose(121, 86), new Pose(89, 105))
+                new BezierLine(new Pose(126, 86), new Pose(89, 105))
         ).setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(34)).build();
 
         Park = follower.pathBuilder().addPath(
@@ -69,8 +69,8 @@ public class NearIntakeGatePathsRed extends NearIntakeGatePaths {
 
     @Override public ShootPathBuilder.Result buildShoot1() { return shootBuilder.build(new Pose(124, 127), new Pose(99, 95)); }
     @Override public ShootPathBuilder.Result buildShoot2() { return shootBuilder.build(new Pose(129, 63), new Pose(99, 70), new Pose(99, 95)); }
-    @Override public ShootPathBuilder.Result buildShoot3() { return shootBuilder.build(new Pose(125.5, 64), new Pose(81, 80), new Pose(99, 95)); }
-    @Override public ShootPathBuilder.Result buildShoot4() { return shootBuilder.build(new Pose(125.5, 63), new Pose(81, 80), new Pose(99, 95)); }
-    @Override public ShootPathBuilder.Result buildShoot5() { return shootBuilder.build(new Pose(125.5, 63), new Pose(81, 80), new Pose(99, 95)); }
-    @Override public ShootPathBuilder.Result buildShoot6() { return shootBuilder.build(new Pose(121, 86), new Pose(89, 105)); }
+    @Override public ShootPathBuilder.Result buildShoot3() { return shootBuilder.build(new Pose(135, 64.5), new Pose(81, 80), new Pose(99, 95)); }
+    @Override public ShootPathBuilder.Result buildShoot4() { return shootBuilder.build(new Pose(135, 64.5), new Pose(81, 80), new Pose(99, 95)); }
+    @Override public ShootPathBuilder.Result buildShoot5() { return shootBuilder.build(new Pose(135, 64.5), new Pose(81, 80), new Pose(99, 95)); }
+    @Override public ShootPathBuilder.Result buildShoot6() { return shootBuilder.build(new Pose(126, 86), new Pose(89, 105)); }
 }

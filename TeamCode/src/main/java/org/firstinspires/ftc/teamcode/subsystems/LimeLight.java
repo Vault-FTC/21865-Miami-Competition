@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import com.pedropathing.geometry.Pose;
 import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 import com.qualcomm.hardware.limelightvision.LLResult;
+import com.qualcomm.hardware.limelightvision.LLResultTypes;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -31,8 +32,9 @@ public class LimeLight {
     int apriltag;
 
     // ── Last-update diagnostics (refreshed every update() call) ──────────────
-    private boolean lastHadResult   = false; // any valid LL result this cycle?
-    private boolean lastFixAccepted = false; // did it pass isGoodFix()?
+    private boolean lastGotAnyResult = false; // limelight.getLatestResult() non-null?
+    private boolean lastHadResult   = false;  // result non-null AND isValid()?
+    private boolean lastFixAccepted = false;  // did it pass isGoodFix()?
     // Raw MegaTag2 values (field-centre metres / degrees) — NaN when no result.
     private double lastLLX   = Double.NaN;
     private double lastLLY   = Double.NaN;
@@ -54,7 +56,11 @@ public class LimeLight {
 
     public LLResult getLatestValidResult() {
         LLResult result = limelight.getLatestResult();
-        if (result == null || !result.isValid()) return null;
+        if (result == null) return null;
+        // Don't use result.isValid() — it is a staleness check that permanently returns
+        // false on many RC/firmware clock combinations even when the Limelight is
+        // actively detecting tags.  Check for actual fiducial detections instead.
+        if (result.getFiducialResults() == null || result.getFiducialResults().isEmpty()) return null;
         return result;
     }
 
@@ -69,11 +75,17 @@ public class LimeLight {
         limelight.updateRobotOrientation(-odo.getHeading(AngleUnit.DEGREES));
 
         // Reset diagnostics each cycle.
-        lastHadResult = lastFixAccepted = false;
+        lastGotAnyResult = lastHadResult = lastFixAccepted = false;
         lastLLX = lastLLY = lastLLYaw = lastPedroX = lastPedroY = Double.NaN;
 
-        LLResult result = getLatestValidResult();
-        if (result == null) return;
+        // Track whether the camera is streaming at all (non-null result from firmware).
+        LLResult rawResult = limelight.getLatestResult();
+        lastGotAnyResult = (rawResult != null);
+        if (rawResult == null) return;
+
+        // Check for actual AprilTag detections (bypasses the isValid() staleness check).
+        if (rawResult.getFiducialResults() == null || rawResult.getFiducialResults().isEmpty()) return;
+        LLResult result = rawResult;
         lastHadResult = true;
 
         Pose3D visionPose = result.getBotpose_MT2();
@@ -91,17 +103,20 @@ public class LimeLight {
         if (!visionFixQuality.isGoodFix(result, odo.getPosition())) return;
         lastFixAccepted = true;
 
-        double newX = odo.getPosX(DistanceUnit.CM) * (1 - VISION_WEIGHT) + lastPedroX * VISION_WEIGHT;
-        double newY = odo.getPosY(DistanceUnit.CM) * (1 - VISION_WEIGHT) + lastPedroY * VISION_WEIGHT;
-
-        // Blend heading using shortest-arc interpolation to avoid wrap-around glitches.
-        // Pinpoint heading is CW-positive; Limelight yaw is CCW-positive.
-        // Negate the vision yaw to convert it to CW before blending.
-        double odoH = odo.getHeading(AngleUnit.RADIANS);                          // CW+
-        double visH = -visionPose.getOrientation().getYaw(AngleUnit.RADIANS);     // CCW → CW
-        double newH = odoH + VISION_WEIGHT * normalizeAngle(visH - odoH);         // stays CW+
-
-        drivebase.setCurrentPose(new Pose2D(DistanceUnit.CM, newX, newY, AngleUnit.RADIANS, newH));
+        // ── POSITION FUSION DISABLED ─────────────────────────────────────────────
+        // The Limelight→Pedro coordinate conversion has not been verified against
+        // the physical robot yet.  Fusing an incorrect position corrupts aim.
+        // Use the telemetry lines below to compare LL→Pedro X/Y to the Pinpoint
+        // X/Y.  Once they agree within ~5 cm at a known field location, re-enable
+        // by un-commenting the block below.
+        //
+        // double newX = odo.getPosX(DistanceUnit.CM) * (1 - VISION_WEIGHT) + lastPedroX * VISION_WEIGHT;
+        // double newY = odo.getPosY(DistanceUnit.CM) * (1 - VISION_WEIGHT) + lastPedroY * VISION_WEIGHT;
+        // double odoH = odo.getHeading(AngleUnit.RADIANS);
+        // double visH = -visionPose.getOrientation().getYaw(AngleUnit.RADIANS);
+        // double newH = odoH + VISION_WEIGHT * normalizeAngle(visH - odoH);
+        // drivebase.setCurrentPose(new Pose2D(DistanceUnit.CM, newX, newY, AngleUnit.RADIANS, newH));
+        // ─────────────────────────────────────────────────────────────────────────
     }
 
     /**
@@ -126,8 +141,12 @@ public class LimeLight {
         GoBildaPinpointDriver odo = drivebase.getOdo();
 
         t.addLine("── Limelight ──────────────────────");
-        t.addData("  Result visible", lastHadResult  ? "YES" : "NO");
-        t.addData("  Fix accepted",   lastFixAccepted ? "YES" : "NO");
+        // "Camera live" = limelight.getLatestResult() non-null (camera streaming).
+        // "Tag visible"  = result was also isValid() (at least one tag detected).
+        // If Camera=NO → Limelight not connected/started.  If Camera=YES,Tag=NO → no tags in view.
+        t.addData("  Camera live",  lastGotAnyResult ? "YES" : "NO  ← check connection/pipeline");
+        t.addData("  Tag visible",  lastHadResult    ? "YES" : "NO");
+        t.addData("  Fix accepted", lastFixAccepted  ? "YES" : "NO");
         if (!lastFixAccepted) {
             // Show exactly which filter rejected the fix so you can tune thresholds.
             t.addData("  Reject reason", visionFixQuality.getLastRejectReason());
@@ -142,19 +161,26 @@ public class LimeLight {
         }
 
         if (lastHadResult && !Double.isNaN(lastLLX)) {
+            // ── Position comparison (use this to calibrate the conversion) ──────
+            // Place robot at a known field location and compare these two rows.
+            // They should match within ~5 cm when the conversion is correct.
+            double odoX = odo.getPosX(DistanceUnit.CM);
+            double odoY = odo.getPosY(DistanceUnit.CM);
+            t.addData("  Pinpoint X (cm)",   String.format("%.1f", odoX));
+            t.addData("  LL→Pedro X (cm)",   String.format("%.1f", lastPedroX));
+            t.addData("  X diff (cm)",        String.format("%.1f", lastPedroX - odoX));
+            t.addData("  Pinpoint Y (cm)",   String.format("%.1f", odoY));
+            t.addData("  LL→Pedro Y (cm)",   String.format("%.1f", lastPedroY));
+            t.addData("  Y diff (cm)",        String.format("%.1f", lastPedroY - odoY));
+
             // Raw MegaTag2 output (what the Limelight actually computed).
             t.addData("  LL raw X (m)",  String.format("%.3f", lastLLX));
             t.addData("  LL raw Y (m)",  String.format("%.3f", lastLLY));
             t.addData("  LL Yaw (°)",    String.format("%.1f", lastLLYaw));
 
-            // Converted to Pedro space — this is what gets blended into odometry.
-            t.addData("  LL→Pedro X (cm)", String.format("%.1f", lastPedroX));
-            t.addData("  LL→Pedro Y (cm)", String.format("%.1f", lastPedroY));
-
             // Side-by-side heading comparison (both shown in CW-positive to match Pinpoint).
-            // Limelight yaw is CCW-positive (WPILib); negate it for a fair comparison.
-            double odoYaw   = odo.getHeading(AngleUnit.DEGREES);  // CW+
-            double llYawCW  = -lastLLYaw;                          // CCW → CW
+            double odoYaw   = odo.getHeading(AngleUnit.DEGREES);
+            double llYawCW  = -lastLLYaw;
             t.addData("  Pinpoint hdg (°)", String.format("%.1f", odoYaw));
             t.addData("  LL yaw  (CW, °)",  String.format("%.1f", llYawCW));
             t.addData("  Hdg diff     (°)", String.format("%.1f", llYawCW - odoYaw));

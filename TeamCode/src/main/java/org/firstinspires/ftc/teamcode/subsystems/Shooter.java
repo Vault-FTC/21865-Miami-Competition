@@ -46,6 +46,10 @@ public class Shooter extends Subsystem {
         gamepad1 = gamepad;
     }
 
+    public void setGoal(Pose2D goal) {
+        this.goal = goal;
+    }
+
     public void update() {
         double angleError = Drivebase.angleToGoal(drivebase.getPosition(), goal);
         double velocityDeg = drivebase.getOdo().getHeadingVelocity(UnnormalizedAngleUnit.DEGREES);
@@ -152,11 +156,18 @@ public class Shooter extends Subsystem {
     }
     public double distanceToHoodPosition(double distanceCm)
     {
-        double pos = 0.003*distanceCm - 0.1; //double pos = 0.00423077*distanceCm - 0.443846;
-        // clamp to servo limits
-        if (pos < 0.1) return 0.1;
-        if (pos > 0.7) return 0.7;
-        return pos;
+        if (distanceCm <= 100) {
+            return 0.15;
+        } else if (distanceCm <= 275) {
+            return 0.5;
+        } else {
+            return 0.7;
+        }
+//        double pos = 0.003*distanceCm - 0.1; //double pos = 0.00423077*distanceCm - 0.443846;
+//        // clamp to servo limits
+//        if (pos < 0.1) return 0.1;
+//        if (pos > 0.7) return 0.7;
+//        return pos;
     }
     public void setShooterSpeedNear(double speed){
         pidfCoefficients = new PIDFCoefficients(250, 0, 0, 15);

@@ -27,11 +27,11 @@ public class NearGatePathsBlue extends NearGatePaths {
         ).setLinearHeadingInterpolation(Math.toRadians(137), Math.toRadians(180)).build();
 
         Gate1V2 = follower.pathBuilder().addPath(
-                new BezierCurve(new Pose(15, 86), new Pose(39, 85), new Pose(5, 74))
+                new BezierCurve(new Pose(23, 84), new Pose(39, 85), new Pose(5, 74))
         ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(90)).build();
 
         Shoot2Gate = follower.pathBuilder().addPath(
-                new BezierLine(new Pose(12, 78), new Pose(45, 95))
+                new BezierCurve(new Pose(5, 74), new Pose(63, 54), new Pose(45, 95))
         ).setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(130)).build();
 
         Intake2 = follower.pathBuilder().addPath(
@@ -43,7 +43,7 @@ public class NearGatePathsBlue extends NearGatePaths {
         ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(90)).build();
 
         Shoot3Gate = follower.pathBuilder().addPath(
-                new BezierLine(new Pose(9, 78), new Pose(45, 95))
+                new BezierCurve(new Pose(5, 74), new Pose(63, 54), new Pose(45, 95))
         ).setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(135)).build();
 
         Shoot3 = follower.pathBuilder().addPath(
@@ -64,7 +64,7 @@ public class NearGatePathsBlue extends NearGatePaths {
     }
 
     @Override public ShootPathBuilder.Result buildShoot1()     { return shootBuilder.build(new Pose(20, 127), new Pose(45, 95)); }
-    @Override public ShootPathBuilder.Result buildShoot2Gate() { return shootBuilder.build(new Pose(9, 78), new Pose(45, 95)); }
-    @Override public ShootPathBuilder.Result buildShoot3Gate() { return shootBuilder.build(new Pose(9, 78), new Pose(45, 95)); }
+    @Override public ShootPathBuilder.Result buildShoot2Gate() { return shootBuilder.build(new Pose(5, 74), new Pose(45, 95)); }
+    @Override public ShootPathBuilder.Result buildShoot3Gate() { return shootBuilder.build(new Pose(5, 74), new Pose(45, 95)); }
     @Override public ShootPathBuilder.Result buildShoot4()     { return shootBuilder.build(new Pose(25, 36), new Pose(45, 95)); }
 }
