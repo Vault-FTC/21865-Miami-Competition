@@ -70,11 +70,11 @@ public class TuneNearGateTwoRed extends OpMode {
     public static double SH6_X1 = 110, SH6_Y1 = 104.725;
     public static double SH6_H1 = 30;
 
-    // Shooter / intake tuning
+    // Shooter / intake tuning — match NearGateTwo.java TimedShootCommand values
     public static double SHOOTER_SPEED    = 1100;  // ticks/s
     public static double HOOD_POSITION    = 0.45;
-    public static double SHOOT_DURATION_1 = 2.75;  // first shot seconds
-    public static double SHOOT_DURATION   = 0.75;  // subsequent shots seconds
+    public static double SHOOT_DURATION_1 = 0.80;  // shot 1 (auton: 0.80s)
+    public static double SHOOT_DURATION   = 0.60;  // shots 2–4 (auton: 0.60s); shots 5–6 use 0.70s in auton
 
     // ── Internal ───────────────────────────────────────────────────────────────
     private static final Style SHOOT  = new Style("shoot",  "#FF4444", 1.2f);
