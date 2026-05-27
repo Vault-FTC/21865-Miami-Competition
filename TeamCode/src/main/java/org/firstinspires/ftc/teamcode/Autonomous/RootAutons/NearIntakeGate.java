@@ -42,7 +42,7 @@ public abstract class NearIntakeGate extends AbstractOpMode {
                         .add(new TimedShootCommand(shooter, intake, 0.001, telemetry, 1100, servoGate, 0.0, 0.45))
                         .build()
                 )
-                .add(new TimedShootCommand(shooter, intake, 0.6, telemetry, 1100, servoGate, 0.95, 0.45))
+                .add(new TimedShootCommand(shooter, intake, 0.7, telemetry, 1100, servoGate, 0.95, 0.45))
                 .add(ParallelCommandGroup.getBuilder()
                         .add(new IntakeCommand(intake, 1.5, telemetry, servoGate))
                         .add(new PedroDriveToCommand(follower, paths.Intake1, 2, telemetry))
