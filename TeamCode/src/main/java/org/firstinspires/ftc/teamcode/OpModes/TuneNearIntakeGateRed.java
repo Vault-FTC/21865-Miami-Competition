@@ -67,11 +67,11 @@ public class TuneNearIntakeGateRed extends OpMode {
     public static double PARK_X = 109,   PARK_Y = 90;
     public static double PARK_H = 270;
 
-    // Shooter / intake tuning
+    // Shooter / intake tuning — match NearIntakeGate.java TimedShootCommand values
     public static double SHOOTER_SPEED    = 1100;  // ticks/s
     public static double HOOD_POSITION    = 0.45;
-    public static double SHOOT_DURATION_1 = 2.75;  // first shot seconds
-    public static double SHOOT_DURATION   = 0.75;  // subsequent shots seconds
+    public static double SHOOT_DURATION_1 = 0.60;  // shot 1 (auton: 0.60s)
+    public static double SHOOT_DURATION   = 0.60;  // shots 2–5 (auton: 0.60s); shot 6 uses 0.70s in auton
 
     // ── Internal ───────────────────────────────────────────────────────────────
     private static final Style SHOOT  = new Style("shoot",  "#FF4444", 1.2f);

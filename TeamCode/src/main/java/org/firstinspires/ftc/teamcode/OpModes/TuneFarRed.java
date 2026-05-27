@@ -62,11 +62,11 @@ public class TuneFarRed extends OpMode {
     public static double PARK_X = 87,     PARK_Y = 31.364;
     public static double PARK_H = 90;
 
-    // Shooter / intake tuning
-    public static double SHOOTER_SPEED    = 1400;  // ticks/s
-    public static double HOOD_POSITION    = 0.45;
-    public static double SHOOT_DURATION_1 = 3.0;   // first shot seconds
-    public static double SHOOT_DURATION   = 1.0;   // subsequent shots seconds
+    // Shooter / intake tuning — match FarAuto.java TimedShootCommand values
+    public static double SHOOTER_SPEED    = 1400;  // ticks/s for shot 1; auton uses 1450 for shots 2–4
+    public static double HOOD_POSITION    = 0.70;  // auton uses 0.7 for all shots
+    public static double SHOOT_DURATION_1 = 3.0;   // shot 1 (auton: 3.0s)
+    public static double SHOOT_DURATION   = 1.0;   // shots 2–4 (auton: 1.0s)
 
     // ── Internal ───────────────────────────────────────────────────────────────
     private static final Style SHOOT  = new Style("shoot",  "#FF4444", 1.2f);
