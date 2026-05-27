@@ -31,27 +31,27 @@ public class NearIntakeGatePathsBlue extends NearIntakeGatePaths {
         ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(138)).build();
 
         Intake2 = follower.pathBuilder().addPath(
-                new BezierCurve(new Pose(45, 95), new Pose(70, 70), new Pose(14, 63.5))
+                new BezierCurve(new Pose(45, 95), new Pose(70, 70), new Pose(12.5, 63.5))
         ).setLinearHeadingInterpolation(Math.toRadians(138), Math.toRadians(160)).build();
 
         Shoot3 = follower.pathBuilder().addPath(
-                new BezierCurve(new Pose(14, 63), new Pose(63, 80), new Pose(45, 95))
+                new BezierCurve(new Pose(12.5, 63), new Pose(63, 80), new Pose(45, 95))
         ).setLinearHeadingInterpolation(Math.toRadians(160), Math.toRadians(138)).build();
 
         Intake3 = follower.pathBuilder().addPath(
-                new BezierCurve(new Pose(45, 95), new Pose(63, 54), new Pose(14, 62.5))
+                new BezierCurve(new Pose(45, 95), new Pose(63, 54), new Pose(12.5, 62.5))
         ).setLinearHeadingInterpolation(Math.toRadians(138), Math.toRadians(160)).build();
 
         Shoot4 = follower.pathBuilder().addPath(
-                new BezierCurve(new Pose(14, 62), new Pose(63, 80), new Pose(45, 95))
+                new BezierCurve(new Pose(12.5, 62), new Pose(63, 80), new Pose(45, 95))
         ).setLinearHeadingInterpolation(Math.toRadians(160), Math.toRadians(138)).build();
 
         Intake4 = follower.pathBuilder().addPath(
-                new BezierCurve(new Pose(45, 95), new Pose(63, 54), new Pose(14, 62))
+                new BezierCurve(new Pose(45, 95), new Pose(63, 54), new Pose(12.5, 62))
         ).setLinearHeadingInterpolation(Math.toRadians(138), Math.toRadians(160)).build();
 
         Shoot5 = follower.pathBuilder().addPath(
-                new BezierCurve(new Pose(14, 62), new Pose(63, 80), new Pose(45, 95))
+                new BezierCurve(new Pose(12.5, 62), new Pose(63, 80), new Pose(45, 95))
         ).setLinearHeadingInterpolation(Math.toRadians(160), Math.toRadians(138)).build();
 
         Intake5 = follower.pathBuilder().addPath(
