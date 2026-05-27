@@ -23,35 +23,35 @@ public class NearGateTwoPathsRed extends NearGateTwoPaths {
         ).setLinearHeadingInterpolation(Math.toRadians(40), Math.toRadians(36.5)).build();
 
         SpikeIntake1 = follower.pathBuilder().addPath(
-                new BezierCurve(new Pose(95.874, 94.965), new Pose(87.485, 56.865), new Pose(138.051, 59.220))
+                new BezierCurve(new Pose(95.874, 94.965), new Pose(87.485, 56.865), new Pose(138.051, 62.000))
         ).setLinearHeadingInterpolation(Math.toRadians(36.5), Math.toRadians(0)).build();
 
         Shoot2 = follower.pathBuilder().addPath(
-                new BezierCurve(new Pose(138.051, 59.220), new Pose(50, 35), new Pose(99, 99))
+                new BezierCurve(new Pose(138.051, 62.000), new Pose(50, 35), new Pose(99, 99))
         ).setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(36.5)).build();
 
         GateIntake1 = follower.pathBuilder().addPath(
-                new BezierCurve(new Pose(99, 99), new Pose(60, 40), new Pose(138.5, 65)) //new Pose(74, 70)
+                new BezierCurve(new Pose(99, 99), new Pose(60, 40), new Pose(140, 65)) //new Pose(74, 70)
         ).setLinearHeadingInterpolation(Math.toRadians(36.5), Math.toRadians(25)).build();
 
         Shoot3 = follower.pathBuilder().addPath(
-                new BezierCurve(new Pose(135.5, 65.5), new Pose(87, 52.943), new Pose(99, 95))
+                new BezierCurve(new Pose(140, 65.5), new Pose(87, 52.943), new Pose(99, 95))
         ).setLinearHeadingInterpolation(Math.toRadians(25), Math.toRadians(36.5)).build();
 
         GateIntake2 = follower.pathBuilder().addPath(
-                new BezierCurve(new Pose(99, 95), new Pose(60, 40), new Pose(138.5, 65)) //new Pose(81, 54)
+                new BezierCurve(new Pose(99, 95), new Pose(60, 40), new Pose(140, 65)) //new Pose(81, 54)
         ).setLinearHeadingInterpolation(Math.toRadians(36.5), Math.toRadians(25)).build();
 
         Shoot4 = follower.pathBuilder().addPath(
-                new BezierCurve(new Pose(135.5, 65.5), new Pose(74, 63), new Pose(99, 95))
+                new BezierCurve(new Pose(140, 65.5), new Pose(74, 63), new Pose(99, 95))
         ).setLinearHeadingInterpolation(Math.toRadians(25), Math.toRadians(36.5)).build();
 
         SpikeIntake2 = follower.pathBuilder().addPath(
-                new BezierCurve(new Pose(99, 95), new Pose(90, 27), new Pose(145, 20))
+                new BezierCurve(new Pose(99, 95), new Pose(90, 27), new Pose(147, 18))
         ).setLinearHeadingInterpolation(Math.toRadians(36.5), Math.toRadians(0)).build();
 
         Shoot5 = follower.pathBuilder().addPath(
-                new BezierCurve(new Pose(135, 20), new Pose(95.028, 57.951), new Pose(99, 95))
+                new BezierCurve(new Pose(147, 18), new Pose(95.028, 57.951), new Pose(99, 95))
         ).setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(36.5)).build();
 
         SpikeIntake3 = follower.pathBuilder().addPath(
