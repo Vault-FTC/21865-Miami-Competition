@@ -78,7 +78,12 @@ public class Drivebase extends Subsystem {
         backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
     }
     public void resetHeading() {
+        // recalibrateIMU() resets the Pinpoint's XY position to 0, so save and restore it.
+        double savedX = odo.getPosX(DistanceUnit.CM);
+        double savedY = odo.getPosY(DistanceUnit.CM);
         odo.recalibrateIMU();
+        odo.setPosX(savedX, DistanceUnit.CM);
+        odo.setPosY(savedY, DistanceUnit.CM);
     }
 
     public Pose2D getPosition() {

@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.OpModes;
 
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.Pose;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
@@ -10,6 +11,7 @@ import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.subsystems.LimeLight;
 import org.firstinspires.ftc.teamcode.subsystems.PoseStorage;
 
+@Disabled
 @TeleOp
 public class SpeedTuner extends AbstractOpMode {
     double launchPower = 0;

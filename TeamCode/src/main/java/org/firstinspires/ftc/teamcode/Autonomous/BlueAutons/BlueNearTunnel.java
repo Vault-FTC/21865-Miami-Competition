@@ -2,11 +2,13 @@ package org.firstinspires.ftc.teamcode.Autonomous.BlueAutons;
 
 import com.pedropathing.follower.Follower;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.Autonomous.Paths.NearPaths;
 import org.firstinspires.ftc.teamcode.Autonomous.Paths.NearPathsBlue;
 import org.firstinspires.ftc.teamcode.Autonomous.RootAutons.NearTunnel;
 
+@Disabled
 @Autonomous(name = "Blue Near Tunnel")
 public class BlueNearTunnel extends NearTunnel {
     @Override

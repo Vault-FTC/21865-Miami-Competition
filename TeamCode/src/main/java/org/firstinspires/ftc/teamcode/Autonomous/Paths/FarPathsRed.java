@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.Autonomous.ShootPathBuilder;
 /** Red-alliance far-side paths. Initially mirrored Blue values — tune independently. */
 public class FarPathsRed extends FarPaths {
 
-    private static final double GOAL_X = 135, GOAL_Y = 138;
+    private static final double GOAL_X = 132.5, GOAL_Y = 138;
     private final ShootPathBuilder shootBuilder;
 
     public FarPathsRed(Follower follower) {
