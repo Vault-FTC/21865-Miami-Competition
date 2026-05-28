@@ -35,7 +35,7 @@ public class NearGateTwoPathsBlue extends NearGateTwoPaths {
         ).setLinearHeadingInterpolation(Math.toRadians(143.5), Math.toRadians(160)).build();
 
         Shoot3 = follower.pathBuilder().addPath(
-                new BezierCurve(new Pose(11.5, 63), new Pose(150, 80), new Pose(45, 95))
+                new BezierCurve(new Pose(11.5, 63), new Pose(70, 70), new Pose(45, 95))
         ).setLinearHeadingInterpolation(Math.toRadians(160), Math.toRadians(143.5)).build();
 
         GateIntake2 = follower.pathBuilder().addPath(
@@ -47,7 +47,7 @@ public class NearGateTwoPathsBlue extends NearGateTwoPaths {
         ).setLinearHeadingInterpolation(Math.toRadians(160), Math.toRadians(143.5)).build();
 
         SpikeIntake2 = follower.pathBuilder().addPath(
-                new BezierCurve(new Pose(45, 95), new Pose(53.286, 27.325), new Pose(15, 35))
+                new BezierCurve(new Pose(45, 95), new Pose(53.286, 27.325), new Pose(5, 35))
         ).setLinearHeadingInterpolation(Math.toRadians(143.5), Math.toRadians(180)).build();
 
         Shoot5 = follower.pathBuilder().addPath(

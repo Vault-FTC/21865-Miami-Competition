@@ -23,11 +23,11 @@ public class NearPathsBlue extends NearPaths {
         ).setLinearHeadingInterpolation(Math.toRadians(140), Math.toRadians(137)).build();
 
         Intake1 = follower.pathBuilder().addPath(
-                new BezierCurve(new Pose(45, 95), new Pose(68, 78), new Pose(17, 84))
+                new BezierCurve(new Pose(45, 95), new Pose(68, 78), new Pose(17, 90))
         ).setLinearHeadingInterpolation(Math.toRadians(137), Math.toRadians(180)).build();
 
         Gate1 = follower.pathBuilder().addPath(
-                new BezierCurve(new Pose(17, 84), new Pose(35, 83), new Pose(9, 78))
+                new BezierCurve(new Pose(17, 90), new Pose(35, 83), new Pose(5, 78))
         ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(90)).build();
 
         Gate1V2 = follower.pathBuilder().addPath(
@@ -63,7 +63,7 @@ public class NearPathsBlue extends NearPaths {
         ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(135)).build();
 
         Intake3 = follower.pathBuilder().addPath(
-                new BezierCurve(new Pose(45, 95), new Pose(63, 28), new Pose(25, 36))
+                new BezierCurve(new Pose(45, 95), new Pose(63, 28), new Pose(15, 36))
         ).setLinearHeadingInterpolation(Math.toRadians(135), Math.toRadians(180)).build();
 
         GateIntake3 = follower.pathBuilder().addPath(

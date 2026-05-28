@@ -59,7 +59,7 @@ public class NearIntakeGatePathsBlue extends NearIntakeGatePaths {
         ).setLinearHeadingInterpolation(Math.toRadians(138), Math.toRadians(180)).build();
 
         Shoot6 = follower.pathBuilder().addPath(
-                new BezierLine(new Pose(23, 86), new Pose(55, 105))
+                new BezierLine(new Pose(23, 86), new Pose(45, 105))
         ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(146)).build();
 
         Park = follower.pathBuilder().addPath(
