@@ -55,15 +55,15 @@ public class NearIntakeGatePathsRed extends NearIntakeGatePaths {
         ).setLinearHeadingInterpolation(Math.toRadians(21), Math.toRadians(42)).build();
 
         Intake5 = follower.pathBuilder().addPath(
-                new BezierCurve(new Pose(99, 95), new Pose(76, 83), new Pose(128, 83))
+                new BezierCurve(new Pose(99, 95), new Pose(76, 83), new Pose(128, 100))
         ).setLinearHeadingInterpolation(Math.toRadians(42), Math.toRadians(0)).build();
 
         Shoot6 = follower.pathBuilder().addPath(
-                new BezierLine(new Pose(126, 86), new Pose(89, 105))
+                new BezierLine(new Pose(126, 90), new Pose(89, 105))
         ).setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(34)).build();
 
         Park = follower.pathBuilder().addPath(
-                new BezierLine(new Pose(99, 95), new Pose(109, 90))
+                new BezierLine(new Pose(99, 95), new Pose(120, 85))
         ).setLinearHeadingInterpolation(Math.toRadians(43), Math.toRadians(270)).build();
     }
 
