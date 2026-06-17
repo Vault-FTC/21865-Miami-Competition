@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.Autonomous.ShootPathBuilder;
 /** Blue-alliance near-side 6-shot spike/gate paths. */
 public class NearGateTwoPathsBlue extends NearGateTwoPaths {
 
-    private static final double GOAL_X = 12, GOAL_Y = 135;
+    private static final double GOAL_X = 10, GOAL_Y = 130;
     private final ShootPathBuilder shootBuilder;
 
     public NearGateTwoPathsBlue(Follower follower) {
@@ -68,5 +68,5 @@ public class NearGateTwoPathsBlue extends NearGateTwoPaths {
     @Override public ShootPathBuilder.Result buildShoot3() { return shootBuilder.build(new Pose(12, 63), new Pose(45, 95)); }
     @Override public ShootPathBuilder.Result buildShoot4() { return shootBuilder.build(new Pose(12, 63), new Pose(63, 80), new Pose(45, 95)); }
     @Override public ShootPathBuilder.Result buildShoot5() { return shootBuilder.build(new Pose(15, 35), new Pose(48.972, 57.951), new Pose(45, 95)); }
-    @Override public ShootPathBuilder.Result buildShoot6() { return shootBuilder.build(new Pose(24, 85), new Pose(56.847, 104.725)); }
+    @Override public ShootPathBuilder.Result buildShoot6() { return shootBuilder.build(new Pose(24, 85), new Pose(50, 104.725)); }
 }

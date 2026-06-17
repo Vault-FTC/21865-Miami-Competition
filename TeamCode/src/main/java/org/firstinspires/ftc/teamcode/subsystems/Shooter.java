@@ -68,9 +68,15 @@ public class Shooter extends Subsystem {
                 break;
             case SHOOT_FAR:
                 offset_by_distance = 0.05;
+                // falls through to SHOOT_NEAR for shared aim logic
             case SHOOT_NEAR:
                 double correctedError = angleError + offset_by_distance + Math.toRadians(aimTrimDeg);
                 double new_joystick_rx = correctedError * kP - velocityDeg * kD;
+//                if (currentMode == CaseModes.SHOOT_FAR) {
+//                    setShooterSpeedFar(distanceToSpeed(distance));
+//                } else {
+//                    setShooterSpeedNear(distanceToSpeed(distance));
+//                }
                 drivebase.updateAutoAim(new_joystick_rx);
                 servoGate.openGate();
                 if (Math.abs(Math.toDegrees(correctedError)) < 1 && getShooterVelocity() >= distanceToSpeed(distance)) {
@@ -196,7 +202,7 @@ public class Shooter extends Subsystem {
         shooter.setVelocity(speed);
     }
     public void setShooterSpeedFar(double speed) {
-        pidfCoefficients = new PIDFCoefficients(350, 0, 0, 15.2); // p:440 f:14  for new shooter if we need to change it
+        pidfCoefficients = new PIDFCoefficients(500, 0, 0, 12.113); // p:440 f:14  for new shooter if we need to change it
         shooter.setVelocity(speed);
     }
     public void setHoodPosition(double position) {

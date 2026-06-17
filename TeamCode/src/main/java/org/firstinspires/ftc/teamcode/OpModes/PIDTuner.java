@@ -10,21 +10,23 @@ import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.subsystems.ServoGate;
 
-@Disabled
 @TeleOp
 public class PIDTuner extends OpMode {
     Intake intake;
     ServoGate servoGate;
     public DcMotorEx shooter;
-    double highVelocity = 1500;
+    double highVelocity = 1425;
     double lowVelocity = 1000;
     double off = 0;
     double curTargetVelocity = highVelocity;
-    double F = 0;
-    double P = 0;
+    double F = 12.113;
+    double P = 500;
     double[] stepSizes = {10.0, 1.0, 0.1, 0.001, 0.0001};
-    int stepIndex = 10;
+    int stepIndex = 0;
 
+
+    // F = 16.7510
+    // P = 1000
     @Override
     public void init() {
         shooter = hardwareMap.get(DcMotorEx.class, "shooter");
@@ -79,12 +81,13 @@ public class PIDTuner extends OpMode {
         double curVelocity = shooter.getVelocity();
         double error = curTargetVelocity - curVelocity;
 
-telemetry.addData("Target Velocity", curTargetVelocity);
-telemetry.addData("Current Velocity", "%.2f", curVelocity);
-telemetry.addData("Error", "%.2f", error);
-telemetry.addLine("-----------------------");
-telemetry.addData("Tuning P", "%.4f (D-Pad U/D)", P);
-telemetry.addData("Tuning F", "%.4f (D-Pad L/R)", F);
-telemetry.addData("Step Size", "%.4f (B-Button)", stepSizes[stepIndex]);
+        telemetry.addData("Target Velocity", curTargetVelocity);
+        telemetry.addData("Current Velocity", "%.2f", curVelocity);
+        telemetry.addData("Error", "%.2f", error);
+        telemetry.addLine("-----------------------");
+        telemetry.addData("Tuning P", "%.4f (D-Pad U/D)", P);
+        telemetry.addData("Tuning F", "%.4f (D-Pad L/R)", F);
+        telemetry.addData("Step Size", "%.4f (B-Button)", stepSizes[stepIndex]);
+        intake.update();
     }
 }

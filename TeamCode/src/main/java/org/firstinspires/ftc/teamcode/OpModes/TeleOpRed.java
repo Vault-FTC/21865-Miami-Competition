@@ -11,7 +11,7 @@ public class TeleOpRed extends TeleOpBlue {
    @Override public void setTargets()
     {
         limelight = new LimeLight(hardwareMap, 24, drivebase);
-        gatePosition = new Location(135, 55, 123);
+        gatePosition = new Location(337, 141.5, 21.4);
         goal = Constants.RED_CENTER_GOAL;
         shooter.setGoal(Constants.RED_CENTER_GOAL);
         headingOffset = Math.PI/2;

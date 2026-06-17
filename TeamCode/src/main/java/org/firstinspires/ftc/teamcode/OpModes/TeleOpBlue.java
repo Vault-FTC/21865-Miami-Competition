@@ -54,6 +54,9 @@ public class TeleOpBlue extends AbstractOpMode {
         );
 
         while (opModeIsActive()) {
+            // Update odo first so every calculation this frame uses fresh position.
+            drivebase.update();
+
             double distance = drivebase.distanceToGoal(drivebase.getPosition(), goal);
             double angleError = drivebase.angleToGoal(drivebase.getPosition(), goal);
             double joystick_y = gamepad1.left_stick_x; // Forward/backward
@@ -82,14 +85,14 @@ public class TeleOpBlue extends AbstractOpMode {
             }
 
             // ── Gamepad 2: manual aim trim ──────────────────────────────────────
-            // Press LB → aim 1° left,  Press RB → aim 1° right,  Start → reset to 0.
+            // LB → +1°, RB → -1°, LT → +5°, RT → -5°, Start → reset to 0.
             if (gamepad2.leftBumperWasPressed()) {
                 shooter.adjustAimTrim(AIM_TRIM_STEP_DEG);
             } else if (gamepad2.rightBumperWasPressed()) {
                 shooter.adjustAimTrim(-AIM_TRIM_STEP_DEG);
             } else if (gamepad2.leftTriggerWasPressed()) {
                 shooter.adjustAimTrim(5);
-            } else if (gamepad2.rightBumperWasPressed()) {
+            } else if (gamepad2.rightTriggerWasPressed()) {
                 shooter.adjustAimTrim(-5);
             }
             if (gamepad2.startWasPressed()) {
@@ -112,12 +115,13 @@ public class TeleOpBlue extends AbstractOpMode {
             } else if (gamepad1.share) {
                 shooter.setState(Shooter.CaseModes.SHOOT_LIMELIGHT_AIM);
             }
-
             else if (gamepad1.square || gamepad2.square || gamepad2.triangle) {
                 shooter.setState(Shooter.CaseModes.SHOOT_NO_AIM);
             } else {
                 shooter.setState(Shooter.CaseModes.SHOOT_GATE_CLOSED);
             }
+            intake.update();
+            shooter.update();
 
             if (gamepad1.triangle) {
                 drivebase.driveToPosition(gatePosition, 0, telemetry);
@@ -143,9 +147,6 @@ public class TeleOpBlue extends AbstractOpMode {
             limelight.update();
             limelight.addTelemetry(telemetry);
             telemetry.update();
-            intake.update();
-            shooter.update();
-            drivebase.update();
         }
     }
 }
