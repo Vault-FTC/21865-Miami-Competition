@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.Autonomous.ShootPathBuilder;
 /** Red-alliance near-side 6-shot spike/gate paths. Initially mirrored Blue values — tune independently. */
 public class NearGateTwoPathsRed extends NearGateTwoPaths {
 
-    private static final double GOAL_X = 133.5, GOAL_Y = 135;
+    private static final double GOAL_X = 133.5, GOAL_Y = 138;
     private final ShootPathBuilder shootBuilder;
 
     public NearGateTwoPathsRed(Follower follower) {
@@ -47,11 +47,11 @@ public class NearGateTwoPathsRed extends NearGateTwoPaths {
         ).setLinearHeadingInterpolation(Math.toRadians(25), Math.toRadians(36.5)).build();
 
         SpikeIntake2 = follower.pathBuilder().addPath(
-                new BezierCurve(new Pose(99, 95), new Pose(90, 27), new Pose(149, 18))
+                new BezierCurve(new Pose(99, 95), new Pose(85, 22), new Pose(153, 45))
         ).setLinearHeadingInterpolation(Math.toRadians(36.5), Math.toRadians(0), 0.8).build();
 
         Shoot5 = follower.pathBuilder().addPath(
-                new BezierCurve(new Pose(149, 18), new Pose(95, 58), new Pose(99, 95))
+                new BezierCurve(new Pose(153, 45), new Pose(95, 58), new Pose(99, 95))
         ).setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(36.5)).build();
 
         SpikeIntake3 = follower.pathBuilder().addPath(
@@ -59,7 +59,7 @@ public class NearGateTwoPathsRed extends NearGateTwoPaths {
         ).setLinearHeadingInterpolation(Math.toRadians(36.5), Math.toRadians(0)).build();
 
         Shoot6 = follower.pathBuilder().addPath(
-                new BezierLine(new Pose(133, 92), new Pose(90, 105))
+                new BezierLine(new Pose(133, 92), new Pose(95, 110))
         ).setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(30)).build();
     }
 
@@ -67,6 +67,6 @@ public class NearGateTwoPathsRed extends NearGateTwoPaths {
     @Override public ShootPathBuilder.Result buildShoot2() { return shootBuilder.build(new Pose(135, 62), new Pose(90, 35), new Pose(99, 99)); }
     @Override public ShootPathBuilder.Result buildShoot3() { return shootBuilder.build(new Pose(136.5, 63), new Pose(87, 53), new Pose(99, 95)); }
     @Override public ShootPathBuilder.Result buildShoot4() { return shootBuilder.build(new Pose(136.5, 63), new Pose(74, 63), new Pose(99, 95)); }
-    @Override public ShootPathBuilder.Result buildShoot5() { return shootBuilder.build(new Pose(149, 18), new Pose(95, 58), new Pose(99, 95)); }
-    @Override public ShootPathBuilder.Result buildShoot6() { return shootBuilder.build(new Pose(133, 92), new Pose(90, 105)); }
+    @Override public ShootPathBuilder.Result buildShoot5() { return shootBuilder.build(new Pose(153, 45), new Pose(95, 58), new Pose(99, 95)); }
+    @Override public ShootPathBuilder.Result buildShoot6() { return shootBuilder.build(new Pose(133, 92), new Pose(95, 110)); }
 }

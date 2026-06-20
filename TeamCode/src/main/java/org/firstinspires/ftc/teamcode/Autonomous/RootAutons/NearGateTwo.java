@@ -52,6 +52,7 @@ public abstract class NearGateTwo extends AbstractOpMode {
                         .add(new DriveToCommandDynamicAim(follower, paths::buildShoot2, 2, telemetry))
                         .build()
                 )
+                .add(new BrakeCommand(drivebase, 0.2, telemetry))
                 .add(new TimedShootCommand(shooter, intake, 0.6, telemetry, 1100, servoGate, 0.95, 0.45))
                 .add(ParallelCommandGroup.getBuilder()
                         .add(new IntakeCommand(intake, 1.0, telemetry, servoGate))

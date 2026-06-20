@@ -134,6 +134,10 @@ public class TeleOpBlue extends AbstractOpMode {
                 drivebase.drive(joystick_y, joystick_x, joystick_rx, headingOffset);
             }
 
+            if (gamepad2.squareWasPressed()) {
+                drivebase.setCurrentPose(19, 24, 0);
+            }
+
             telemetry.addData("Angle from goal", angleError * 180/Math.PI);
             telemetry.addData("Goal dir (deg)", Math.toDegrees(Math.atan2(
                     goal.getY(DistanceUnit.CM) - drivebase.getPosition().getY(DistanceUnit.CM),
