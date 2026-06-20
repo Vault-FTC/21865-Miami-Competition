@@ -134,8 +134,12 @@ public class TeleOpBlue extends AbstractOpMode {
                 drivebase.drive(joystick_y, joystick_x, joystick_rx, headingOffset);
             }
 
-            if (gamepad2.squareWasPressed()) {
+            if (gamepad2.crossWasPressed()) {
                 drivebase.setCurrentPose(19, 24, 0);
+            }
+
+            if (gamepad2.circleWasPressed()) {
+                shooter.setFarShotMoveEnabled(!shooter.isFarShotMoveEnabled());
             }
 
             telemetry.addData("Angle from goal", angleError * 180/Math.PI);
@@ -148,6 +152,7 @@ public class TeleOpBlue extends AbstractOpMode {
             telemetry.addData("Position", drivebase.getPositionTelemetry());
             telemetry.addData("Has Three Artifacts", intake.hasThreeArtifacts());
             telemetry.addData("Intake Current Draw", intake.currentDraw());
+            telemetry.addData("Far shot move enabled", shooter.isFarShotMoveEnabled());
             limelight.update();
             limelight.addTelemetry(telemetry);
             telemetry.update();

@@ -26,6 +26,7 @@ public class Shooter extends Subsystem {
     private final Intake intake;
     private final LUT lut = new LUT();
     private LimeLight limelight = null;
+    private boolean farShotMoveEnabled = true;
     double distance, speed;
     double kP = 1.3;
     double kD = 0.0015;
@@ -53,6 +54,14 @@ public class Shooter extends Subsystem {
         this.goal = goal;
     }
 
+    public void setFarShotMoveEnabled(boolean enabled) {
+        farShotMoveEnabled = enabled;
+    }
+
+    public boolean isFarShotMoveEnabled() {
+        return farShotMoveEnabled;
+    }
+
     public void update() {
         double angleError = Drivebase.angleToGoal(drivebase.getPosition(), goal);
         double velocityDeg = drivebase.getOdo().getHeadingVelocity(UnnormalizedAngleUnit.DEGREES);
@@ -68,6 +77,9 @@ public class Shooter extends Subsystem {
                 break;
             case SHOOT_FAR:
                 offset_by_distance = 0.05;
+                if (farShotMoveEnabled) {
+                    drivebase.drive(2.5, 0, 0, -Math.PI/2);
+                }
                 // falls through to SHOOT_NEAR for shared aim logic
             case SHOOT_NEAR:
                 double correctedError = angleError + offset_by_distance + Math.toRadians(aimTrimDeg);
@@ -119,6 +131,7 @@ public class Shooter extends Subsystem {
             case SHOOT_GATE_CLOSED:
                 intake.setState(Intake.CaseModes.OFF);
                 servoGate.closeGate();
+                drivebase.drive(0, 0, 0, 0);
                 break;
             case SHOOT_NO_AIM:
                 servoGate.openGate();
