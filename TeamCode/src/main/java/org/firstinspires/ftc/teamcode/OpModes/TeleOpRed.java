@@ -16,5 +16,8 @@ public class TeleOpRed extends TeleOpBlue {
         shooter.setGoal(Constants.RED_CENTER_GOAL);
         headingOffset = Math.PI/2;
         parkPosition = new Location(411, -22.6,-90 );
+        resetPointX = 19;
+        resetPointY = 24;
+        resetPointHeadingRadians = 0;
     }
 }

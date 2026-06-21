@@ -27,6 +27,9 @@ public class TeleOpBlue extends AbstractOpMode {
     Location parkPosition = new Location(130.7, 65, 90);
     Pose2D goal = Constants.BLUE_CENTER_GOAL;
     double headingOffset = -Math.PI/2;
+    double resetPointX = 328;
+    double resetPointY = 22.8;
+    double resetPointHeadingRadians = -3.14;
 
     /** Degrees of aim trim added per button press. */
     private static final double AIM_TRIM_STEP_DEG = 1.0;
@@ -135,7 +138,7 @@ public class TeleOpBlue extends AbstractOpMode {
             }
 
             if (gamepad2.crossWasPressed()) {
-                drivebase.setCurrentPose(19, 24, 0);
+                drivebase.setCurrentPose(resetPointX, resetPointY, resetPointHeadingRadians);
             }
 
             if (gamepad2.circleWasPressed()) {
