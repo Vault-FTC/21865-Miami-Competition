@@ -9,11 +9,11 @@ import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 
 import java.util.List;
 
-public class LimeLight {
+public class Limelight {
     Limelight3A limelight;
     int apriltag;
 
-    public LimeLight(HardwareMap hardwareMap, int apriltag)
+    public Limelight(HardwareMap hardwareMap, int apriltag)
     {
         this.apriltag = apriltag;
         limelight = hardwareMap.get(Limelight3A.class, "limelight");

@@ -17,7 +17,7 @@ import org.firstinspires.ftc.teamcode.Commands.PedroDriveToCommand;
 import org.firstinspires.ftc.teamcode.Commands.TimedShootCommand;
 import org.firstinspires.ftc.teamcode.Constants;
 import org.firstinspires.ftc.teamcode.OpModes.AbstractOpMods.AbstractOpMode;
-import org.firstinspires.ftc.teamcode.subsystems.LimeLight;
+import org.firstinspires.ftc.teamcode.subsystems.Limelight;
 import org.firstinspires.ftc.teamcode.subsystems.PoseStorage;
 
 @Autonomous
@@ -29,7 +29,7 @@ public class RedNearIntakeGate extends AbstractOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         startHardware();
-        limelight = new LimeLight(hardwareMap,20);
+        limelight = new Limelight(hardwareMap,20);
         commandScheduler.clearRegistry();
         follower = Constants.PedroPathing.createFollower(hardwareMap);
 

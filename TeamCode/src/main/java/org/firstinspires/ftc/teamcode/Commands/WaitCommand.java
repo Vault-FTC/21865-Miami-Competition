@@ -1,6 +1,8 @@
-package org.firstinspires.ftc.teamcode.CommandSystem;
+package org.firstinspires.ftc.teamcode.Commands;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.teamcode.CommandSystem.Command;
 
 public class WaitCommand extends Command {
     private final ElapsedTime timer = new ElapsedTime();

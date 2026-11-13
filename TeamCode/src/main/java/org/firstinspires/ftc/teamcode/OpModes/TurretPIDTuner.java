@@ -4,7 +4,7 @@ import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.teamcode.NewDriveSpeeds;
+import org.firstinspires.ftc.teamcode.DriveSpeeds;
 import org.firstinspires.ftc.teamcode.OpModes.AbstractOpMods.AbstractBlueOpMode;
 import org.firstinspires.ftc.teamcode.subsystems.PoseStorage;
 
@@ -36,16 +36,16 @@ public class TurretPIDTuner extends AbstractBlueOpMode {
                         aprilTag.getBotpose_MT2().getPosition().toUnit(DistanceUnit.CM).y);
                 telemetry.addData("BotPose", aprilTag.getBotpose_MT2().getPosition());
             } else if(gamepad1.left_bumper && gamepad1.cross) {
-                drivebase.setstate(NewDriveSpeeds.DRIVE_FULL);
+                drivebase.setstate(DriveSpeeds.DRIVE_FULL);
             }
             else if(gamepad1.left_bumper && gamepad1.circle) {
-                drivebase.setstate(NewDriveSpeeds.DRIVE_ALMOST_FULL);
+                drivebase.setstate(DriveSpeeds.DRIVE_ALMOST_FULL);
             }
             else if(gamepad1.left_bumper && gamepad1.square) {
-                drivebase.setstate(NewDriveSpeeds.DRIVE_SEVENTY_PERCENT);
+                drivebase.setstate(DriveSpeeds.DRIVE_SEVENTY_PERCENT);
             }
             else if(gamepad1.left_bumper && gamepad1.triangle) {
-                drivebase.setstate(NewDriveSpeeds.DRIVE_HALF);
+                drivebase.setstate(DriveSpeeds.DRIVE_HALF);
             } else if (gamepad1.circleWasPressed()) {
                 stepIndex = (stepIndex + 1) % stepSizes.length;
             } else if (gamepad1.dpadRightWasPressed()) {

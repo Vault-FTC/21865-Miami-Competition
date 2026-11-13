@@ -17,7 +17,7 @@ import org.firstinspires.ftc.teamcode.Commands.PedroDriveToCommand;
 import org.firstinspires.ftc.teamcode.Commands.TimedShootCommand;
 import org.firstinspires.ftc.teamcode.Constants;
 import org.firstinspires.ftc.teamcode.OpModes.AbstractOpMods.AbstractOpMode;
-import org.firstinspires.ftc.teamcode.subsystems.LimeLight;
+import org.firstinspires.ftc.teamcode.subsystems.Limelight;
 import org.firstinspires.ftc.teamcode.subsystems.PoseStorage;
 
 @Autonomous(name ="27 BLUE NEAR AUTO")
@@ -31,7 +31,7 @@ public class TwentySevenNearBlueAuto extends AbstractOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         startHardware();
-        limelight = new LimeLight(hardwareMap, 20);
+        limelight = new Limelight(hardwareMap, 20);
         commandScheduler.clearRegistry();
         Constants.PedroPathing.driveConstants.setXVelocity(30);
         Constants.PedroPathing.driveConstants.setYVelocity(30);

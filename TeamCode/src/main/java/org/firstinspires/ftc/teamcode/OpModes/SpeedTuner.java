@@ -8,7 +8,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.Constants;
 import org.firstinspires.ftc.teamcode.OpModes.AbstractOpMods.AbstractOpMode;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
-import org.firstinspires.ftc.teamcode.subsystems.LimeLight;
+import org.firstinspires.ftc.teamcode.subsystems.Limelight;
 import org.firstinspires.ftc.teamcode.subsystems.PoseStorage;
 
 @TeleOp
@@ -18,7 +18,7 @@ public class SpeedTuner extends AbstractOpMode {
     double headingOffset = 0;
 
     public void setTargets() {
-        limelight = new LimeLight(hardwareMap, 20);
+        limelight = new Limelight(hardwareMap, 20);
     }
 
     @Override

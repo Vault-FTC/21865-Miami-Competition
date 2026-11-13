@@ -6,7 +6,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.subsystems.Drivebase;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.subsystems.Lights;
-import org.firstinspires.ftc.teamcode.subsystems.LimeLight;
+import org.firstinspires.ftc.teamcode.subsystems.Limelight;
 import org.firstinspires.ftc.teamcode.subsystems.ServoGate;
 import org.firstinspires.ftc.teamcode.subsystems.Shooter;
 import org.firstinspires.ftc.teamcode.subsystems.Turret;
@@ -18,7 +18,7 @@ public abstract class AbstractOpMode extends LinearOpMode {
     public Drivebase drivebase;
     public ServoGate servoGate;
     public Shooter shooter;
-    public LimeLight limelight;
+    public Limelight limelight;
     public Turret turret;
     public Pose2D goal;
 

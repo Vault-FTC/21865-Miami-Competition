@@ -13,8 +13,8 @@ import org.firstinspires.ftc.teamcode.Constants;
 import org.firstinspires.ftc.teamcode.OpModes.AbstractOpMods.AbstractOpMode;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
 
-import org.firstinspires.ftc.teamcode.subsystems.LimeLight;
-import org.firstinspires.ftc.teamcode.NewDriveSpeeds;
+import org.firstinspires.ftc.teamcode.subsystems.Limelight;
+import org.firstinspires.ftc.teamcode.DriveSpeeds;
 import org.firstinspires.ftc.teamcode.subsystems.PoseStorage;
 import org.firstinspires.ftc.teamcode.subsystems.Shooter;
 
@@ -35,7 +35,7 @@ public class TeleOpBlue extends AbstractOpMode {
 
     @Override
     public void setTargets() {
-        limelight = new LimeLight(hardwareMap, 20);
+        limelight = new Limelight(hardwareMap, 20);
 
     }
 
@@ -70,16 +70,16 @@ public class TeleOpBlue extends AbstractOpMode {
             Pose2D currentPosition = drivebase.getPosition();
 
             if(gamepad1.left_bumper && gamepad1.cross) {
-                drivebase.setstate(NewDriveSpeeds.DRIVE_FULL);
+                drivebase.setstate(DriveSpeeds.DRIVE_FULL);
             }
             else if(gamepad1.left_bumper && gamepad1.circle) {
-                drivebase.setstate(NewDriveSpeeds.DRIVE_ALMOST_FULL);
+                drivebase.setstate(DriveSpeeds.DRIVE_ALMOST_FULL);
             }
             else if(gamepad1.left_bumper && gamepad1.square) {
-                drivebase.setstate(NewDriveSpeeds.DRIVE_SEVENTY_PERCENT);
+                drivebase.setstate(DriveSpeeds.DRIVE_SEVENTY_PERCENT);
             }
             else if(gamepad1.left_bumper && gamepad1.triangle) {
-                drivebase.setstate(NewDriveSpeeds.DRIVE_HALF);
+                drivebase.setstate(DriveSpeeds.DRIVE_HALF);
             }
 //            if (gamepad2.left_trigger_pressed) {
 //                turret.setkP(turret.getkP() + 0.0001);

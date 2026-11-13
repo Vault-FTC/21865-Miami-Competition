@@ -7,14 +7,14 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.CommandSystem.Command;
-import org.firstinspires.ftc.teamcode.subsystems.LimeLight;
+import org.firstinspires.ftc.teamcode.subsystems.Limelight;
 import org.firstinspires.ftc.teamcode.subsystems.Drivebase;
 
 public class AimCommand extends Command
 {
     Drivebase drivebase;
 
-    LimeLight limeLight;
+    Limelight limeLight;
     Telemetry telemetry;
     ElapsedTime elapsedTime = new ElapsedTime();
 
@@ -22,7 +22,7 @@ public class AimCommand extends Command
     private final double GOAL_X;
     private final double GOAL_Y;
 
-    public AimCommand(Drivebase drivebase, LimeLight limeLight, Telemetry telemetry, Follower follower, double goalx, double goaly){
+    public AimCommand(Drivebase drivebase, Limelight limeLight, Telemetry telemetry, Follower follower, double goalx, double goaly){
         this.drivebase = drivebase;
         this.limeLight = limeLight;
         this.telemetry = telemetry;

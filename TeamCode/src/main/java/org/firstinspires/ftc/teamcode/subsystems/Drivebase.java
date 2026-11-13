@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
-import static org.firstinspires.ftc.teamcode.NewDriveSpeeds.DRIVE_FULL;
+import static org.firstinspires.ftc.teamcode.DriveSpeeds.DRIVE_FULL;
 
 import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 import com.qualcomm.hardware.limelightvision.LLResult;
@@ -16,7 +16,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 import org.firstinspires.ftc.teamcode.Autonomous.Location;
 import org.firstinspires.ftc.teamcode.CommandSystem.Subsystem;
-import org.firstinspires.ftc.teamcode.NewDriveSpeeds;
+import org.firstinspires.ftc.teamcode.DriveSpeeds;
 
 
 public class Drivebase extends Subsystem {
@@ -24,7 +24,7 @@ public class Drivebase extends Subsystem {
     private final DcMotorEx frontLeftMotor, frontRightMotor, backLeftMotor, backRightMotor;
     GoBildaPinpointDriver odo;
 
-    NewDriveSpeeds DriveCurrent = DRIVE_FULL;
+    DriveSpeeds DriveCurrent = DRIVE_FULL;
     double headingOffsetThingy;
 
     double modify_joystick_rotate = 0.0;
@@ -61,7 +61,7 @@ public class Drivebase extends Subsystem {
       //  odo.resetPosAndIMU();
     }
 
-    public void setstate(NewDriveSpeeds Speed)
+    public void setstate(DriveSpeeds Speed)
     {
         DriveCurrent = Speed;
     }
@@ -241,7 +241,7 @@ public class Drivebase extends Subsystem {
         odo.update(); // updates the odometry internally
     }
 
-    public LLResult update(LimeLight limeLight) {
+    public LLResult update(Limelight limeLight) {
         odo.update();
         limeLight.limelight.updateRobotOrientation(odo.getHeading(AngleUnit.DEGREES));
         LLResult april = limeLight.getResult();
